@@ -1,0 +1,17 @@
+﻿global using Maui.Plugins.PageResolver;
+global using CommunityToolkit.Maui;
+global using CommunityToolkit.Mvvm.ComponentModel;
+global using CommunityToolkit.Mvvm.Input;
+global using MimApp.ViewModels;
+global using MimApp.Views;
+global using MimApp.Services;
+global using MimApp.Models;
+global using System.Net.Http.Headers;
+global using System.Collections.ObjectModel;
+global using System.ComponentModel;
+global using System.Diagnostics;
+global using System.Globalization;
+global using System.Runtime.CompilerServices;
+global using System.Text.Json;
+global using System.Threading.Tasks;
+global using Microsoft.Extensions.Logging;
