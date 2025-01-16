@@ -1,6 +1,7 @@
 ﻿using MimApp.Persistences;
 using MimApp.Persistences.Contracts;
 using MimApp.Services.Contracts;
+using MimApp.Views.Auth;
 
 namespace MimApp;
 
@@ -48,6 +49,9 @@ public static class MauiProgram
     public static MauiAppBuilder RegisterViews(this MauiAppBuilder mauiAppBuilder)
     {
         mauiAppBuilder.Services.AddSingleton<MainPage>();
+
+        // Auth
+        mauiAppBuilder.Services.AddSingleton<Login>();
         return mauiAppBuilder;
     }
 }

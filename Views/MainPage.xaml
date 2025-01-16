@@ -13,10 +13,6 @@
     </ContentPage.Behaviors>
 
     <StackLayout HorizontalOptions="Center" Orientation="Horizontal">
-        <Label
-            Margin="0,20,0,0"
-            FontSize="Large"
-            Text="Test"
-            TextColor="Black" />
+        <Image Source="" />
     </StackLayout>
 </ContentPage>

@@ -1,6 +1,42 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
-	<application android:allowBackup="true" android:icon="@mipmap/appicon" android:roundIcon="@mipmap/appicon_round" android:supportsRtl="true"></application>
-	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-	<uses-permission android:name="android.permission.INTERNET" />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.almsdigitaltudio.MimApp">
+  <application android:allowBackup="true" android:debuggable="true" android:enabled="true" android:icon="@mipmap/appicon_bg" android:label="MIM APP" android:enableOnBackInvokedCallback="true">
+    <receiver android:name="com.google.firebase.iid.FirebaseInstanceIdInternalReceiver" android:exported="false" />
+    <receiver android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver" android:exported="true" android:permission="com.google.android.c2dm.permission.SEND">
+      <intent-filter>
+        <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+        <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+        <category android:name="${applicationId}" />
+      </intent-filter>
+    </receiver>
+    <receiver android:name=".BootReceiver" android:directBootAware="true" android:enabled="true" android:exported="true">
+      <intent-filter>
+        <action android:name="android.intent.action.BOOT_COMPLETED" />
+        <category android:name="android.intent.category.DEFAULT" />
+      </intent-filter>
+    </receiver>
+    <service android:name="id.phr.phrmobileapp.MyBackgroundService" android:foregroundServiceType="location" android:exported="false" />
+  </application>
+  <queries>
+    <intent>
+      <action android:name="android.media.action.IMAGE_CAPTURE" />
+    </intent>
+  </queries>
+  <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+  <uses-permission android:name="android.permission.INTERNET" />
+  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+  <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+  <uses-permission android:name="android.permission.HIGH_SAMPLING_RATE_SENSORS" />
+  <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+  <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
+  <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+  <uses-permission android:name="android.permission.CAMERA" />
+  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+  <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+  <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+  <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+  <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 </manifest>

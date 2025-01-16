@@ -18,7 +18,7 @@
 		<ApplicationTitle>MimApp</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>id.almsdigitaltudio.MimApp</ApplicationId>
+		<ApplicationId>com.almsdigitaltudio.MimApp</ApplicationId>
 		<ApplicationIdGuid>3e122bf9-a1db-4bee-8cdb-5ae22682aaac</ApplicationIdGuid>
 
 		<!-- Versions -->
@@ -37,10 +37,10 @@
 
 	<ItemGroup>
 		<!-- App Icon -->
-		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
+    <MauiIcon Include="Resources\AppIcon\appicon_bg.png" Color="#f8f8f8" BaseSize="512,512" ForegroundScale="0.7" />
 
-		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
+    <!-- Splash Screen -->
+		<MauiSplashScreen Include="Resources\Splash\splash.png" Color="#fff" BaseSize="128,128" />
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
@@ -67,6 +67,22 @@
 
 	<ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
 		<BundleResource Include="Platforms\iOS\PrivacyInfo.xcprivacy" LogicalName="PrivacyInfo.xcprivacy" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Resources\Images\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Views\Auth\Login.xaml.cs">
+	    <DependentUpon>Login.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Views\Auth\Login.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
 
 	<PropertyGroup Label="MauiAppAccelerator">
