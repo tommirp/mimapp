@@ -12,7 +12,20 @@
         <toolkit:StatusBarBehavior StatusBarColor="Black" StatusBarStyle="Default" />
     </ContentPage.Behaviors>
 
-    <StackLayout HorizontalOptions="Center" Orientation="Horizontal">
-        <Image Source="" />
+    <StackLayout>
+        <StackLayout
+            Padding="0"
+            HorizontalOptions="Center"
+            Orientation="Horizontal">
+            <Image
+                Aspect="Fill"
+                HorizontalOptions="FillAndExpand"
+                Source="homeheader.png"
+                VerticalOptions="Start" />
+        </StackLayout>
+        <VerticalStackLayout>
+            <BoxView Color="black" />
+            <SearchBar Placeholder="Search items..." />
+        </VerticalStackLayout>
     </StackLayout>
 </ContentPage>

@@ -70,10 +70,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Resources\Images\" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <Compile Update="Views\Auth\Login.xaml.cs">
 	    <DependentUpon>Login.xaml</DependentUpon>
 	  </Compile>
