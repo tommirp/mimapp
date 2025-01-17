@@ -3,6 +3,7 @@
     x:Class="MimApp.Views.MainPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:dxe="clr-namespace:DevExpress.Maui.Editors;assembly=DevExpress.Maui.Editors"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:vm="clr-namespace:MimApp.ViewModels"
     x:DataType="vm:MainViewModel"
@@ -23,9 +24,25 @@
                 Source="homeheader.png"
                 VerticalOptions="Start" />
         </StackLayout>
-        <VerticalStackLayout>
-            <BoxView Color="black" />
-            <SearchBar Placeholder="Search items..." />
+        <VerticalStackLayout Margin="0,-60,0,0">
+            <Label HorizontalOptions="CenterAndExpand" Text="Aplikasi Untuk Semua Muslim" />
+            <dxe:TextEdit
+                x:Name="SearchBar"
+                Margin="30"
+                BackgroundColor="#f1f2f6"
+                BorderColor="#f1f2f6"
+                BorderThickness="1"
+                BoxPadding="15"
+                CornerRadius="10"
+                EndIcon="search_small.png"
+                EndIconCommand="{Binding SearchQuranCommand}"
+                FocusedBorderThickness="0"
+                HeightRequest="45"
+                HorizontalOptions="FillAndExpand"
+                PlaceholderColor="#a4b0be"
+                PlaceholderText="Cari Surat:Ayat / Keyword"
+                Text="{Binding SearchText}"
+                TextFontSize="14" />
         </VerticalStackLayout>
     </StackLayout>
 </ContentPage>

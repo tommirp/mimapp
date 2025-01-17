@@ -35,7 +35,7 @@ namespace MimApp.Persistences
 
                 return true;
             }
-            catch (Exception ex)
+            catch
             {
                 return false;
             }

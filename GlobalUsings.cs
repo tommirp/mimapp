@@ -2,6 +2,8 @@
 global using CommunityToolkit.Maui;
 global using CommunityToolkit.Mvvm.ComponentModel;
 global using CommunityToolkit.Mvvm.Input;
+global using DevExpress.Maui;
+global using DevExpress.Maui.Core;
 global using MimApp.ViewModels;
 global using MimApp.Views;
 global using MimApp.Services;

@@ -55,6 +55,10 @@
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Maui" Version="10.0.0" />
 		<PackageReference Include="CommunityToolkit.MVVM" Version="8.4.0" />
+		<PackageReference Include="DevExpress.Maui.CollectionView" Version="24.2.3" />
+		<PackageReference Include="DevExpress.Maui.Controls" Version="24.2.3" />
+		<PackageReference Include="DevExpress.Maui.Core" Version="24.2.3" />
+		<PackageReference Include="DevExpress.Maui.Editors" Version="24.2.3" />
 		<PackageReference Include="Goldie.MauiPlugins.PageResolver" Version="2.5.2" />
 		<PackageReference Include="Microsoft.Extensions.Http" Version="9.0.1" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />

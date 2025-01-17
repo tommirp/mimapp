@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.almsdigitaltudio.MimApp">
-  <application android:allowBackup="true" android:debuggable="true" android:enabled="true" android:icon="@mipmap/appicon_bg" android:label="MIM APP" android:enableOnBackInvokedCallback="true">
+  <application android:allowBackup="true" android:debuggable="true" android:enabled="true" android:icon="@mipmap/appicon_bg" android:label="MIM" android:enableOnBackInvokedCallback="true">
     <receiver android:name="com.google.firebase.iid.FirebaseInstanceIdInternalReceiver" android:exported="false" />
     <receiver android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver" android:exported="true" android:permission="com.google.android.c2dm.permission.SEND">
       <intent-filter>

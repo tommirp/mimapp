@@ -2,6 +2,7 @@
 using MimApp.Persistences.Contracts;
 using MimApp.Services.Contracts;
 using MimApp.Views.Auth;
+using DevExpress.Maui;
 
 namespace MimApp;
 
@@ -12,12 +13,19 @@ public static class MauiProgram
 		var builder = MauiApp.CreateBuilder();
 		builder
 			.UseMauiApp<App>()
-			.UseMauiCommunityToolkit()
-			.ConfigureFonts(fonts =>
-			{
-				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-			}).RegisterServices().RegisterViewModels().RegisterViews().UsePageResolver();
+            .UseDevExpress(useLocalization: true)
+            .UseDevExpressCollectionView()
+            .UseDevExpressControls()
+            .UseDevExpressEditors()
+            .ConfigureFonts(fonts =>
+            {
+                fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+                fonts.AddFont("roboto-regular.ttf", "Roboto");
+                fonts.AddFont("roboto-medium.ttf", "Roboto-Medium");
+                fonts.AddFont("roboto-bold.ttf", "Roboto-Bold");
+                fonts.AddFont("univia-pro-regular.ttf", "Univia-Pro");
+                fonts.AddFont("univia-pro-medium.ttf", "Univia-Pro Medium");
+            }).RegisterServices().RegisterViewModels().RegisterViews().UsePageResolver().UseMauiCommunityToolkit();
 
 #if DEBUG
 		builder.Logging.AddDebug();
