@@ -2,6 +2,8 @@
 {
     public interface IQuranApi
     {
-       Task<IEnumerable<QuranSurah>> GetQuranSurahAsync();
+        Task OnlineSyncQuran();
+        Task<List<QuranAsmaulHusna>?> GetQuranAsmaulHusnaAsync();
+        Task<bool> SyncSholatTimeByMonthAsync(string cityCode);
     }
 }

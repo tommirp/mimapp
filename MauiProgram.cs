@@ -43,7 +43,9 @@ public static class MauiProgram
         mauiAppBuilder.Services.AddHttpClient<IQuranApi, QuranApiService>();
 
         // Persistences
-        mauiAppBuilder.Services.AddHttpClient<IQuranApiPersistence, QuranApiPersistence>();
+        mauiAppBuilder.Services.AddHttpClient<IQuranSurahPersistence, QuranSurahPersistence>();
+        mauiAppBuilder.Services.AddHttpClient<IQuranAyahPersistence, QuranAyahPersistence>();
+        mauiAppBuilder.Services.AddHttpClient<ICityCodesPersistence, CityCodesPersistence>();
 
         return mauiAppBuilder;
     }
