@@ -41,12 +41,21 @@ namespace MimApp.Persistences
             }
         }
 
-        public async Task<List<CityCodes>> GetAllCityCodes()
+        public async Task<List<CityCodes>> GetAllCityCodes(int limit = 50)
         {
             await Init();
             var results = new List<CityCodes>();
-            results = await Database.Table<CityCodes>().Take(20).ToListAsync();
+            results = await Database.Table<CityCodes>().Take(limit).ToListAsync();
             
+            return results;
+        }
+
+        public async Task<List<CityCodes>> GetCityByName(string name)
+        {
+            await Init();
+            var results = new List<CityCodes>();
+            results = await Database.Table<CityCodes>().Where(x => x.lokasi.Contains(name.ToUpper())).ToListAsync();
+
             return results;
         }
 

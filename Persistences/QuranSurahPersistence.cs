@@ -66,7 +66,7 @@ namespace MimApp.Persistences
         public async Task<QuranSurah> GetOneSurah(int numberOfSurah)
         {
             await Init();
-            return await Database.Table<QuranSurah>().Where(i => i.Number == numberOfSurah).FirstOrDefaultAsync();
+            return await Database.Table<QuranSurah>().Where(i => i.number == numberOfSurah).FirstOrDefaultAsync();
         }
 
         public async Task<List<QuranSurah>> GetAllSurah()

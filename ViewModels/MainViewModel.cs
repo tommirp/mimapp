@@ -26,7 +26,7 @@ public partial class MainViewModel : ViewModelBase
         _cityCodesPersistence = cityCodesPersistence;
         _quranApi = quranApi;
 
-        _ = InitPage();
+        //_ = InitPage();
     }
 
     [ObservableProperty]
@@ -64,10 +64,15 @@ public partial class MainViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    async Task InitPage()
+    public async Task InitPage()
     {
         try
         {
+            if (_hasLoaded)
+                return;
+
+            _hasLoaded = true;
+
             IsLoading = true;
 
             bool SurahChecked = await _quranSurahPersistence.SurahCheck();

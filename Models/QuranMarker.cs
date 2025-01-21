@@ -2,8 +2,8 @@
 {
     public class QuranMarker
     {
-        public int NumberOfSurah { get; set; }
-        public int NumberOfAyah { get; set; }
-        public DateTime? CreatedAt { get; set; }
+        public int numberOfSurah { get; set; }
+        public int numberOfAyah { get; set; }
+        public DateTime? createdAt { get; set; }
     }
 }

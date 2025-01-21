@@ -16,7 +16,6 @@ public partial class QuranViewModel : ViewModelBase
         IQuranAyahPersistence quranAyahPersistence, ISholatTimesPersistence sholatTimesPersistence,
         ICityCodesPersistence cityCodesPersistence, IQuranApi quranApi)
     {
-        CityCodesList = new List<CityCodes>();
         IsRefreshing = false;
         _preferences = preferences;
         _quranSurahPersistence = quranSurahPersistence;
@@ -24,29 +23,61 @@ public partial class QuranViewModel : ViewModelBase
         _sholatTimesPersistence = sholatTimesPersistence;
         _cityCodesPersistence = cityCodesPersistence;
         _quranApi = quranApi;
-
-        _ = InitPage();
     }
 
     [ObservableProperty]
     bool isRefreshing;
 
     [ObservableProperty]
-    string myCity;
+    string searchTextCity;
 
     [ObservableProperty]
-    List<CityCodes> cityCodesList;
+    string myCity;
+    public ObservableCollection<string> CityCodeList { get; } = new ObservableCollection<string>();
+
+    async Task GetAllCities()
+    {
+        CityCodeList.Clear();
+
+        var all_cities = await _cityCodesPersistence.GetAllCityCodes(50);
+        all_cities.ForEach(x => CityCodeList.Add(String.Format("{0} - {1}", x.id, x.lokasi)));
+    }
 
     [RelayCommand]
     async Task InitPage()
     {
-        CityCodesList = await _cityCodesPersistence.GetAllCityCodes();
+        if (_hasLoaded)
+            return;
+
+        _hasLoaded = true;
+
+        await GetAllCities();
     }
 
     [RelayCommand]
-    async Task SelectCity()
+    async Task SearchCity()
     {
+        if (string.IsNullOrEmpty(SearchTextCity))
+        {
+            CityCodeList.Clear();
+            await GetAllCities();
+        }
+        else
+        {
+            var all_cities = await _cityCodesPersistence.GetCityByName(SearchTextCity);
+            CityCodeList.Clear();
+            all_cities.ForEach(x => CityCodeList.Add(String.Format("{0} - {1}", x.id, x.lokasi)));
+        }
+    }
+
+    [RelayCommand]
+    public void OnTapCity(string city)
+    {
+        Debug.WriteLine(city);
+
         _preferences.Set("MyCity", MyCity);
-        await _quranApi.SyncSholatTimeByMonthAsync(MyCity);
+        _ = _quranApi.SyncSholatTimeByMonthAsync(MyCity);
+
+        CityCodeList.Clear();
     }
 }

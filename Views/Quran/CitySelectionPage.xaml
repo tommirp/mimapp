@@ -3,55 +3,56 @@
     x:Class="MimApp.Views.Quran.CitySelectionPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:dxe="clr-namespace:DevExpress.Maui.Editors;assembly=DevExpress.Maui.Editors"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-    Title="Lokasi">
+    Title="Pilih Area">
 
     <ContentPage.Behaviors>
         <toolkit:StatusBarBehavior StatusBarColor="#008859" StatusBarStyle="LightContent" />
-        <toolkit:EventToCommandBehavior Command="{Binding InitPageCommand}" EventName="Appearing" />
     </ContentPage.Behaviors>
 
-    <RefreshView
-        Grid.Row="1"
-        Command="{Binding InitPageCommand}"
-        IsRefreshing="{Binding IsRefreshing}">
-        <CollectionView
-            Grid.ColumnSpan="2"
-            BackgroundColor="Transparent"
-            ItemsSource="{Binding CityCodesList}"
-            SelectionMode="None">
-            <CollectionView.EmptyView>
-                <StackLayout
-                    HeightRequest="200"
-                    HorizontalOptions="Center"
-                    VerticalOptions="Center"
-                    WidthRequest="200">
-                    <Label
-                        FontSize="Large"
-                        HorizontalOptions="Center"
-                        Text="No data available"
-                        TextColor="Gray"
-                        VerticalOptions="Center" />
-                </StackLayout>
-            </CollectionView.EmptyView>
-            <CollectionView.ItemsLayout>
-                <GridItemsLayout Orientation="Vertical" Span="{OnIdiom Default=1, Desktop=3}" />
-            </CollectionView.ItemsLayout>
+    <StackLayout>
+        <dxe:TextEdit
+            x:Name="SearchBar"
+            Margin="30"
+            BackgroundColor="#f1f2f6"
+            BorderColor="#f1f2f6"
+            BorderThickness="1"
+            BoxPadding="15"
+            CornerRadius="10"
+            EndIcon="search_small.png"
+            EndIconCommand="{Binding SearchCityCommand}"
+            FocusedBorderThickness="0"
+            HeightRequest="45"
+            HorizontalOptions="FillAndExpand"
+            PlaceholderColor="#a4b0be"
+            PlaceholderText="Cari Nama Kota by Keyword"
+            Text="{Binding SearchTextCity}"
+            TextFontSize="14" />
+        <Border HeightRequest="1" Stroke="LightGray" />
+        <CollectionView ItemsSource="{Binding CityCodeList}" VerticalOptions="FillAndExpand">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Grid Padding="0" ColumnDefinitions="Auto">
-                        <VerticalStackLayout
-                            Grid.Column="2"
-                            Padding="5"
-                            VerticalOptions="Start">
+                    <Border
+                        Margin="0"
+                        BackgroundColor="White"
+                        StrokeThickness="0">
+                        <StackLayout>
                             <Label
-                                FontAttributes="Bold"
-                                Text="{Binding Lokasi}"
+                                Padding="25,15,25,15"
+                                FontSize="Small"
+                                Text="{Binding .}"
                                 TextColor="black" />
-                        </VerticalStackLayout>
-                    </Grid>
+                            <Border HeightRequest="1" Stroke="LightGray" />
+                            <Button
+                                Command="{Binding BindingContext.OnTapCityCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
+                                CommandParameter="{Binding}"
+                                Text="Tap Me" />
+                        </StackLayout>
+                    </Border>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-    </RefreshView>
+    </StackLayout>
+
 </ContentPage>

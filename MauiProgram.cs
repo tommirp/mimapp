@@ -54,7 +54,7 @@ public static class MauiProgram
 
     public static MauiAppBuilder RegisterViewModels(this MauiAppBuilder mauiAppBuilder)
     {
-        mauiAppBuilder.Services.AddScoped<MainViewModel>();
+        mauiAppBuilder.Services.AddTransient<MainViewModel>();
         mauiAppBuilder.Services.AddScoped<QuranViewModel>();
         return mauiAppBuilder;
     }

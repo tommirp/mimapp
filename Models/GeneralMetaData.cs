@@ -2,9 +2,9 @@
 {
     public class GeneralMetaData
     {
-        public int Number { get; set; }
-        public string? MetaName { get; set; }
-        public string? MetaValue { get; set; }
-        public string? MetaDescription { get; set; }
+        public int number { get; set; }
+        public string? metaName { get; set; }
+        public string? metaValue { get; set; }
+        public string? metaDescription { get; set; }
     }
 }

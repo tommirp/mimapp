@@ -44,7 +44,7 @@ namespace MimApp.Persistences
         public async Task<QuranSholatTime> GetSholatTimeByDate(string Date)
         {
             await Init();
-            return await Database.Table<QuranSholatTime>().Where(x => x.Date == Date).FirstOrDefaultAsync();
+            return await Database.Table<QuranSholatTime>().Where(x => x.date == Date).FirstOrDefaultAsync();
         }
 
         public async Task<bool> DeleteAllItemsAsync()

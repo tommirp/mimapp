@@ -2,7 +2,7 @@
 {
     public class CityCodes
     {
-        public string? Id { get; set; }
-        public string? Lokasi { get; set; }
+        public string? id { get; set; }
+        public string? lokasi { get; set; }
     }
 }

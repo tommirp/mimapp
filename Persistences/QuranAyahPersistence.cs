@@ -43,19 +43,19 @@ namespace MimApp.Persistences
         public async Task<QuranAyah> GetOneAyah(int numberOfSurah, int numberOfVerse)
         {
             await Init();
-            return await Database.Table<QuranAyah>().Where(i => i.NumberOfSurah == numberOfSurah && i.NumberInSurah == numberOfVerse).FirstOrDefaultAsync();
+            return await Database.Table<QuranAyah>().Where(i => i.numberOfSurah == numberOfSurah && i.numberInSurah == numberOfVerse).FirstOrDefaultAsync();
         }
 
         public async Task<List<QuranAyah>> GetAyahBySurahAsync(int numberOfSurah)
         {
             await Init();
-            return await Database.Table<QuranAyah>().Where(i => i.NumberOfSurah == numberOfSurah).ToListAsync();
+            return await Database.Table<QuranAyah>().Where(i => i.numberOfSurah == numberOfSurah).ToListAsync();
         }
 
         public async Task<List<QuranAyah>> GetAyahByJuzAsync(int Juz)
         {
             await Init();
-            return await Database.Table<QuranAyah>().Where(i => i.Juz == Juz).ToListAsync();
+            return await Database.Table<QuranAyah>().Where(i => i.juz == Juz).ToListAsync();
         }
 
         public async Task<bool> DeleteAllItemsAsync()

@@ -2,9 +2,22 @@
 
 public partial class MainPage : ContentPage
 {
-	public MainPage(MainViewModel viewModel)
+    public MainViewModel ViewModel { get; }
+
+    public MainPage(MainViewModel mainViewModel)
 	{
 		InitializeComponent();
-		BindingContext = viewModel;
+        ViewModel = mainViewModel;
+        BindingContext = mainViewModel;
+    }
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+
+        // Call the command manually when the page appears
+        if (ViewModel.InitPageCommand.CanExecute(null))
+        {
+            await ViewModel.InitPageCommand.ExecuteAsync(null);
+        }
     }
 }

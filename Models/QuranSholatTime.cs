@@ -2,17 +2,17 @@
 {
     public class QuranSholatTime
     {
-        public string? Lokasi { get; set; }
-        public string? Daerah { get; set; }
-        public string? Imsak { get; set; }
-        public string? Subuh { get; set; }
-        public string? Terbit { get; set; }
-        public string? Dhuha { get; set; }
-        public string? Dzuhur { get; set; }
-        public string? Ashar { get; set; }
-        public string? Maghrib { get; set; }
-        public string? Isya { get; set; }
-        public string? Date { get; set; }
-        public string? Tanggal { get; set; }
+        public string? lokasi { get; set; }
+        public string? daerah { get; set; }
+        public string? imsak { get; set; }
+        public string? subuh { get; set; }
+        public string? terbit { get; set; }
+        public string? dhuha { get; set; }
+        public string? dzuhur { get; set; }
+        public string? ashar { get; set; }
+        public string? maghrib { get; set; }
+        public string? isya { get; set; }
+        public string? date { get; set; }
+        public string? tanggal { get; set; }
     }
 }
