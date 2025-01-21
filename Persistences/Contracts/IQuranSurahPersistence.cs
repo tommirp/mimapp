@@ -3,10 +3,10 @@
     public interface IQuranSurahPersistence
     {
         Task<bool> InsertAllItemAsync(List<QuranSurah>? surahList);
-        Task<List<QuranSurah>> GetAllSurah();
+        Task<bool> SurahCheck();
         Task<QuranSurah> GetOneSurah(int numberOfSurah);
+        Task<List<QuranSurah>> GetAllSurah();
 
         Task<bool> DeleteAllItemsAsync();
-        Task<bool> SurahCheck();
     }
 }

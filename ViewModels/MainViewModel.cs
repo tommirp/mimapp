@@ -16,12 +16,16 @@ public partial class MainViewModel : BaseViewModel
         IQuranApi quranApi)
     {
         SearchText = String.Empty;
+        IsLoading = false;
         _preferences = preferences;
         _quranSurahPersistence = quranSurahPersistence;
         _quranAyahPersistence = quranAyahPersistence;
         _sholatTimesPersistence = sholatTimesPersistence;
         _quranApi = quranApi;
     }
+
+    [ObservableProperty]
+    bool isLoading;
 
     [ObservableProperty]
     string searchText;
@@ -32,19 +36,29 @@ public partial class MainViewModel : BaseViewModel
     [ObservableProperty]
     QuranSholatTime todaySholatTime;
 
+
     [RelayCommand]
-    async Task SelectCity()
+    async Task GoToCitySelection()
     {
-        try
-        {
-            _preferences.Set("MyCity", MyCity);
-            await _quranApi.SyncSholatTimeByMonthAsync(MyCity);
-        }
-        finally
-        {
-            TodaySholatTime = await _sholatTimesPersistence.GetSholatTimeByDate(DateTime.Now.ToString("yyyy-MM-dd"));
-        }
+        // Goto
     }
+
+    // Inside City Selection Page
+    //[RelayCommand]
+    //async Task SelectCity()
+    //{
+    //    try
+    //    {
+    //        IsLoading = true;
+    //        _preferences.Set("MyCity", MyCity);
+    //        await _quranApi.SyncSholatTimeByMonthAsync(MyCity);
+    //    }
+    //    finally
+    //    {
+    //        IsLoading = false;
+    //        TodaySholatTime = await _sholatTimesPersistence.GetSholatTimeByDate(DateTime.Now.ToString("yyyy-MM-dd"));
+    //    }
+    //}
 
     async Task<List<QuranSurah>?> GetSurah()
     {
@@ -67,6 +81,8 @@ public partial class MainViewModel : BaseViewModel
     {
         try
         {
+            IsLoading = true;
+
             bool SurahChecked = await _quranSurahPersistence.SurahCheck();
 
             if (!SurahChecked)
@@ -85,7 +101,6 @@ public partial class MainViewModel : BaseViewModel
                     await _quranAyahPersistence.DeleteAllItemsAsync();
                     await _quranAyahPersistence.InsertAllItemAsync(ayah);
                 }
-
             }
         }
         finally
@@ -96,20 +111,18 @@ public partial class MainViewModel : BaseViewModel
             {
                 await _quranApi.OnlineSyncQuran();
             }
-        }
-    }
 
-    [RelayCommand]
-    async Task SetupSholatTime()
-    {
-        
-        await _quranApi.SyncSholatTimeByMonthAsync();
+            TodaySholatTime = await _sholatTimesPersistence.GetSholatTimeByDate(DateTime.Now.ToString("yyyy-MM-dd"));
+
+            IsLoading = false;
+        }
     }
 
     [RelayCommand]
     async Task SearchQuran()
     {
-        string result = SearchText;
-        // Do Search
+        _preferences.Set("QuranSearch", SearchText);
+
+        // Go To Search Quran
     }
 }
