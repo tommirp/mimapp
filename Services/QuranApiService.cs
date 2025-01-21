@@ -11,10 +11,12 @@ namespace MimApp.Services
         private readonly IQuranSurahPersistence _quranSurahPersistence;
         private readonly IQuranAyahPersistence _quranAyahPersistence;
         private readonly ISholatTimesPersistence _sholatTimesPersistence;
+        private readonly ICityCodesPersistence _cityCodesPersistence;
         //private UserWithToken? userWithToken;
 
         public QuranApiService(HttpClient httpClient, IConnectivity connectivity, IPreferences preferences,
-            IQuranSurahPersistence quranSurahPersistence, IQuranAyahPersistence quranAyahPersistence, ISholatTimesPersistence sholatTimesPersistence)
+            IQuranSurahPersistence quranSurahPersistence, IQuranAyahPersistence quranAyahPersistence,            
+            ISholatTimesPersistence sholatTimesPersistence, ICityCodesPersistence cityCodesPersistence)
         {
             _httpClient = httpClient;
             _httpClient.BaseAddress = new Uri(Helpers.BaseApiUrl);
@@ -27,6 +29,7 @@ namespace MimApp.Services
             _quranSurahPersistence = quranSurahPersistence;
             _quranAyahPersistence = quranAyahPersistence;
             _sholatTimesPersistence = sholatTimesPersistence;
+            _cityCodesPersistence = cityCodesPersistence;
         }
 
         private async Task<bool> GetQuranSurahAsync()
@@ -135,7 +138,10 @@ namespace MimApp.Services
                 {
                     var content = await response.Content.ReadAsStringAsync();
 
-                    return JsonSerializer.Deserialize<List<CityCodes>>(content);
+                    List<CityCodes>? data = JsonSerializer.Deserialize<List<CityCodes>>(content);
+
+                    await _cityCodesPersistence.DeleteAllItemsAsync();
+                    await _cityCodesPersistence.InsertAllItemAsync(data);
                 }
             }
 

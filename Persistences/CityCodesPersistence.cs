@@ -45,7 +45,7 @@ namespace MimApp.Persistences
         {
             await Init();
             var results = new List<CityCodes>();
-            results = await Database.Table<CityCodes>().ToListAsync();
+            results = await Database.Table<CityCodes>().Take(20).ToListAsync();
             
             return results;
         }

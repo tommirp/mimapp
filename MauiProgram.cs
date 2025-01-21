@@ -3,6 +3,7 @@ using MimApp.Persistences.Contracts;
 using MimApp.Services.Contracts;
 using MimApp.Views.Auth;
 using DevExpress.Maui;
+using MimApp.Views.Quran;
 
 namespace MimApp;
 
@@ -53,13 +54,17 @@ public static class MauiProgram
 
     public static MauiAppBuilder RegisterViewModels(this MauiAppBuilder mauiAppBuilder)
     {
-        mauiAppBuilder.Services.AddSingleton<MainViewModel>();
+        mauiAppBuilder.Services.AddScoped<MainViewModel>();
+        mauiAppBuilder.Services.AddScoped<QuranViewModel>();
         return mauiAppBuilder;
     }
 
     public static MauiAppBuilder RegisterViews(this MauiAppBuilder mauiAppBuilder)
     {
-        mauiAppBuilder.Services.AddSingleton<MainPage>();
+        mauiAppBuilder.Services.AddScoped<MainPage>();
+
+        // Quran
+        mauiAppBuilder.Services.AddScoped<CitySelectionPage>();
 
         // Auth
         mauiAppBuilder.Services.AddSingleton<Login>();

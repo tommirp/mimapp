@@ -10,9 +10,9 @@
     BackgroundColor="White">
 
     <ContentPage.Behaviors>
-        <toolkit:StatusBarBehavior StatusBarColor="Black" StatusBarStyle="Default" />
+        <toolkit:StatusBarBehavior StatusBarColor="#008859" StatusBarStyle="LightContent" />
+        <toolkit:EventToCommandBehavior Command="{Binding InitPageCommand}" EventName="Appearing" />
     </ContentPage.Behaviors>
-
 
     <StackLayout>
         <Grid Margin="0">
@@ -26,20 +26,6 @@
                     Source="homeheader.png"
                     VerticalOptions="Start" />
             </StackLayout>
-            <!--<Border
-                BackgroundColor="DarkGray"
-                HorizontalOptions="End"
-                Opacity="0.8"
-                Margin="0,10,15,0"
-                VerticalOptions="Start">
-                <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="30" />
-                </Border.StrokeShape>
-                <HorizontalStackLayout Padding="5">
-                    <Image Source="calendar.png" WidthRequest="20" Margin="5,0,10,0" />
-                    <Label Text="Pekanbaru" TextColor="Black" FontSize="12" Margin="0,3,5,0" />
-                </HorizontalStackLayout>
-            </Border>-->
             <Border
                 Margin="0,20,20,0"
                 Padding="0"
@@ -65,9 +51,9 @@
                         Text="Pekanbaru, Riau"
                         TextColor="Black" />
                 </Grid>
-                <!--<Border.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
-                </Border.GestureRecognizers>-->
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding GoToCitySelectionCommand}" />
+                </Border.GestureRecognizers>
             </Border>
         </Grid>
         <VerticalStackLayout Margin="0,-60,0,0">

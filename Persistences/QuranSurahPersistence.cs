@@ -43,16 +43,24 @@ namespace MimApp.Persistences
 
         public async Task<bool> SurahCheck()
         {
-            await Init();
-            var results = new List<QuranSurah>();
-            results = await Database.Table<QuranSurah>().ToListAsync();
-
-            if (results.Count > 0)
+            try
             {
-                return true;
-            }
+                await Init();
+                var results = new List<QuranSurah>();
+                results = await Database.Table<QuranSurah>().ToListAsync();
 
-            return false;
+                if (results.Count > 0)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+            catch(Exception ex)
+            {
+                return false;
+
+            }
         }
 
         public async Task<QuranSurah> GetOneSurah(int numberOfSurah)

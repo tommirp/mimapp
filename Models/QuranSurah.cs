@@ -22,6 +22,6 @@
         public string? PreBismillahAudioPrimary { get; set; }
         public string? PreBismillahAudioSecondary { get; set; }
         public string? PreBismillahAudioAlternative { get; set; }
-        public List<QuranAyah>? Verses { get; set; }
+        //public List<QuranAyah>? Verses { get; set; }
     }
 }
