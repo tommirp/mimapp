@@ -7,52 +7,72 @@
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     Title="Pilih Area">
 
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
     <ContentPage.Behaviors>
         <toolkit:StatusBarBehavior StatusBarColor="#008859" StatusBarStyle="LightContent" />
     </ContentPage.Behaviors>
 
     <StackLayout>
-        <dxe:TextEdit
-            x:Name="SearchBar"
-            Margin="30"
-            BackgroundColor="#f1f2f6"
-            BorderColor="#f1f2f6"
-            BorderThickness="1"
-            BoxPadding="15"
-            CornerRadius="10"
-            EndIcon="search_small.png"
-            EndIconCommand="{Binding SearchCityCommand}"
-            FocusedBorderThickness="0"
-            HeightRequest="45"
-            HorizontalOptions="FillAndExpand"
-            PlaceholderColor="#a4b0be"
-            PlaceholderText="Cari Nama Kota by Keyword"
-            Text="{Binding SearchTextCity}"
-            TextFontSize="14" />
-        <Border HeightRequest="1" Stroke="LightGray" />
-        <CollectionView ItemsSource="{Binding CityCodeList}" VerticalOptions="FillAndExpand">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Border
-                        Margin="0"
-                        BackgroundColor="White"
-                        StrokeThickness="0">
-                        <StackLayout>
-                            <Label
-                                Padding="25,15,25,15"
-                                FontSize="Small"
-                                Text="{Binding .}"
-                                TextColor="black" />
-                            <Border HeightRequest="1" Stroke="LightGray" />
-                            <Button
-                                Command="{Binding BindingContext.OnTapCityCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
-                                CommandParameter="{Binding}"
-                                Text="Tap Me" />
-                        </StackLayout>
-                    </Border>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+        <StackLayout IsVisible="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}">
+            <ActivityIndicator
+                HorizontalOptions="Center"
+                IsRunning="true"
+                Color="#008859" />
+            <Label
+                HorizontalOptions="Center"
+                Text="Sync Data From Server..."
+                TextColor="#008859" />
+        </StackLayout>
+        <StackLayout IsVisible="{Binding IsLoading}">
+            <dxe:TextEdit
+                x:Name="SearchBar"
+                Margin="15,5,15,5"
+                BackgroundColor="#f1f2f6"
+                BorderColor="#f1f2f6"
+                BorderThickness="1"
+                BoxPadding="15"
+                CornerRadius="10"
+                EndIcon="search_small.png"
+                EndIconCommand="{Binding SearchCityCommand}"
+                FocusedBorderThickness="0"
+                HeightRequest="45"
+                HorizontalOptions="FillAndExpand"
+                PlaceholderColor="#a4b0be"
+                PlaceholderText="Cari Nama Kota by Keyword"
+                Text="{Binding SearchTextCity}"
+                TextFontSize="14" />
+            <Border HeightRequest="1" Stroke="LightGray" />
+
+            <CollectionView
+                ItemsSource="{Binding CityCodeList}"
+                SelectionChanged="SelectCityTapped"
+                SelectionMode="Single"
+                VerticalOptions="FillAndExpand">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border
+                            Margin="0"
+                            BackgroundColor="White"
+                            StrokeThickness="0">
+                            <StackLayout>
+                                <Label
+                                    Padding="25,15,25,15"
+                                    FontSize="Small"
+                                    Text="{Binding .}"
+                                    TextColor="black" />
+                                <Border HeightRequest="1" Stroke="LightGray" />
+                            </StackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </StackLayout>
+
     </StackLayout>
 
 </ContentPage>

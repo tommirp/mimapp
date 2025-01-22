@@ -10,9 +10,9 @@ public partial class MainPage : ContentPage
         ViewModel = mainViewModel;
         BindingContext = mainViewModel;
     }
-    protected override async void OnAppearing()
+    protected override async void OnNavigatedTo(NavigatedToEventArgs args)
     {
-        base.OnAppearing();
+        base.OnNavigatedTo(args);
 
         // Call the command manually when the page appears
         if (ViewModel.InitPageCommand.CanExecute(null))

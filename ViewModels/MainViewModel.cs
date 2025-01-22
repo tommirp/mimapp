@@ -1,12 +1,15 @@
 ﻿using MimApp.Persistences.Contracts;
 using MimApp.Services.Contracts;
 using MimApp.Views.Quran;
+using System.Timers;
+using Timer = System.Timers.Timer;
 
 namespace MimApp.ViewModels;
 
 public partial class MainViewModel : ViewModelBase
 {
     private readonly IPreferences _preferences;
+    private readonly IConnectivity _connectivity;
     private readonly IQuranSurahPersistence _quranSurahPersistence;
     private readonly IQuranAyahPersistence _quranAyahPersistence;
     private readonly ISholatTimesPersistence _sholatTimesPersistence;
@@ -15,18 +18,27 @@ public partial class MainViewModel : ViewModelBase
 
     public MainViewModel(IPreferences preferences, IQuranSurahPersistence quranSurahPersistence,
         IQuranAyahPersistence quranAyahPersistence, ISholatTimesPersistence sholatTimesPersistence,
-        ICityCodesPersistence cityCodesPersistence, IQuranApi quranApi)
+        ICityCodesPersistence cityCodesPersistence, IQuranApi quranApi, IConnectivity connectivity)
     {
         SearchText = String.Empty;
         IsLoading = false;
         _preferences = preferences;
+        _connectivity = connectivity;
         _quranSurahPersistence = quranSurahPersistence;
         _quranAyahPersistence = quranAyahPersistence;
         _sholatTimesPersistence = sholatTimesPersistence;
         _cityCodesPersistence = cityCodesPersistence;
         _quranApi = quranApi;
 
-        //_ = InitPage();
+        MyCity = "Select City";
+
+        // Timer Area
+        PlaceholderSearch = "";
+
+        Timer myTimer = new Timer(2000);
+        myTimer.Elapsed += Tick;
+        myTimer.Enabled = true;
+        // Timer Area
     }
 
     [ObservableProperty]
@@ -41,6 +53,26 @@ public partial class MainViewModel : ViewModelBase
     [ObservableProperty]
     QuranSholatTime todaySholatTime;
 
+    #region Timer Search Placeholder
+    public string PlaceholderSearch;
+
+    int _counter = 0;
+    List<string> PlaceholderList = new List<string>()
+    {
+        "Surat:Ayat (2:60)",
+        "Nama Surat (Al-Fatihah)",
+        "Nomor Surat (1)",
+        "Keyword Ayat (Sedekah)"
+    };
+
+    private void Tick(object sender, ElapsedEventArgs e)
+    {
+        PlaceholderSearch = PlaceholderList[_counter];
+
+        if (_counter >= 4) _counter = 0;
+        _counter++;
+    }
+    #endregion
 
     [RelayCommand]
     async Task GoToCitySelection()
@@ -68,11 +100,6 @@ public partial class MainViewModel : ViewModelBase
     {
         try
         {
-            if (_hasLoaded)
-                return;
-
-            _hasLoaded = true;
-
             IsLoading = true;
 
             bool SurahChecked = await _quranSurahPersistence.SurahCheck();
@@ -104,9 +131,19 @@ public partial class MainViewModel : ViewModelBase
                 await _quranApi.OnlineSyncQuran();
             }
 
-            await _quranApi.SyncCityCodesAsync();
+            if (_connectivity.NetworkAccess == NetworkAccess.Internet)
+            {
+                await _quranApi.SyncCityCodesAsync();
 
-            TodaySholatTime = await _sholatTimesPersistence.GetSholatTimeByDate(DateTime.Now.ToString("yyyy-MM-dd"));
+                TodaySholatTime = await _sholatTimesPersistence.GetSholatTimeByDate(DateTime.Now.ToString("yyyy-MM-dd"));
+            }
+
+            string city = _preferences.Get("MyCity", "Select City");
+            if (!string.IsNullOrEmpty(city))
+            {
+                string[] citySplited = city.Split(" - ");
+                MyCity = citySplited[1];
+            }
 
             IsLoading = false;
         }

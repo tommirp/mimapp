@@ -1,3 +1,4 @@
+
 namespace MimApp.Views.Quran;
 
 public partial class CitySelectionPage : ContentPage
@@ -10,14 +11,23 @@ public partial class CitySelectionPage : ContentPage
         ViewModel = quranViewModel;
         BindingContext = quranViewModel;
     }
-    protected override async void OnAppearing()
+
+    protected override async void OnNavigatedTo(NavigatedToEventArgs args)
     {
-        base.OnAppearing();
+        base.OnNavigatedTo(args);
 
         // Call the command manually when the page appears
         if (ViewModel.InitPageCommand.CanExecute(null))
         {
-            await ViewModel.InitPageCommand.ExecuteAsync(null);
+            await ViewModel.InitCitySelectionPageCommand.ExecuteAsync(null);
+        }
+    }
+
+    private async void SelectCityTapped(object sender, SelectionChangedEventArgs e)
+    {
+        if (e.CurrentSelection.FirstOrDefault() is string selectedCard)
+        {
+            await ViewModel.SelectCity(selectedCard);
         }
     }
 }

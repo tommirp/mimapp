@@ -22,7 +22,7 @@ namespace MimApp.Services
             _httpClient.BaseAddress = new Uri(Helpers.BaseApiUrl);
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-            int timeOut = int.Parse(preferences.Get("TimeOut", "20"));
+            int timeOut = int.Parse(preferences.Get("TimeOut", "60"));
             _httpClient.Timeout = TimeSpan.FromSeconds(timeOut);
 
             _connectivity = connectivity;
@@ -76,18 +76,26 @@ namespace MimApp.Services
 
         public async Task<List<QuranSholatTime>?> GetSholatTimeByMonthAsync(string cityCode, string year, string month)
         {
-            if (_connectivity.NetworkAccess == NetworkAccess.Internet)
+            try
             {
-                var response = await _httpClient.GetAsync($"{_httpClient.BaseAddress}/sholat/{cityCode}/{year}/{month}");
-                if (response.IsSuccessStatusCode)
+
+                if (_connectivity.NetworkAccess == NetworkAccess.Internet)
                 {
-                    var content = await response.Content.ReadAsStringAsync();
+                    var response = await _httpClient.GetAsync($"{_httpClient.BaseAddress}/sholat/{cityCode}/{year}/{month}");
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var content = await response.Content.ReadAsStringAsync();
 
-                    return JsonSerializer.Deserialize<List<QuranSholatTime>>(content);
+                        return JsonSerializer.Deserialize<List<QuranSholatTime>>(content);
+                    }
                 }
-            }
 
-            return null;
+                return null;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public async Task<bool> SyncSholatTimeByMonthAsync(string cityCode)
@@ -95,12 +103,12 @@ namespace MimApp.Services
             if (_connectivity.NetworkAccess == NetworkAccess.Internet)
             {
                 DateTime thisDate = DateTime.Now;
-                string thisMonth = thisDate.Month.ToString("MM");
-                string thisYear = thisDate.Month.ToString("yyyy");
+                string thisMonth = thisDate.Month.ToString();
+                string thisYear = thisDate.Year.ToString();
 
                 DateTime startDate = DateTime.Parse($"{thisYear}-{thisMonth}-01");
-                string sMonth = startDate.Month.ToString("MM");
-                string sYear = startDate.Month.ToString("yyyy");
+                string sMonth = startDate.Month.ToString();
+                string sYear = startDate.Year.ToString();
 
                 List<QuranSholatTime> allSholatTime = new List<QuranSholatTime>();
                 for (int i = 1; i <= 12; i++)
@@ -115,8 +123,8 @@ namespace MimApp.Services
                     }
 
                     startDate = startDate.AddMonths(1).AddDays(-1);
-                    sMonth = startDate.Month.ToString("MM");
-                    sYear = startDate.Month.ToString("yyyy");
+                    sMonth = startDate.Month.ToString();
+                    sYear = startDate.Year.ToString();
                 }
 
                 await _sholatTimesPersistence.DeleteAllItemsAsync();

@@ -16,7 +16,7 @@ public partial class QuranViewModel : ViewModelBase
         IQuranAyahPersistence quranAyahPersistence, ISholatTimesPersistence sholatTimesPersistence,
         ICityCodesPersistence cityCodesPersistence, IQuranApi quranApi)
     {
-        IsRefreshing = false;
+        IsLoading = false;
         _preferences = preferences;
         _quranSurahPersistence = quranSurahPersistence;
         _quranAyahPersistence = quranAyahPersistence;
@@ -26,13 +26,14 @@ public partial class QuranViewModel : ViewModelBase
     }
 
     [ObservableProperty]
-    bool isRefreshing;
+    bool isLoading;
 
     [ObservableProperty]
     string searchTextCity;
 
     [ObservableProperty]
     string myCity;
+
     public ObservableCollection<string> CityCodeList { get; } = new ObservableCollection<string>();
 
     async Task GetAllCities()
@@ -46,11 +47,11 @@ public partial class QuranViewModel : ViewModelBase
     [RelayCommand]
     async Task InitPage()
     {
-        if (_hasLoaded)
-            return;
+    }
 
-        _hasLoaded = true;
-
+    [RelayCommand]
+    async Task InitCitySelectionPage()
+    {
         await GetAllCities();
     }
 
@@ -71,13 +72,32 @@ public partial class QuranViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    public void OnTapCity(string city)
+    public async Task SelectCity(string city)
     {
-        Debug.WriteLine(city);
+        if (!string.IsNullOrEmpty(city))
+        {
+            IsLoading = true;
+            _preferences.Set("MyCity", city);
 
-        _preferences.Set("MyCity", MyCity);
-        _ = _quranApi.SyncSholatTimeByMonthAsync(MyCity);
+            string[] citySplited = city.Split(" - ");
+            string cityCode = citySplited[0];
 
-        CityCodeList.Clear();
+            try
+            {
+                await _quranApi.SyncSholatTimeByMonthAsync(cityCode);
+            }
+            catch (HttpRequestException ex) when (ex.Message.Contains("hostname could not be provided"))
+            {
+                // Handle the specific case where the hostname is not provided
+                IsLoading = false;
+                await Shell.Current.DisplayAlert("Error", "Failed to Connect to the Server!.", "OK");
+            }
+            finally
+            {
+                CityCodeList.Clear();
+                IsLoading = false;
+                await Shell.Current.GoToAsync("..");
+            }
+        }
     }
 }

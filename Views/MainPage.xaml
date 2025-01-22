@@ -47,7 +47,7 @@
                         LineBreakMode="TailTruncation"
                         MaxLines="1"
                         MaximumWidthRequest="90"
-                        Text="Pekanbaru, Riau"
+                        Text="{Binding MyCity}"
                         TextColor="Black" />
                 </Grid>
                 <Border.GestureRecognizers>
@@ -71,7 +71,7 @@
                 HeightRequest="45"
                 HorizontalOptions="FillAndExpand"
                 PlaceholderColor="#a4b0be"
-                PlaceholderText="Cari Surat:Ayat / Keyword"
+                PlaceholderText="{Binding PlaceholderSearch}"
                 Text="{Binding SearchText}"
                 TextFontSize="14" />
         </VerticalStackLayout>
