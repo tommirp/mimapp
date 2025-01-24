@@ -1,8 +1,6 @@
 ﻿using MimApp.Persistences.Contracts;
 using MimApp.Services.Contracts;
 using MimApp.Views.Quran;
-using System.Timers;
-using Timer = System.Timers.Timer;
 
 namespace MimApp.ViewModels;
 
@@ -30,15 +28,11 @@ public partial class MainViewModel : ViewModelBase
         _cityCodesPersistence = cityCodesPersistence;
         _quranApi = quranApi;
 
+        SelectedItemAutoComplete = null;
+
         MyCity = "Select City";
 
-        // Timer Area
-        PlaceholderSearch = "";
-
-        Timer myTimer = new Timer(2000);
-        myTimer.Elapsed += Tick;
-        myTimer.Enabled = true;
-        // Timer Area
+        PlaceholderSearch = PlaceholderList[0];
     }
 
     [ObservableProperty]
@@ -53,26 +47,8 @@ public partial class MainViewModel : ViewModelBase
     [ObservableProperty]
     QuranSholatTime todaySholatTime;
 
-    #region Timer Search Placeholder
-    public string PlaceholderSearch;
-
-    int _counter = 0;
-    List<string> PlaceholderList = new List<string>()
-    {
-        "Surat:Ayat (2:60)",
-        "Nama Surat (Al-Fatihah)",
-        "Nomor Surat (1)",
-        "Keyword Ayat (Sedekah)"
-    };
-
-    private void Tick(object sender, ElapsedEventArgs e)
-    {
-        PlaceholderSearch = PlaceholderList[_counter];
-
-        if (_counter >= 4) _counter = 0;
-        _counter++;
-    }
-    #endregion
+    [ObservableProperty]
+    string selectedItemAutoComplete;
 
     [RelayCommand]
     async Task GoToCitySelection()
@@ -94,6 +70,35 @@ public partial class MainViewModel : ViewModelBase
         var json = await reader.ReadToEndAsync();
         return JsonSerializer.Deserialize<List<QuranAyah>>(json);
     }
+
+    #region Timer Search Placeholder
+    [ObservableProperty]
+    string placeholderSearch;
+
+    int _counter = 0;
+    List<string> PlaceholderList = new List<string>()
+    {
+        "Surat:Ayat (2:60)",
+        "Nama Surat (Al-Fatihah)",
+        "Nomor Surat (1)",
+        "Keyword Ayat (Sedekah)"
+    };
+
+    public void InitTimer()
+    {
+        var timer = new System.Threading.Timer(_ =>
+        {
+            if (_counter == PlaceholderList.Count)
+            {
+                _counter = 0;
+            }
+
+            PlaceholderSearch = PlaceholderList[_counter];
+
+            _counter++;
+        }, null, 2500, 2500);
+    }
+    #endregion
 
     [RelayCommand]
     public async Task InitPage()
@@ -139,20 +144,52 @@ public partial class MainViewModel : ViewModelBase
             }
 
             string city = _preferences.Get("MyCity", "Select City");
-            if (!string.IsNullOrEmpty(city))
+            if (!string.IsNullOrEmpty(city) && city != "Select City")
             {
                 string[] citySplited = city.Split(" - ");
                 MyCity = citySplited[1];
             }
 
             IsLoading = false;
+
+            InitTimer();
+        }
+    }
+
+    async Task MainSearch(string search_text)
+    {
+        string search_text_valid = search_text;
+        if (SearchText.Contains(" - "))
+        {
+            string[] searchSplited = search_text.Split(" - ");
+            search_text_valid = searchSplited[0];
+
+            // Go To Surah Detail Page with surah number
+        }
+        else if (search_text.Contains(":"))
+        {
+            string[] searchSplited = search_text.Replace(" ", "").Split(":");
+            string surah = searchSplited[0];
+            string ayat = searchSplited[1];
+
+            // Go To Surah Detail Page with surah number and scroll to ayat
+        }
+        else
+        {
+            _preferences.Set("QuranSearch", search_text);
+            // await Shell.Current.GoToAsync(nameof(QuranSearchKeywordPage));
         }
     }
 
     [RelayCommand]
     async Task SearchQuran()
     {
-        _preferences.Set("QuranSearch", SearchText);
-        // await Shell.Current.GoToAsync(nameof(QuranSearchPage));
+        await MainSearch(SearchText);
+    }
+
+    [RelayCommand]
+    async Task SearchBySelect()
+    {
+        await MainSearch(SelectedItemAutoComplete);
     }
 }

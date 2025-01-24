@@ -45,14 +45,18 @@ public partial class QuranViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    async Task InitPage()
-    {
-    }
-
-    [RelayCommand]
     async Task InitCitySelectionPage()
     {
-        await GetAllCities();
+        try
+        {
+            IsLoading = true;
+            await GetAllCities();
+        }
+        finally
+        {
+
+            IsLoading = false;
+        }
     }
 
     [RelayCommand]

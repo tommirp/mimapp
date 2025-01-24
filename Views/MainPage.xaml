@@ -57,7 +57,7 @@
         </Grid>
         <VerticalStackLayout Margin="0,-60,0,0">
             <Label HorizontalOptions="CenterAndExpand" Text="Aplikasi Untuk Semua Muslim" />
-            <dxe:TextEdit
+            <dxe:AutoCompleteEdit
                 x:Name="SearchBar"
                 Margin="30"
                 BackgroundColor="#f1f2f6"
@@ -65,15 +65,23 @@
                 BorderThickness="1"
                 BoxPadding="15"
                 CornerRadius="10"
-                EndIcon="search_small.png"
-                EndIconCommand="{Binding SearchQuranCommand}"
                 FocusedBorderThickness="0"
                 HeightRequest="45"
                 HorizontalOptions="FillAndExpand"
+                IconColor="Black"
                 PlaceholderColor="#a4b0be"
                 PlaceholderText="{Binding PlaceholderSearch}"
+                SelectedItem="{Binding SelectedItemAutoComplete, Mode=TwoWay}"
+                SelectionChangedCommand="{Binding SearchBySelectCommand}"
+                SubmitCommand="{Binding SearchQuranCommand}"
                 Text="{Binding SearchText}"
-                TextFontSize="14" />
+                TextColor="Black"
+                TextFontSize="14"
+                WaitIndicatorColor="#008859">
+                <dxe:AutoCompleteEdit.ItemsSourceProvider>
+                    <dxe:AsyncItemsSourceProvider ItemsRequested="OnAutoCompleteRequested" RequestDelay="500" />
+                </dxe:AutoCompleteEdit.ItemsSourceProvider>
+            </dxe:AutoCompleteEdit>
         </VerticalStackLayout>
     </StackLayout>
 </ContentPage>

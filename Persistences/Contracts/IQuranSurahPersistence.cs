@@ -6,6 +6,7 @@
         Task<bool> SurahCheck();
         Task<QuranSurah> GetOneSurah(int numberOfSurah);
         Task<List<QuranSurah>> GetAllSurah();
+        Task<List<string>> GetSurahNameByKeyword(string keyword);
 
         Task<bool> DeleteAllItemsAsync();
     }

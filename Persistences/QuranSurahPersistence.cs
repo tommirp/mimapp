@@ -78,6 +78,32 @@ namespace MimApp.Persistences
             return results;
         }
 
+        public async Task<List<string>> GetSurahNameByKeyword(string keyword = null)
+        {
+            await Init();
+            var finalResult = new List<string>();
+            List<QuranSurah> results = await Database.Table<QuranSurah>().ToListAsync();
+            List<QuranSurah> newResults = new List<QuranSurah>();
+
+            var isNumeric = int.TryParse(keyword, out int n);
+            if (isNumeric)
+            {
+                newResults = results.Where(data => data.number == n).ToList();
+            }
+            else
+            {
+                newResults = results.OrderBy(data => StringSimilarity.Levenshtein(data.nameTransliterationId, keyword)).Take(10).ToList();
+            }
+
+            newResults.ForEach(x =>
+            {
+                string surah = string.Format("{0} - {1}", x.number, x.nameTransliterationId);
+                finalResult.Add(surah);
+            });
+
+            return finalResult;
+        }
+
         public async Task<bool> DeleteAllItemsAsync()
         {
             await Init();

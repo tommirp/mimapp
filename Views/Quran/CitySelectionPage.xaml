@@ -5,7 +5,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:dxe="clr-namespace:DevExpress.Maui.Editors;assembly=DevExpress.Maui.Editors"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-    Title="Pilih Area">
+    Title="Pilih Area"
+    BackgroundColor="White"
+    Shell.BackgroundColor="White"
+    Shell.ForegroundColor="#008859"
+    Shell.TitleColor="#008859">
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -18,61 +22,65 @@
     </ContentPage.Behaviors>
 
     <StackLayout>
-        <StackLayout IsVisible="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}">
-            <ActivityIndicator
-                HorizontalOptions="Center"
-                IsRunning="true"
-                Color="#008859" />
-            <Label
-                HorizontalOptions="Center"
-                Text="Sync Data From Server..."
-                TextColor="#008859" />
-        </StackLayout>
-        <StackLayout IsVisible="{Binding IsLoading}">
-            <dxe:TextEdit
-                x:Name="SearchBar"
-                Margin="15,5,15,5"
-                BackgroundColor="#f1f2f6"
-                BorderColor="#f1f2f6"
-                BorderThickness="1"
-                BoxPadding="15"
-                CornerRadius="10"
-                EndIcon="search_small.png"
-                EndIconCommand="{Binding SearchCityCommand}"
-                FocusedBorderThickness="0"
-                HeightRequest="45"
-                HorizontalOptions="FillAndExpand"
-                PlaceholderColor="#a4b0be"
-                PlaceholderText="Cari Nama Kota by Keyword"
-                Text="{Binding SearchTextCity}"
-                TextFontSize="14" />
-            <Border HeightRequest="1" Stroke="LightGray" />
+        <ActivityIndicator
+            Margin="0,100,0,20"
+            HorizontalOptions="Center"
+            IsRunning="true"
+            IsVisible="{Binding IsLoading}"
+            Color="#008859" />
+        <Label
+            HorizontalOptions="Center"
+            IsVisible="{Binding IsLoading}"
+            Text="Sync Data From Server..."
+            TextColor="#008859" />
+        <dxe:TextEdit
+            x:Name="SearchBar"
+            Margin="15,5,15,10"
+            BorderColor="grey"
+            BorderThickness="1"
+            BoxPadding="15"
+            CornerRadius="10"
+            EndIcon="search_small.png"
+            EndIconCommand="{Binding SearchCityCommand}"
+            FocusedBorderThickness="0"
+            HeightRequest="45"
+            HorizontalOptions="FillAndExpand"
+            IconColor="Black"
+            IsVisible="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}"
+            PlaceholderColor="#a4b0be"
+            PlaceholderText="Cari Nama Kota by Keyword"
+            Text="{Binding SearchTextCity}"
+            TextColor="Black"
+            TextFontSize="14" />
+        <Border
+            HeightRequest="1"
+            IsVisible="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}"
+            Stroke="LightGray" />
 
-            <CollectionView
-                ItemsSource="{Binding CityCodeList}"
-                SelectionChanged="SelectCityTapped"
-                SelectionMode="Single"
-                VerticalOptions="FillAndExpand">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Border
-                            Margin="0"
-                            BackgroundColor="White"
-                            StrokeThickness="0">
-                            <StackLayout>
-                                <Label
-                                    Padding="25,15,25,15"
-                                    FontSize="Small"
-                                    Text="{Binding .}"
-                                    TextColor="black" />
-                                <Border HeightRequest="1" Stroke="LightGray" />
-                            </StackLayout>
-                        </Border>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-        </StackLayout>
-
+        <CollectionView
+            IsVisible="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}"
+            ItemsSource="{Binding CityCodeList}"
+            SelectionChanged="SelectCityTapped"
+            SelectionMode="Single"
+            VerticalOptions="FillAndExpand">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Border
+                        Margin="0"
+                        BackgroundColor="White"
+                        StrokeThickness="0">
+                        <StackLayout>
+                            <Label
+                                Padding="25,15,25,15"
+                                FontSize="Small"
+                                Text="{Binding .}"
+                                TextColor="black" />
+                            <Border HeightRequest="1" Stroke="LightGray" />
+                        </StackLayout>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
     </StackLayout>
 
 </ContentPage>

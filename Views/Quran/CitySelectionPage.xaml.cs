@@ -1,4 +1,3 @@
-
 namespace MimApp.Views.Quran;
 
 public partial class CitySelectionPage : ContentPage
@@ -17,7 +16,7 @@ public partial class CitySelectionPage : ContentPage
         base.OnNavigatedTo(args);
 
         // Call the command manually when the page appears
-        if (ViewModel.InitPageCommand.CanExecute(null))
+        if (ViewModel.InitCitySelectionPageCommand.CanExecute(null))
         {
             await ViewModel.InitCitySelectionPageCommand.ExecuteAsync(null);
         }
