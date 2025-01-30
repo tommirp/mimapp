@@ -26,8 +26,9 @@
                     VerticalOptions="Start" />
             </StackLayout>
             <Border
-                Margin="0,20,20,0"
+                Margin="0,15,17,0"
                 Padding="0"
+                BackgroundColor="white"
                 HorizontalOptions="End"
                 Stroke="Black"
                 VerticalOptions="Start">

@@ -62,17 +62,20 @@ public partial class QuranViewModel : ViewModelBase
     [RelayCommand]
     async Task SearchCity()
     {
-        if (string.IsNullOrEmpty(SearchTextCity))
+        await Task.Delay(1000).ContinueWith(async (x) =>
         {
-            CityCodeList.Clear();
-            await GetAllCities();
-        }
-        else
-        {
-            var all_cities = await _cityCodesPersistence.GetCityByName(SearchTextCity);
-            CityCodeList.Clear();
-            all_cities.ForEach(x => CityCodeList.Add(String.Format("{0} - {1}", x.id, x.lokasi)));
-        }
+            if (string.IsNullOrEmpty(SearchTextCity))
+            {
+                CityCodeList.Clear();
+                await GetAllCities();
+            }
+            else
+            {
+                var all_cities = await _cityCodesPersistence.GetCityByName(SearchTextCity);
+                CityCodeList.Clear();
+                all_cities.ForEach(x => CityCodeList.Add(String.Format("{0} - {1}", x.id, x.lokasi)));
+            }
+        });
     }
 
     [RelayCommand]
@@ -99,7 +102,8 @@ public partial class QuranViewModel : ViewModelBase
             finally
             {
                 CityCodeList.Clear();
-                IsLoading = false;
+                //SearchTextCity = string.Empty;
+                //IsLoading = false;
                 await Shell.Current.GoToAsync("..");
             }
         }

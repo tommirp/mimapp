@@ -50,6 +50,7 @@
             PlaceholderColor="#a4b0be"
             PlaceholderText="Cari Nama Kota by Keyword"
             Text="{Binding SearchTextCity}"
+            TextChangedCommand="{Binding SearchCityCommand}"
             TextColor="Black"
             TextFontSize="14" />
         <Border
