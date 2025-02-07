@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MimApp.Views.Quran.SurahDetailPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:dxe="clr-namespace:DevExpress.Maui.Editors;assembly=DevExpress.Maui.Editors"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    Title="Surah Detail"
+    BackgroundColor="White"
+    Shell.BackgroundColor="White"
+    Shell.ForegroundColor="black"
+    Shell.TitleColor="#008859">
+
+    <Shell.TitleView>
+        <Grid Padding="10" ColumnDefinitions="*,Auto">
+            <Label
+                Grid.Column="0"
+                FontAttributes="Bold"
+                FontSize="Small"
+                Text="{Binding SurahTitle}"
+                VerticalOptions="Center" />
+            <ImageButton
+                Grid.Column="1"
+                Padding="7"
+                HeightRequest="30"
+                HorizontalOptions="End"
+                Source="search"
+                WidthRequest="30" />
+        </Grid>
+    </Shell.TitleView>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Behaviors>
+        <toolkit:StatusBarBehavior StatusBarColor="#008859" StatusBarStyle="LightContent" />
+    </ContentPage.Behaviors>
+
+    <StackLayout>
+        <ActivityIndicator
+            Margin="0,100,0,20"
+            HorizontalOptions="Center"
+            IsRunning="true"
+            IsVisible="{Binding IsLoading}"
+            Color="#008859" />
+        <Label
+            HorizontalOptions="Center"
+            IsVisible="{Binding IsLoading}"
+            Text="Sync Data From Server..."
+            TextColor="#008859" />
+        <Border
+            HeightRequest="1"
+            IsVisible="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}"
+            Stroke="LightGray" />
+
+        <CollectionView
+            IsVisible="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}"
+            ItemsSource="{Binding AyahList}"
+            SelectionMode="Single"
+            VerticalOptions="FillAndExpand">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Border
+                        Margin="0"
+                        BackgroundColor="White"
+                        StrokeThickness="0">
+                        <StackLayout>
+                            <VerticalStackLayout>
+                                <Grid Padding="10,10,0,0" ColumnDefinitions="*">
+                                    <StackLayout HorizontalOptions="Start" VerticalOptions="Center">
+                                        <Grid>
+                                            <Image
+                                                Aspect="AspectFill"
+                                                HeightRequest="45"
+                                                Source="ayah_frame"
+                                                WidthRequest="45" />
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontSize="11"
+                                                HorizontalOptions="Center"
+                                                Text="{Binding numberInSurah}"
+                                                TextColor="Black"
+                                                VerticalOptions="Center" />
+                                        </Grid>
+                                    </StackLayout>
+                                    <StackLayout
+                                        Padding="0,0,20,10"
+                                        HorizontalOptions="End"
+                                        VerticalOptions="Center">
+                                        <Label Text="OK" />
+                                    </StackLayout>
+                                </Grid>
+                                <HorizontalStackLayout Padding="20,0,20,0" HorizontalOptions="EndAndExpand">
+                                    <Label
+                                        Margin="5,0,0,0"
+                                        FontSize="27"
+                                        HorizontalTextAlignment="Justify"
+                                        LineBreakMode="WordWrap"
+                                        Text="{Binding textArab}"
+                                        TextColor="black"
+                                        WidthRequest="300" />
+                                </HorizontalStackLayout>
+
+                                <Label
+                                    Padding="25,15,25,15"
+                                    FontSize="15"
+                                    HorizontalTextAlignment="Justify"
+                                    Text="{Binding translationId}"
+                                    TextColor="black" />
+                            </VerticalStackLayout>
+                            <Border HeightRequest="1" Stroke="LightGray" />
+                        </StackLayout>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </StackLayout>
+
+</ContentPage>

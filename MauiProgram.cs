@@ -65,6 +65,7 @@ public static class MauiProgram
 
         // Quran
         mauiAppBuilder.Services.AddScoped<CitySelectionPage>();
+        mauiAppBuilder.Services.AddScoped<SurahDetailPage>();
 
         // Auth
         mauiAppBuilder.Services.AddSingleton<Login>();

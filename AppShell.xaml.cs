@@ -9,6 +9,7 @@ public partial class AppShell : Shell
 		InitializeComponent();
 
         Routing.RegisterRoute(nameof(CitySelectionPage), typeof(CitySelectionPage));
+        Routing.RegisterRoute(nameof(SurahDetailPage), typeof(SurahDetailPage));
 
         //CrossFirebaseCloudMessaging.Current.NotificationReceived += (sender, e) =>
         //{

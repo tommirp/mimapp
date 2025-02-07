@@ -28,6 +28,7 @@ public partial class QuranViewModel : ViewModelBase
     [ObservableProperty]
     bool isLoading;
 
+    #region City Page
     [ObservableProperty]
     string searchTextCity;
 
@@ -79,19 +80,19 @@ public partial class QuranViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    public async Task SelectCity(string city)
+    public async Task SelectCity(string input)
     {
-        if (!string.IsNullOrEmpty(city))
+        if (!string.IsNullOrEmpty(input))
         {
             IsLoading = true;
-            _preferences.Set("MyCity", city);
+            _preferences.Set("MyCity", input);
 
-            string[] citySplited = city.Split(" - ");
-            string cityCode = citySplited[0];
+            string[] inputSplited = input.Split(" - ");
+            string inputCode = inputSplited[0];
 
             try
             {
-                await _quranApi.SyncSholatTimeByMonthAsync(cityCode);
+                await _quranApi.SyncSholatTimeByMonthAsync(inputCode);
             }
             catch (HttpRequestException ex) when (ex.Message.Contains("hostname could not be provided"))
             {
@@ -108,4 +109,46 @@ public partial class QuranViewModel : ViewModelBase
             }
         }
     }
+    #endregion
+
+
+    #region Surah Page Showing All Ayah
+
+    [ObservableProperty]
+    string surahTitle;
+    public ObservableCollection<QuranAyah> AyahList { get; set; } = new ObservableCollection<QuranAyah>();
+
+    async Task GetAllAyahBySurah()
+    {
+        AyahList.Clear();
+
+        string surahNum =  _preferences.Get("QuranSearch", "1");
+
+        QuranSurah theSurah = await _quranSurahPersistence.GetOneSurah(int.Parse(surahNum));
+        SurahTitle = string.Format("{0}. {1}", theSurah?.number ,theSurah?.nameTransliterationId?.ToUpper() ?? "1. AL-FATIHAH");
+
+        var all_ayah = await _quranAyahPersistence.GetAyahBySurahAsync(int.Parse(surahNum));
+        all_ayah.ForEach(x => AyahList.Add(x));
+    }
+
+    [RelayCommand]
+    async Task InitQuranAyahListPage()
+    {
+        try
+        {
+            IsLoading = true;
+            await GetAllAyahBySurah();
+        }
+        finally
+        {
+            IsLoading = false;
+        }
+    }
+
+    [RelayCommand]
+    async Task GoToAyah()
+    {
+        //
+    }
+    #endregion
 }

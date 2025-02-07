@@ -164,7 +164,9 @@ public partial class MainViewModel : ViewModelBase
             string[] searchSplited = search_text.Split(" - ");
             search_text_valid = searchSplited[0];
 
-            // Go To Surah Detail Page with surah number
+            _preferences.Set("QuranSearch", search_text_valid);
+            SearchText = "";
+            await Shell.Current.GoToAsync(nameof(SurahDetailPage));
         }
         else if (search_text.Contains(":"))
         {
