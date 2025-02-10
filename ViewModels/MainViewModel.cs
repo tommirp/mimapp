@@ -1,5 +1,6 @@
 ﻿using MimApp.Persistences.Contracts;
 using MimApp.Services.Contracts;
+using MimApp.Utils;
 using MimApp.Views.Quran;
 
 namespace MimApp.ViewModels;
@@ -96,7 +97,7 @@ public partial class MainViewModel : ViewModelBase
             PlaceholderSearch = PlaceholderList[_counter];
 
             _counter++;
-        }, null, 2500, 2500);
+        }, null, 7000, 7000);
     }
     #endregion
 
@@ -158,40 +159,49 @@ public partial class MainViewModel : ViewModelBase
 
     async Task MainSearch(string search_text)
     {
-        string search_text_valid = search_text;
-        if (SearchText.Contains(" - "))
+        if (!string.IsNullOrEmpty(search_text))
         {
-            string[] searchSplited = search_text.Split(" - ");
-            search_text_valid = searchSplited[0];
+            string search_text_valid = search_text;
+            if (SearchText.Contains(" - "))
+            {
+                string[] searchSplited = search_text.Split(" - ");
+                search_text_valid = searchSplited[0];
 
-            _preferences.Set("QuranSearch", search_text_valid);
-            SearchText = "";
-            await Shell.Current.GoToAsync(nameof(SurahDetailPage));
-        }
-        else if (search_text.Contains(":"))
-        {
-            string[] searchSplited = search_text.Replace(" ", "").Split(":");
-            string surah = searchSplited[0];
-            string ayat = searchSplited[1];
+                _preferences.Set("QuranSearch", search_text_valid);
+                SearchText = "";
+                await Shell.Current.GoToAsync(nameof(SurahDetailPage));
+            }
+            else if (search_text.Contains(":"))
+            {
+                string[] searchSplited = search_text.Replace(" ", "").Split(":");
+                string surah = searchSplited[0];
+                string ayat = searchSplited[1];
 
-            // Go To Surah Detail Page with surah number and scroll to ayat
-        }
-        else
-        {
-            _preferences.Set("QuranSearch", search_text);
-            // await Shell.Current.GoToAsync(nameof(QuranSearchKeywordPage));
+                _preferences.Set("QuranSearch", string.Format("{0}:{1}", surah, ayat));
+
+                SearchText = "";
+                await Shell.Current.GoToAsync(nameof(SurahDetailPage));
+            }
+            else
+            {
+                _preferences.Set("QuranSearch", search_text);
+                // await Shell.Current.GoToAsync(nameof(QuranSearchKeywordPage));
+            }
         }
     }
 
     [RelayCommand]
     async Task SearchQuran()
     {
+        KeyboardHelper.CloseKeyboard(); // Closes the keyboard globally
         await MainSearch(SearchText);
     }
 
     [RelayCommand]
     async Task SearchBySelect()
     {
+
+        KeyboardHelper.CloseKeyboard(); // Closes the keyboard globally
         await MainSearch(SelectedItemAutoComplete);
     }
 }
