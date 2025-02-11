@@ -75,7 +75,7 @@
             x:Name="QuranSurahList"
             IsVisible="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}"
             ItemsSource="{Binding AyahList}"
-            SelectedItem="{Binding SelectedQuranAyah}"
+            SelectedItem="{Binding SelectedQuranAyah, Mode=TwoWay}"
             SelectionChangedCommand="{Binding AyahSelectedCommand}"
             SelectionMode="Single"
             VerticalOptions="FillAndExpand">
@@ -118,6 +118,7 @@
                                 <HorizontalStackLayout Padding="20,0,20,0" HorizontalOptions="EndAndExpand">
                                     <Label
                                         Margin="5,0,0,0"
+                                        FontFamily="AmiriQuran"
                                         FontSize="27"
                                         HorizontalTextAlignment="Justify"
                                         LineBreakMode="WordWrap"

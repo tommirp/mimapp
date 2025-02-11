@@ -20,6 +20,7 @@ public static class MauiProgram
             .UseDevExpressEditors()
             .ConfigureFonts(fonts =>
             {
+                fonts.AddFont("AmiriQuran-Regular.ttf", "AmiriQuran");
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("roboto-regular.ttf", "Roboto");
                 fonts.AddFont("roboto-medium.ttf", "Roboto-Medium");

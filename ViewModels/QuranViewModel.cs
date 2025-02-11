@@ -1,4 +1,5 @@
-﻿using MimApp.Persistences.Contracts;
+﻿using MimApp.Utils;
+using MimApp.Persistences.Contracts;
 using MimApp.Services.Contracts;
 
 namespace MimApp.ViewModels;
@@ -132,6 +133,11 @@ public partial class QuranViewModel : ViewModelBase
             string[] btns = ["Info Detail", "Salin Ayat", "Tandai Batas Baca", "Bagikan", "Lapor Kesalahan"];
 
             string action = await Shell.Current.DisplayActionSheet(title, "Close", null, btns);
+            
+            if (action == null)
+            {
+                SelectedQuranAyah = null;
+            }
 
             if (btns.Contains(action))
             {
@@ -141,7 +147,19 @@ public partial class QuranViewModel : ViewModelBase
                 }
                 else if (action == "Salin Ayat")
                 {
-                    // Logic Salin Ayat to Clipboard
+                    string arabicText = SelectedQuranAyah?.textArab ?? "";
+                    string translation = SelectedQuranAyah?.translationId ?? "";
+
+                    int columnWidth = 50;
+                    // Unicode Right-to-Left Embedding (RLE) → Forces Arabic text to be RTL
+                    string rtlMarker = "\u202B";
+                    // Unicode Left-to-Right Embedding (LRE) → Forces English text to be LTR
+                    string ltrMarker = "\u202A";
+                    // Unicode Pop Directional Formatting (PDF) → Resets text direction to normal
+                    string pdf = "\u202C";
+                    string formattedText = $"{rtlMarker}{arabicText.PadLeft(columnWidth)}{pdf}\n\n\t\t{ltrMarker}{translation.PadRight(columnWidth)}{pdf}";
+
+                    await Clipboard.SetTextAsync(formattedText);
                     await Shell.Current.DisplayAlert("Success", "Ayat Berhasil Di Salin ke Clipboard", "OK");
                 }
                 else if (action == "Tandai Batas Baca")
@@ -151,19 +169,32 @@ public partial class QuranViewModel : ViewModelBase
                 }
                 else if (action == "Bagikan")
                 {
-                    //string sharedFormat = string.Format("{0,50}{0}\n\t{1,-50}{1}", SelectedQuranAyah?.textArab, SelectedQuranAyah?.translationId);
-                    string sharedFormat = $"{SelectedQuranAyah?.textArab,30}\n{SelectedQuranAyah?.translationId,-30}";
+                    string arabicText = SelectedQuranAyah?.textArab ?? "";
+                    string translation = SelectedQuranAyah?.translationId ?? "";
+
+                    int columnWidth = 50;
+                    // Unicode Right-to-Left Embedding (RLE) → Forces Arabic text to be RTL
+                    string rtlMarker = "\u202B";
+                    // Unicode Left-to-Right Embedding (LRE) → Forces English text to be LTR
+                    string ltrMarker = "\u202A";
+                    // Unicode Pop Directional Formatting (PDF) → Resets text direction to normal
+                    string pdf = "\u202C";
+                    string formattedText = $"{rtlMarker}{arabicText.PadLeft(columnWidth)}{pdf}\n\n\t\t{ltrMarker}{translation.PadRight(columnWidth)}{pdf}";
 
                     await Share.Default.RequestAsync(new ShareTextRequest
                     {
-                        Text = sharedFormat,
+                        Text = formattedText,
                         Title = title
                     });
                     // Logic Bagikan Ayat
                 }
                 else if (action == "Lapor Kesalahan")
                 {
-                    // Logic Lapor Kesalahan
+                    DateTime dt = new DateTime();
+                    string MailSubject = String.Format("Laporan MimApp Surah {0} Ayat {1} ({2})", SelectedQuranAyah.numberOfSurah, SelectedQuranAyah.numberInSurah, dt.ToString());
+                    
+                    await MailHelper.OpenEmailClientAsync("tech@jms.or.id", MailSubject, "Kepada tim Developer Mim App.");
+
                 }
 
                 SelectedQuranAyah = null;

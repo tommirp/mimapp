@@ -34,44 +34,59 @@ namespace MimApp.Services
 
         private async Task<bool> GetQuranSurahAsync()
         {
-            if (_connectivity.NetworkAccess == NetworkAccess.Internet)
+            try
             {
-                var response = await _httpClient.GetAsync($"{_httpClient.BaseAddress}/surah");
-                if (response.IsSuccessStatusCode)
+
+                if (_connectivity.NetworkAccess == NetworkAccess.Internet)
                 {
-                    var content = await response.Content.ReadAsStringAsync();
+                    var response = await _httpClient.GetAsync($"{_httpClient.BaseAddress}/surah");
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var content = await response.Content.ReadAsStringAsync();
 
-                    List<QuranSurah>? data = JsonSerializer.Deserialize<List<QuranSurah>>(content);
+                        List<QuranSurah>? data = JsonSerializer.Deserialize<List<QuranSurah>>(content);
 
-                    await _quranSurahPersistence.DeleteAllItemsAsync();
-                    await _quranSurahPersistence.InsertAllItemAsync(data);
+                        await _quranSurahPersistence.DeleteAllItemsAsync();
+                        await _quranSurahPersistence.InsertAllItemAsync(data);
 
-                    return true;
+                        return true;
+                    }
                 }
-            }
 
-            return false;
+                return false;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         private async Task<bool> GetQuranAyahAsync()
         {
-            if (_connectivity.NetworkAccess == NetworkAccess.Internet)
+            try
             {
-                var response = await _httpClient.GetAsync($"{_httpClient.BaseAddress}/ayah");
-                if (response.IsSuccessStatusCode)
+                if (_connectivity.NetworkAccess == NetworkAccess.Internet)
                 {
-                    var content = await response.Content.ReadAsStringAsync();
+                    var response = await _httpClient.GetAsync($"{_httpClient.BaseAddress}/ayah");
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var content = await response.Content.ReadAsStringAsync();
 
-                    List<QuranAyah>? data = JsonSerializer.Deserialize<List<QuranAyah>>(content);
+                        List<QuranAyah>? data = JsonSerializer.Deserialize<List<QuranAyah>>(content);
 
-                    await _quranAyahPersistence.DeleteAllItemsAsync();
-                    await _quranAyahPersistence.InsertAllItemAsync(data);
+                        await _quranAyahPersistence.DeleteAllItemsAsync();
+                        await _quranAyahPersistence.InsertAllItemAsync(data);
 
-                    return true;
+                        return true;
+                    }
                 }
-            }
 
-            return false;
+                return false;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public async Task<List<QuranSholatTime>?> GetSholatTimeByMonthAsync(string cityCode, string year, string month)
@@ -100,60 +115,74 @@ namespace MimApp.Services
 
         public async Task<bool> SyncSholatTimeByMonthAsync(string cityCode)
         {
-            if (_connectivity.NetworkAccess == NetworkAccess.Internet)
+            try
             {
-                DateTime thisDate = DateTime.Now;
-                string thisMonth = thisDate.Month.ToString();
-                string thisYear = thisDate.Year.ToString();
-
-                DateTime startDate = DateTime.Parse($"{thisYear}-{thisMonth}-01");
-                string sMonth = startDate.Month.ToString();
-                string sYear = startDate.Year.ToString();
-
-                List<QuranSholatTime> allSholatTime = new List<QuranSholatTime>();
-                for (int i = 1; i <= 12; i++)
+                if (_connectivity.NetworkAccess == NetworkAccess.Internet)
                 {
-                    var response = await GetSholatTimeByMonthAsync(cityCode, sYear, sMonth);
-                    if (response != null)
+                    DateTime thisDate = DateTime.Now;
+                    string thisMonth = thisDate.Month.ToString();
+                    string thisYear = thisDate.Year.ToString();
+
+                    DateTime startDate = DateTime.Parse($"{thisYear}-{thisMonth}-01");
+                    string sMonth = startDate.Month.ToString();
+                    string sYear = startDate.Year.ToString();
+
+                    List<QuranSholatTime> allSholatTime = new List<QuranSholatTime>();
+                    for (int i = 1; i <= 12; i++)
                     {
-                        response.ForEach(x =>
+                        var response = await GetSholatTimeByMonthAsync(cityCode, sYear, sMonth);
+                        if (response != null)
                         {
-                            allSholatTime.Add(x);
-                        });
+                            response.ForEach(x =>
+                            {
+                                allSholatTime.Add(x);
+                            });
+                        }
+
+                        startDate = startDate.AddMonths(1).AddDays(-1);
+                        sMonth = startDate.Month.ToString();
+                        sYear = startDate.Year.ToString();
                     }
 
-                    startDate = startDate.AddMonths(1).AddDays(-1);
-                    sMonth = startDate.Month.ToString();
-                    sYear = startDate.Year.ToString();
+                    await _sholatTimesPersistence.DeleteAllItemsAsync();
+                    await _sholatTimesPersistence.InsertAllItemAsync(allSholatTime);
+
+                    return true;
+
                 }
 
-                await _sholatTimesPersistence.DeleteAllItemsAsync();
-                await _sholatTimesPersistence.InsertAllItemAsync(allSholatTime);
-
-                return true;
-
+                return false;
             }
-
-            return false;
+            catch
+            {
+                return false;
+            }
         }
 
         public async Task<List<CityCodes>?> SyncCityCodesAsync()
         {
-            if (_connectivity.NetworkAccess == NetworkAccess.Internet)
+            try
             {
-                var response = await _httpClient.GetAsync($"{_httpClient.BaseAddress}/sholat/citycode");
-                if (response.IsSuccessStatusCode)
+                if (_connectivity.NetworkAccess == NetworkAccess.Internet)
                 {
-                    var content = await response.Content.ReadAsStringAsync();
+                    var response = await _httpClient.GetAsync($"{_httpClient.BaseAddress}/sholat/citycode");
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var content = await response.Content.ReadAsStringAsync();
 
-                    List<CityCodes>? data = JsonSerializer.Deserialize<List<CityCodes>>(content);
+                        List<CityCodes>? data = JsonSerializer.Deserialize<List<CityCodes>>(content);
 
-                    await _cityCodesPersistence.DeleteAllItemsAsync();
-                    await _cityCodesPersistence.InsertAllItemAsync(data);
+                        await _cityCodesPersistence.DeleteAllItemsAsync();
+                        await _cityCodesPersistence.InsertAllItemAsync(data);
+                    }
                 }
-            }
 
-            return null;
+                return null;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public async Task OnlineSyncQuran()
@@ -164,18 +193,25 @@ namespace MimApp.Services
 
         public async Task<List<QuranAsmaulHusna>?> GetQuranAsmaulHusnaAsync()
         {
-            if (_connectivity.NetworkAccess == NetworkAccess.Internet)
+            try
             {
-                var response = await _httpClient.GetAsync($"{_httpClient.BaseAddress}/asmaulhusna");
-                if (response.IsSuccessStatusCode)
+                if (_connectivity.NetworkAccess == NetworkAccess.Internet)
                 {
-                    var content = await response.Content.ReadAsStringAsync();
+                    var response = await _httpClient.GetAsync($"{_httpClient.BaseAddress}/asmaulhusna");
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var content = await response.Content.ReadAsStringAsync();
 
-                    return JsonSerializer.Deserialize<List<QuranAsmaulHusna>>(content);
+                        return JsonSerializer.Deserialize<List<QuranAsmaulHusna>>(content);
+                    }
                 }
-            }
 
-            return null;
+                return null;
+            }
+            catch
+            {
+                return null;
+            }
         }
     }
 }
