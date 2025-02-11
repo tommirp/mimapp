@@ -151,7 +151,8 @@ public partial class QuranViewModel : ViewModelBase
                 }
                 else if (action == "Bagikan")
                 {
-                    string sharedFormat = string.Format("{0}\t{1,-30}{1}", SelectedQuranAyah?.textArab, SelectedQuranAyah?.translationId);
+                    //string sharedFormat = string.Format("{0,50}{0}\n\t{1,-50}{1}", SelectedQuranAyah?.textArab, SelectedQuranAyah?.translationId);
+                    string sharedFormat = $"{SelectedQuranAyah?.textArab,30}\n{SelectedQuranAyah?.translationId,-30}";
 
                     await Share.Default.RequestAsync(new ShareTextRequest
                     {
