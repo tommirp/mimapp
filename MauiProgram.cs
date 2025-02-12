@@ -6,7 +6,6 @@ using DevExpress.Maui;
 using MimApp.Views.Quran;
 
 namespace MimApp;
-
 public static class MauiProgram
 {
 	public static MauiApp CreateMauiApp()

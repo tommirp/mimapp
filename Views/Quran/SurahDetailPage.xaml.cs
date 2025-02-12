@@ -56,8 +56,8 @@ public partial class SurahDetailPage : ContentPage
     {
         if (sender is VisualElement visualElement && visualElement.BindingContext is QuranAyah ayah)
         {
-            var result = await Shell.Current.DisplayPromptAsync("Masukkan Nomor Ayat", null, "Menuju Ayat", "Batalkan", null, 3, Keyboard.Numeric, null);
-            if (result != null)
+            string result = await Shell.Current.DisplayPromptAsync("Masukkan Nomor Ayat", null, "Menuju Ayat", "Batalkan", null, 3, Keyboard.Numeric, null);
+            if (!string.IsNullOrEmpty(result))
             {
                 var itemToScrollTo = ViewModel.AyahList.FirstOrDefault(x => x.numberOfSurah == ayah.numberOfSurah && x.numberInSurah == int.Parse(result));
                 if (itemToScrollTo != null)

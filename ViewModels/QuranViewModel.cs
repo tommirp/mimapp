@@ -2,6 +2,7 @@
 using MimApp.Persistences.Contracts;
 using MimApp.Services.Contracts;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using CommunityToolkit.Maui.Views;
 
 namespace MimApp.ViewModels;
 
@@ -13,6 +14,7 @@ public partial class QuranViewModel : ViewModelBase
     private readonly ISholatTimesPersistence _sholatTimesPersistence;
     private readonly ICityCodesPersistence _cityCodesPersistence;
     private readonly IQuranApi _quranApi;
+
 
     public QuranViewModel(IPreferences preferences, IQuranSurahPersistence quranSurahPersistence,
         IQuranAyahPersistence quranAyahPersistence, ISholatTimesPersistence sholatTimesPersistence,
@@ -119,6 +121,9 @@ public partial class QuranViewModel : ViewModelBase
     [ObservableProperty]
     string surahTitle;
 
+    [ObservableProperty]
+    int surahNumber;
+
     public ObservableCollection<QuranAyah> AyahList { get; set; } = new ObservableCollection<QuranAyah>();   
 
     [RelayCommand]
@@ -135,6 +140,7 @@ public partial class QuranViewModel : ViewModelBase
         {
             if (action == "Info Detail")
             {
+                Shell.Current.CurrentPage.ShowPopup(new MyPopup());
                 // Go To Ayah Detail Page
             }
             else if (action == "Salin Ayat")
@@ -191,6 +197,55 @@ public partial class QuranViewModel : ViewModelBase
         }
     }
 
+    [RelayCommand]
+    public async Task NextQuranSurah()
+    {
+        try
+        {
+            IsLoading = true;
+            int NewSurah = SurahNumber + 1;
+            if (NewSurah > 114)
+            {
+                NewSurah = 1;
+            }
+
+            _preferences.Set("QuranSearch", NewSurah.ToString());
+            await GetAllAyahBySurah();
+        }
+        finally
+        {
+            // Ensure UI updates before scrolling
+            await Task.Delay(200);
+
+            IsLoading = false;
+        }
+    }
+
+
+    [RelayCommand]
+    public async Task PrevQuranSurah()
+    {
+        try
+        {
+            IsLoading = true;
+            int NewSurah = SurahNumber - 1;
+            if (NewSurah < 1)
+            {
+                NewSurah = 114;
+            }
+
+            _preferences.Set("QuranSearch", NewSurah.ToString());
+            await GetAllAyahBySurah();
+        }
+        finally
+        {
+            // Ensure UI updates before scrolling
+            await Task.Delay(200);
+
+            IsLoading = false;
+        }
+    }
+
     async Task GetAllAyahBySurah()
     {
         AyahList.Clear();
@@ -202,16 +257,25 @@ public partial class QuranViewModel : ViewModelBase
             string[] searchSplited = surahNum.Split(":");
             surahNum = searchSplited[0];
 
+            if (surahNum == null)
+            {
+                surahNum = "1";
+                _preferences.Set("QuranSearch", "1");
+            }
+
             if (int.Parse(surahNum) > 114)
             {
+                _preferences.Set("QuranSearch", "1");
                 surahNum = "1";
             }
         }
         else if (int.Parse(surahNum) > 114)
         {
+            _preferences.Set("QuranSearch", "1");
             surahNum = "1";
         }
 
+        SurahNumber = int.Parse(surahNum);
 
         QuranSurah theSurah = await _quranSurahPersistence.GetOneSurah(int.Parse(surahNum));
         SurahTitle = string.Format("{0}. {1}", theSurah?.number ,theSurah?.nameTransliterationId?.ToUpper() ?? "1. AL-FATIHAH");
@@ -251,6 +315,5 @@ public partial class QuranViewModel : ViewModelBase
     public event PropertyChangedEventHandler PropertyChanged;
     protected void OnPropertyChanged(string propertyName) =>
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-
     #endregion
 }

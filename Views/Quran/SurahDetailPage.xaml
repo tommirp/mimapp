@@ -14,13 +14,6 @@
     <Shell.TitleView>
         <Grid Padding="10" ColumnDefinitions="*,Auto,Auto,Auto">
             <ImageButton
-                Grid.Column="0"
-                Padding="10"
-                HeightRequest="30"
-                HorizontalOptions="End"
-                Source="rotation"
-                WidthRequest="30" />
-            <ImageButton
                 Grid.Column="2"
                 Padding="11"
                 HeightRequest="30"
@@ -59,10 +52,40 @@
             IsVisible="{Binding IsLoading}"
             Text="Loading Surah..."
             TextColor="#008859" />
+
         <Border
-            HeightRequest="1"
+            Margin="0,0,0,0"
+            Padding="15,10,15,10"
+            Background="White"
+            HeightRequest="45"
             IsVisible="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}"
-            Stroke="LightGray" />
+            Stroke="LightGray"
+            StrokeThickness="2">
+
+            <Grid ColumnDefinitions="*">
+                <ImageButton
+                    Padding="12"
+                    Command="{Binding NextQuranSurahCommand}"
+                    HeightRequest="10"
+                    HorizontalOptions="Start"
+                    Source="arrowleft"
+                    VerticalOptions="Center"
+                    WidthRequest="10" />
+                <Label
+                    FontAttributes="Bold"
+                    HorizontalOptions="Center"
+                    Text="{Binding SurahTitle}"
+                    VerticalOptions="Center" />
+                <ImageButton
+                    Padding="12"
+                    Command="{Binding PrevQuranSurahCommand}"
+                    HeightRequest="10"
+                    HorizontalOptions="End"
+                    Source="arrowright"
+                    VerticalOptions="Center"
+                    WidthRequest="10" />
+            </Grid>
+        </Border>
 
         <CollectionView
             x:Name="QuranSurahList"
@@ -147,7 +170,16 @@
                                 </HorizontalStackLayout>
 
                                 <Label
+                                    Padding="25,15,25,0"
+                                    FontAttributes="Italic"
+                                    FontFamily="Univia-Pro"
+                                    FontSize="15"
+                                    HorizontalTextAlignment="Justify"
+                                    Text="{Binding textTransliteration}"
+                                    TextColor="black" />
+                                <Label
                                     Padding="25,15,25,15"
+                                    FontFamily="Univia-Pro"
                                     FontSize="15"
                                     HorizontalTextAlignment="Justify"
                                     Text="{Binding translationId}"
