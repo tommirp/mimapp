@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Maui.Views;
+﻿using CommunityToolkit.Maui.Core.Primitives;
+using CommunityToolkit.Maui.Views;
 using MimApp.Utils;
 
 namespace MimApp.Views.Quran;
@@ -49,6 +50,42 @@ public partial class SurahDetailPage : ContentPage
                 }
             }
 
+        }
+    }
+    private async void OnAyahNumberTapped(object sender, EventArgs e)
+    {
+        if (sender is VisualElement visualElement && visualElement.BindingContext is QuranAyah ayah)
+        {
+            var result = await Shell.Current.DisplayPromptAsync("Masukkan Nomor Ayat", null, "Menuju Ayat", "Batalkan", null, 3, Keyboard.Numeric, null);
+            if (result != null)
+            {
+                var itemToScrollTo = ViewModel.AyahList.FirstOrDefault(x => x.numberOfSurah == ayah.numberOfSurah && x.numberInSurah == int.Parse(result));
+                if (itemToScrollTo != null)
+                {
+                    QuranSurahList.ScrollTo(itemToScrollTo, position: ScrollToPosition.Start, animate: false);
+                }
+            }
+        }
+    }
+
+    private void OnPlayPauseClicked(object sender, EventArgs e)
+    {
+        var stackLayout = (StackLayout)sender;
+        var mediaElement = stackLayout.Children.OfType<MediaElement>().FirstOrDefault();
+        var mediaImage = stackLayout.Children.OfType<Image>().FirstOrDefault();
+
+        if (mediaElement == null)
+            return;
+
+        if (mediaElement.CurrentState == MediaElementState.Playing)
+        {
+            mediaElement.Pause();
+            mediaImage.Source = "playsound.png";
+        }
+        else
+        {
+            mediaElement.Play();
+            mediaImage.Source = "stopsound.png";
         }
     }
 }

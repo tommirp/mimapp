@@ -20,5 +20,7 @@
         public string? audioSecondary { get; set; }
         public string? tafsirShort { get; set; }
         public string? tafsirLong { get; set; }
+        public string? bgColor { get; set; }
+        public string? realAudio { get; set; }
     }
 }

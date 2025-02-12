@@ -154,6 +154,8 @@ public partial class MainViewModel : ViewModelBase
             IsLoading = false;
 
             InitTimer();
+
+            _preferences.Set("QuranSearch", string.Empty);
         }
     }
 

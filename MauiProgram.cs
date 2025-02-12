@@ -18,6 +18,7 @@ public static class MauiProgram
             .UseDevExpressCollectionView()
             .UseDevExpressControls()
             .UseDevExpressEditors()
+            .UseMauiCommunityToolkitMediaElement()
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("AmiriQuran-Regular.ttf", "AmiriQuran");
