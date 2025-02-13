@@ -1,4 +1,5 @@
-﻿using MimApp.Views.Quran;
+﻿using MimApp.Views;
+using MimApp.Views.Quran;
 
 namespace MimApp;
 
@@ -10,6 +11,7 @@ public partial class AppShell : Shell
 
         Routing.RegisterRoute(nameof(CitySelectionPage), typeof(CitySelectionPage));
         Routing.RegisterRoute(nameof(SurahDetailPage), typeof(SurahDetailPage));
+        Routing.RegisterRoute(nameof(AppSettings), typeof(AppSettingsPage));
 
         //CrossFirebaseCloudMessaging.Current.NotificationReceived += (sender, e) =>
         //{

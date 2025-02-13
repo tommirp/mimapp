@@ -3,6 +3,9 @@ using MimApp.Persistences.Contracts;
 using MimApp.Services.Contracts;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using CommunityToolkit.Maui.Views;
+using DevExpress.Maui.Mvvm;
+using DevExpress.Data.Extensions;
+using System;
 
 namespace MimApp.ViewModels;
 
@@ -140,7 +143,7 @@ public partial class QuranViewModel : ViewModelBase
         {
             if (action == "Info Detail")
             {
-                Shell.Current.CurrentPage.ShowPopup(new MyPopup());
+                Shell.Current.CurrentPage.ShowPopup(new QuranAyahPopup(theSurah, SelectedQuranAyah));
                 // Go To Ayah Detail Page
             }
             else if (action == "Salin Ayat")
@@ -162,8 +165,26 @@ public partial class QuranViewModel : ViewModelBase
             }
             else if (action == "Tandai Batas Baca")
             {
-                // Logic Tandai Batas Baca
-                await Shell.Current.DisplayAlert("Success", "Ayat Berhasil Di Tandai", "OK");
+                try
+                {
+                    // Logic Tandai Batas Baca
+                    string tandaBaca = string.Format("{0}:{1}", SelectedQuranAyah.numberOfSurah, SelectedQuranAyah.numberInSurah);
+                    _preferences.Set("AppSetting_TandaBaca", tandaBaca, null);
+
+                    await GetAllAyahBySurah();
+                }
+                finally
+                {
+                    OnPropertyChanged(nameof(AyahList));
+
+                    // Ensure UI updates before scrolling
+                    await Task.Delay(200);
+
+                    // Notify View to scroll
+                    ScrollToRequested?.Invoke(this, new EventArgs());
+
+                    await Shell.Current.DisplayAlert("Success", "Ayat Berhasil Di Tandai", "OK");
+                }
             }
             else if (action == "Bagikan")
             {
@@ -284,8 +305,30 @@ public partial class QuranViewModel : ViewModelBase
         all_ayah.ForEach(x => {
             x.bgColor = x.numberInSurah % 2 == 0 ? "#f2f2f2" : "White";
             x.realAudio = x.audioPrimary == null ? x.audioSecondary : x.audioPrimary;
+
+            bool ayahMarked = false;
+            string getMarked = _preferences.Get("AppSetting_TandaBaca", string.Empty);
+            if (!string.IsNullOrEmpty(getMarked) && getMarked.Contains(":"))
+            {
+                string[] getMarkedSplited = getMarked.Split(":");
+                string q1 = getMarkedSplited[0];
+                string q2 = getMarkedSplited[1];
+
+                if (x.numberOfSurah == int.Parse(q1) && x.numberInSurah == int.Parse(q2))
+                {
+                    ayahMarked = true;
+                }
+            }
+
+            x.isMarked = ayahMarked;
             AyahList.Add(x);
         });
+    }
+
+    [RelayCommand]
+    public async Task GoToAppSettings()
+    {
+        await Shell.Current.GoToAsync(nameof(AppSettingsPage));
     }
 
     [RelayCommand]

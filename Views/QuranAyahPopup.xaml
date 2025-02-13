@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup
+    x:Class="MimApp.Views.QuranAyahPopup"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    Size="330,700">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="10" BackgroundColor="White">
+            <Grid Padding="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <ImageButton
+                    Grid.Row="0"
+                    Grid.ColumnSpan="3"
+                    Margin="0,-10,-10,0"
+                    Padding="13"
+                    Clicked="OnCloseClicked"
+                    HeightRequest="5"
+                    HorizontalOptions="End"
+                    Source="close"
+                    WidthRequest="5" />
+
+                <Label
+                    Grid.Row="1"
+                    Grid.ColumnSpan="3"
+                    Padding="10,0,10,10"
+                    FontAttributes="Bold"
+                    FontSize="Small"
+                    HorizontalOptions="Center"
+                    Text="INFO AYAT" />
+
+                <Label
+                    Grid.Row="2"
+                    Grid.ColumnSpan="3"
+                    Padding="10,0,10,20"
+                    FontAttributes="Bold"
+                    FontSize="Small"
+                    HorizontalOptions="Center"
+                    Text="{Binding surahName}" />
+
+                <Label
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    Padding="0,0,0,5"
+                    Text="Jumlah Ayat"
+                    WidthRequest="120" />
+                <Label
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Padding="0,0,0,5"
+                    Text=" : "
+                    WidthRequest="30" />
+                <Label
+                    Grid.Row="3"
+                    Grid.Column="2"
+                    Padding="0,0,0,5"
+                    Text="{Binding numberOfVerses}" />
+
+                <Label
+                    Grid.Row="4"
+                    Grid.Column="0"
+                    Padding="0,0,0,5"
+                    Text="Juz"
+                    WidthRequest="120" />
+                <Label
+                    Grid.Row="4"
+                    Grid.Column="1"
+                    Padding="0,0,0,5"
+                    Text=" : "
+                    WidthRequest="30" />
+                <Label
+                    Grid.Row="4"
+                    Grid.Column="2"
+                    Padding="0,0,0,5"
+                    Text="{Binding juz}" />
+
+                <Label
+                    Grid.Row="5"
+                    Grid.Column="0"
+                    Padding="0,0,0,5"
+                    Text="Halaman"
+                    WidthRequest="120" />
+                <Label
+                    Grid.Row="5"
+                    Grid.Column="1"
+                    Padding="0,0,0,5"
+                    Text=" : "
+                    WidthRequest="30" />
+                <Label
+                    Grid.Row="5"
+                    Grid.Column="2"
+                    Padding="0,0,0,5"
+                    Text="{Binding page}" />
+
+                <Label
+                    Grid.Row="6"
+                    Grid.Column="0"
+                    Padding="0,0,0,5"
+                    Text="Golongan Surat"
+                    WidthRequest="120" />
+                <Label
+                    Grid.Row="6"
+                    Grid.Column="1"
+                    Padding="0,0,0,5"
+                    Text=" : "
+                    WidthRequest="30" />
+                <Label
+                    Grid.Row="6"
+                    Grid.Column="2"
+                    Padding="0,0,0,5"
+                    Text="{Binding surahRevelationId}" />
+
+                <Label
+                    Grid.Row="7"
+                    Grid.Column="0"
+                    Padding="0,0,0,5"
+                    Text="Arti Nama Surat"
+                    WidthRequest="120" />
+                <Label
+                    Grid.Row="7"
+                    Grid.Column="1"
+                    Padding="0,0,0,5"
+                    Text=" : "
+                    WidthRequest="30" />
+                <Label
+                    Grid.Row="7"
+                    Grid.Column="2"
+                    Padding="0,0,0,5"
+                    Text="{Binding surahTranslationId}" />
+            </Grid>
+
+            <Border
+                Margin="0,0,0,20"
+                HeightRequest="1"
+                Stroke="Gray" />
+
+            <Label
+                Padding="10,0,10,10"
+                FontAttributes="Bold"
+                FontSize="Small"
+                HorizontalOptions="Center"
+                Text="TAFSIR SURAT" />
+
+            <Label
+                Padding="10,0,10,10"
+                FontAttributes="Italic"
+                FontSize="Small"
+                HorizontalTextAlignment="Justify"
+                Text="{Binding surahTafsir}" />
+
+            <Border
+                Margin="0,0,0,20"
+                HeightRequest="1"
+                Stroke="Gray" />
+
+            <Label
+                Padding="10,0,10,10"
+                FontAttributes="Bold"
+                FontSize="Small"
+                HorizontalOptions="Center"
+                Text="TAFSIR AYAT" />
+
+            <Label
+                Padding="10,0,10,10"
+                FontAttributes="Italic"
+                FontSize="Small"
+                HorizontalTextAlignment="Justify"
+                Text="{Binding tafsirLong}" />
+
+            <Button
+                Margin="0,10,0,20"
+                BackgroundColor="Black"
+                Clicked="OnCloseClicked"
+                Text="Tutup" />
+        </VerticalStackLayout>
+    </ScrollView>
+
+</toolkit:Popup>

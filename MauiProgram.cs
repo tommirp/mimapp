@@ -63,6 +63,7 @@ public static class MauiProgram
     public static MauiAppBuilder RegisterViews(this MauiAppBuilder mauiAppBuilder)
     {
         mauiAppBuilder.Services.AddScoped<MainPage>();
+        mauiAppBuilder.Services.AddScoped<AppSettingsPage>();
 
         // Quran
         mauiAppBuilder.Services.AddScoped<CitySelectionPage>();

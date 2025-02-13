@@ -5,6 +5,12 @@
         public int numberOfSurah { get; set; }
         public int numberInQuran { get; set; }
         public int numberInSurah { get; set; }
+        public int numberOfVerses { get; set; } // for surah
+        public string surahName { get; set; } // for surah
+        public string surahRevelationId { get; set; } // for surah
+        public string surahTranslationId { get; set; } // for surah
+        public string surahTafsir { get; set; } // for surah
+
         public int juz { get; set; }
         public int page { get; set; }
         public int manzil { get; set; }
@@ -22,5 +28,6 @@
         public string? tafsirLong { get; set; }
         public string? bgColor { get; set; }
         public string? realAudio { get; set; }
+        public bool? isMarked { get; set; }
     }
 }

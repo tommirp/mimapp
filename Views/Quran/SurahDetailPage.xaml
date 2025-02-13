@@ -16,6 +16,7 @@
             <ImageButton
                 Grid.Column="2"
                 Padding="11"
+                Command="{Binding GoToAppSettingsCommand}"
                 HeightRequest="30"
                 HorizontalOptions="End"
                 Source="settings"
@@ -110,12 +111,28 @@
                                             <Image
                                                 Aspect="AspectFill"
                                                 HeightRequest="50"
+                                                IsVisible="{Binding isMarked}"
+                                                Source="ayah_frame_marked"
+                                                WidthRequest="50" />
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontSize="12"
+                                                HorizontalOptions="Center"
+                                                IsVisible="{Binding isMarked}"
+                                                Text="{Binding numberInSurah}"
+                                                TextColor="white"
+                                                VerticalOptions="Center" />
+                                            <Image
+                                                Aspect="AspectFill"
+                                                HeightRequest="50"
+                                                IsVisible="{Binding isMarked, Converter={StaticResource InvertedBoolConverter}}"
                                                 Source="ayah_frame"
                                                 WidthRequest="50" />
                                             <Label
                                                 FontAttributes="Bold"
                                                 FontSize="12"
                                                 HorizontalOptions="Center"
+                                                IsVisible="{Binding isMarked, Converter={StaticResource InvertedBoolConverter}}"
                                                 Text="{Binding numberInSurah}"
                                                 TextColor="Black"
                                                 VerticalOptions="Center" />
