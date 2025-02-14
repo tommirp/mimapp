@@ -29,5 +29,10 @@
         public string? bgColor { get; set; }
         public string? realAudio { get; set; }
         public bool? isMarked { get; set; }
+
+        public bool? showTranslate { get; set; }
+        public bool? showLatin { get; set; }
+        public int? arabFontSize { get; set; }
+        public int? translateFontSize { get; set; }
     }
 }

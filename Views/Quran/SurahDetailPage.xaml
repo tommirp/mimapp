@@ -176,9 +176,9 @@
                                 </Grid>
                                 <HorizontalStackLayout Padding="20,0,20,0" HorizontalOptions="EndAndExpand">
                                     <Label
-                                        Margin="5,0,0,0"
+                                        Margin="5,0,0,10"
                                         FontFamily="AmiriQuran"
-                                        FontSize="27"
+                                        FontSize="{Binding arabFontSize}"
                                         HorizontalTextAlignment="Justify"
                                         LineBreakMode="WordWrap"
                                         Text="{Binding textArab}"
@@ -187,18 +187,20 @@
                                 </HorizontalStackLayout>
 
                                 <Label
-                                    Padding="25,15,25,0"
+                                    Padding="25,15,25,15"
                                     FontAttributes="Italic"
                                     FontFamily="Univia-Pro"
-                                    FontSize="15"
+                                    FontSize="{Binding translateFontSize}"
                                     HorizontalTextAlignment="Justify"
+                                    IsVisible="{Binding showLatin}"
                                     Text="{Binding textTransliteration}"
                                     TextColor="black" />
                                 <Label
                                     Padding="25,15,25,15"
                                     FontFamily="Univia-Pro"
-                                    FontSize="15"
+                                    FontSize="{Binding translateFontSize}"
                                     HorizontalTextAlignment="Justify"
+                                    IsVisible="{Binding showTranslate}"
                                     Text="{Binding translationId}"
                                     TextColor="black" />
                             </VerticalStackLayout>

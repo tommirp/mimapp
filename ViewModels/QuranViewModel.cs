@@ -6,6 +6,8 @@ using CommunityToolkit.Maui.Views;
 using DevExpress.Maui.Mvvm;
 using DevExpress.Data.Extensions;
 using System;
+using Microsoft.Maui.Storage;
+using MimApp.Views.Quran;
 
 namespace MimApp.ViewModels;
 
@@ -17,7 +19,6 @@ public partial class QuranViewModel : ViewModelBase
     private readonly ISholatTimesPersistence _sholatTimesPersistence;
     private readonly ICityCodesPersistence _cityCodesPersistence;
     private readonly IQuranApi _quranApi;
-
 
     public QuranViewModel(IPreferences preferences, IQuranSurahPersistence quranSurahPersistence,
         IQuranAyahPersistence quranAyahPersistence, ISholatTimesPersistence sholatTimesPersistence,
@@ -170,6 +171,8 @@ public partial class QuranViewModel : ViewModelBase
                     // Logic Tandai Batas Baca
                     string tandaBaca = string.Format("{0}:{1}", SelectedQuranAyah.numberOfSurah, SelectedQuranAyah.numberInSurah);
                     _preferences.Set("AppSetting_TandaBaca", tandaBaca, null);
+                    DateTime dt = new DateTime();
+                    _preferences.Set("AppSetting_TandaBacaTimeStamp", dt.ToString(), null);
 
                     await GetAllAyahBySurah();
                 }
@@ -321,6 +324,12 @@ public partial class QuranViewModel : ViewModelBase
             }
 
             x.isMarked = ayahMarked;
+
+            x.showTranslate = _preferences.Get("AppSetting_ShowTranslate", "1") == "1" ? true : false;
+            x.showLatin = _preferences.Get("AppSetting_ShowLatin", "1") == "1" ? true : false;
+            x.arabFontSize = int.Parse(_preferences.Get("AppSetting_ArabFontSize", "27"));
+            x.translateFontSize = int.Parse(_preferences.Get("AppSetting_TranslateFontSize", "15"));
+
             AyahList.Add(x);
         });
     }
@@ -328,7 +337,7 @@ public partial class QuranViewModel : ViewModelBase
     [RelayCommand]
     public async Task GoToAppSettings()
     {
-        await Shell.Current.GoToAsync(nameof(AppSettingsPage));
+        await Shell.Current.GoToAsync(nameof(QuranAppSetting));
     }
 
     [RelayCommand]
@@ -343,11 +352,11 @@ public partial class QuranViewModel : ViewModelBase
         {
             OnPropertyChanged(nameof(AyahList));
 
-            // Ensure UI updates before scrolling
-            await Task.Delay(200);
-
             // Notify View to scroll
             ScrollToRequested?.Invoke(this, new EventArgs());
+
+            // Ensure UI updates before scrolling
+            await Task.Delay(500);
 
             IsLoading = false;
         }
@@ -358,5 +367,41 @@ public partial class QuranViewModel : ViewModelBase
     public event PropertyChangedEventHandler PropertyChanged;
     protected void OnPropertyChanged(string propertyName) =>
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    #endregion
+
+
+    #region App Settings
+
+    [ObservableProperty]
+    bool appSetting_ShowLatin;
+
+    [ObservableProperty]
+    bool appSetting_ShowTranslate;
+
+    [ObservableProperty]
+    int appSetting_ArabFontSize;
+
+    [ObservableProperty]
+    int appSetting_TranslateFontSize;
+
+
+    [RelayCommand]
+    async Task InitAppSettingPage()
+    {
+        AppSetting_ShowTranslate = _preferences.Get("AppSetting_ShowTranslate", "1") == "1" ? true : false;
+        AppSetting_ShowLatin = _preferences.Get("AppSetting_ShowLatin", "1") == "1" ? true : false;
+        AppSetting_ArabFontSize = int.Parse(_preferences.Get("AppSetting_ArabFontSize", "27"));
+        AppSetting_TranslateFontSize = int.Parse(_preferences.Get("AppSetting_TranslateFontSize", "15"));
+    }
+
+    [RelayCommand]
+    async Task SaveAppSettings()
+    {
+        _preferences.Set("AppSetting_ShowTranslate", AppSetting_ShowTranslate ? "1" : "0");
+        _preferences.Set("AppSetting_ShowLatin", AppSetting_ShowLatin ? "1" : "0");
+        _preferences.Set("AppSetting_ArabFontSize", AppSetting_ArabFontSize.ToString());
+        _preferences.Set("AppSetting_TranslateFontSize", AppSetting_TranslateFontSize.ToString());
+        await Shell.Current.GoToAsync("..");
+    }
     #endregion
 }
