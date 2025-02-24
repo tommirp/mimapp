@@ -13,6 +13,29 @@
         <toolkit:StatusBarBehavior StatusBarColor="#008859" StatusBarStyle="LightContent" />
     </ContentPage.Behaviors>
 
+    <ContentPage.Resources>
+        <!--  Define the style for the ImageButton  -->
+        <Style x:Key="StyledImageButton" TargetType="ImageButton">
+            <Setter Property="WidthRequest" Value="80" />
+            <Setter Property="HeightRequest" Value="80" />
+            <Setter Property="BackgroundColor" Value="#f2f2f2" />
+            <Setter Property="BorderColor" Value="Transparent" />
+            <Setter Property="BorderWidth" Value="2" />
+            <Setter Property="CornerRadius" Value="20" />
+            <Setter Property="Padding" Value="18" />
+            <Setter Property="Margin" Value="15,15,15,5" />
+            <Setter Property="Aspect" Value="AspectFill" />
+            <Setter Property="Shadow">
+                <Setter.Value>
+                    <Shadow
+                        Opacity="0.4"
+                        Radius="2"
+                        Offset="0,2" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </ContentPage.Resources>
+
     <StackLayout>
         <Grid Margin="0">
             <StackLayout
@@ -83,6 +106,41 @@
                     <dxe:AsyncItemsSourceProvider ItemsRequested="OnAutoCompleteRequested" RequestDelay="500" />
                 </dxe:AutoCompleteEdit.ItemsSourceProvider>
             </dxe:AutoCompleteEdit>
+            <Grid
+                ColumnDefinitions="Auto,Auto,Auto"
+                HorizontalOptions="Center"
+                RowDefinitions="Auto">
+
+                <!--  First Row  -->
+                <VerticalStackLayout Grid.Row="0" Grid.Column="0">
+                    <ImageButton Source="kabbah.png" Style="{StaticResource StyledImageButton}" />
+                    <Label
+                        Margin="0,2,0,0"
+                        FontAttributes="Bold"
+                        HorizontalOptions="Center"
+                        Text="Live Mekah"
+                        TextColor="Black" />
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Row="0" Grid.Column="1">
+                    <ImageButton Source="mosque.png" Style="{StaticResource StyledImageButton}" />
+                    <Label
+                        Margin="0,2,0,0"
+                        FontAttributes="Bold"
+                        HorizontalOptions="Center"
+                        Text="Live Madinah"
+                        TextColor="Black" />
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Row="0" Grid.Column="2">
+                    <ImageButton Source="pray.png" Style="{StaticResource StyledImageButton}" />
+                    <Label
+                        Margin="0,2,0,0"
+                        FontAttributes="Bold"
+                        HorizontalOptions="Center"
+                        Text="Waktu Sholat"
+                        TextColor="Black" />
+                </VerticalStackLayout>
+
+            </Grid>
         </VerticalStackLayout>
     </StackLayout>
 </ContentPage>
