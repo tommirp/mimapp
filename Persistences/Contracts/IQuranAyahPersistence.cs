@@ -6,6 +6,7 @@
         Task<QuranAyah> GetOneAyah(int numberOfSurah, int numberOfVerse);
         Task<List<QuranAyah>> GetAyahBySurahAsync(int numberOfSurah);
         Task<List<QuranAyah>> GetAyahByJuzAsync(int Juz);
+        Task<List<string>> GetAyahByKeyword(string keyword);
 
         Task<bool> DeleteAllItemsAsync();
     }

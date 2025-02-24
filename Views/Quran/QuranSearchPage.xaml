@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MimApp.Views.Quran.QuranSearchPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:dx="http://schemas.devexpress.com/maui"
+    xmlns:dxe="clr-namespace:DevExpress.Maui.Editors;assembly=DevExpress.Maui.Editors"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    Title="Quran Search"
+    BackgroundColor="White"
+    Shell.BackgroundColor="White"
+    Shell.ForegroundColor="#008859"
+    Shell.TitleColor="#008859">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Behaviors>
+        <toolkit:StatusBarBehavior StatusBarColor="#008859" StatusBarStyle="LightContent" />
+    </ContentPage.Behaviors>
+
+    <StackLayout>
+        <ActivityIndicator
+            Margin="0,100,0,20"
+            HorizontalOptions="Center"
+            IsRunning="true"
+            IsVisible="{Binding IsLoading}"
+            Color="#008859" />
+        <Label
+            HorizontalOptions="Center"
+            IsVisible="{Binding IsLoading}"
+            Text="Searching Content, Please Wait..."
+            TextColor="#008859" />
+        <dxe:AutoCompleteEdit
+            x:Name="SearchBar"
+            Margin="10,5,10,20"
+            BackgroundColor="#f1f2f6"
+            BorderColor="#f1f2f6"
+            BorderThickness="1"
+            BoxPadding="15"
+            CornerRadius="10"
+            FocusedBorderThickness="0"
+            HeightRequest="45"
+            HorizontalOptions="FillAndExpand"
+            IconColor="Black"
+            IsVisible="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}"
+            PlaceholderColor="#a4b0be"
+            PlaceholderText="{Binding PlaceholderSearch}"
+            SelectedItem="{Binding SelectedItemAutoComplete, Mode=TwoWay}"
+            SelectionChangedCommand="{Binding SearchBySelect_SearchPageCommand}"
+            SubmitCommand="{Binding SearchQuran_SearchPageCommand}"
+            Text="{Binding SearchText}"
+            TextColor="Black"
+            TextFontSize="14"
+            WaitIndicatorColor="#008859">
+            <dxe:AutoCompleteEdit.ItemsSourceProvider>
+                <dxe:AsyncItemsSourceProvider ItemsRequested="OnAutoCompleteRequested" RequestDelay="500" />
+            </dxe:AutoCompleteEdit.ItemsSourceProvider>
+        </dxe:AutoCompleteEdit>
+        <Border
+            HeightRequest="1"
+            IsVisible="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}"
+            Stroke="LightGray" />
+
+        <CollectionView
+            IsVisible="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}"
+            ItemsSource="{Binding QuranSearchList}"
+            SelectionChanged="SelectQuranTapped"
+            SelectionMode="Single"
+            VerticalOptions="FillAndExpand">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Border
+                        Margin="0"
+                        BackgroundColor="White"
+                        StrokeThickness="0">
+                        <StackLayout>
+                            <Label
+                                Padding="25,15,25,15"
+                                FontSize="Medium"
+                                HorizontalOptions="FillAndExpand"
+                                LineBreakMode="TailTruncation"
+                                MaxLines="1"
+                                Text="{Binding .}"
+                                TextColor="black" />
+                            <Border HeightRequest="1" Stroke="LightGray" />
+                        </StackLayout>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </StackLayout>
+</ContentPage>

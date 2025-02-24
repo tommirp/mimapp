@@ -81,8 +81,11 @@
 	  <Compile Update="Views\QuranAyahPopup.xaml.cs">
 	    <DependentUpon>QuranAyahPopup.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Views\Quran\QuranAppSetting.xaml.cs">
-	    <DependentUpon>QuranAppSetting.xaml</DependentUpon>
+	  <Compile Update="Views\Quran\QuranSearchPage.xaml.cs">
+	    <DependentUpon>QuranSearchPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\Quran\QuranAppSettingPage.xaml.cs">
+	    <DependentUpon>QuranAppSettingPage.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="Views\Quran\SurahDetailPage.xaml.cs">
 	    <DependentUpon>SurahDetailPage.xaml</DependentUpon>
@@ -99,7 +102,10 @@
 	  <MauiXaml Update="Views\QuranAyahPopup.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\Quran\QuranAppSetting.xaml">
+	  <MauiXaml Update="Views\Quran\QuranSearchPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Quran\QuranAppSettingPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Quran\SurahDetailPage.xaml">

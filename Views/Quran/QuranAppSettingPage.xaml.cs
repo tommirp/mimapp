@@ -1,10 +1,10 @@
 namespace MimApp.Views.Quran;
 
-public partial class QuranAppSetting : ContentPage
+public partial class QuranAppSettingPage : ContentPage
 {
     public QuranViewModel ViewModel { get; }
 
-    public QuranAppSetting(QuranViewModel quranViewModel)
+    public QuranAppSettingPage(QuranViewModel quranViewModel)
     {
         InitializeComponent();
         ViewModel = quranViewModel;

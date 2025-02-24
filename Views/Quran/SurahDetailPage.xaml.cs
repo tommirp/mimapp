@@ -8,6 +8,7 @@ public partial class SurahDetailPage : ContentPage
 {
     public QuranViewModel ViewModel { get; }
     private readonly IPreferences _preferences;
+    private bool _disposed = false;
 
     public SurahDetailPage(QuranViewModel quranViewModel, IPreferences preferences)
     {
@@ -70,6 +71,7 @@ public partial class SurahDetailPage : ContentPage
 
     private void OnPlayPauseClicked(object sender, EventArgs e)
     {
+        CheckDisposed();
         var stackLayout = (StackLayout)sender;
         var mediaElement = stackLayout.Children.OfType<MediaElement>().FirstOrDefault();
         var mediaImage = stackLayout.Children.OfType<Image>().FirstOrDefault();
@@ -80,12 +82,47 @@ public partial class SurahDetailPage : ContentPage
         if (mediaElement.CurrentState == MediaElementState.Playing)
         {
             mediaElement.Pause();
-            mediaImage.Source = "playsound.png";
+            //mediaImage.Source = "playsound.png";
         }
         else
         {
             mediaElement.Play();
-            mediaImage.Source = "stopsound.png";
+            //mediaImage.Source = "stopsound.png";
         }
     }
+
+    #region IDisposable Implementation
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!_disposed)
+        {
+            if (disposing)
+            {
+                // Free any managed objects here.
+                ViewModel.ScrollToRequested -= (s, e) => ScrollToTarget();
+            }
+
+            // Free any unmanaged objects here.
+            _disposed = true;
+        }
+    }
+    ~SurahDetailPage()
+    {
+        Dispose(false);
+    }
+
+    private void CheckDisposed()
+    {
+        if (_disposed)
+        {
+            throw new ObjectDisposedException(nameof(SurahDetailPage));
+        }
+    }
+    #endregion
 }

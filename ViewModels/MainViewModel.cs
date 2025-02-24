@@ -159,7 +159,7 @@ public partial class MainViewModel : ViewModelBase
         }
     }
 
-    async Task MainSearch(string search_text)
+    async Task MainSearch(string search_text, bool in_search_page = false)
     {
         if (!string.IsNullOrEmpty(search_text))
         {
@@ -186,8 +186,15 @@ public partial class MainViewModel : ViewModelBase
             }
             else
             {
-                _preferences.Set("QuranSearch", search_text);
-                // await Shell.Current.GoToAsync(nameof(QuranSearchKeywordPage));
+                if (in_search_page)
+                {
+                    await SearchQuranByKeyword(search_text);
+                }
+                else
+                {
+                    _preferences.Set("QuranSearch", search_text);
+                    await Shell.Current.GoToAsync(nameof(QuranSearchPage));
+                }
             }
         }
     }
@@ -206,4 +213,74 @@ public partial class MainViewModel : ViewModelBase
         KeyboardHelper.CloseKeyboard(); // Closes the keyboard globally
         await MainSearch(SelectedItemAutoComplete);
     }
+
+    #region Quran Search
+    public ObservableCollection<string> QuranSearchList { get; } = new ObservableCollection<string>();
+
+    [RelayCommand]
+    async Task SearchQuran_SearchPage()
+    {
+        IsLoading = true;
+        KeyboardHelper.CloseKeyboard(); // Closes the keyboard globally
+        await MainSearch(SearchText, true);
+    }
+
+    [RelayCommand]
+    async Task SearchBySelect_SearchPage()
+    {
+        IsLoading = true;
+        KeyboardHelper.CloseKeyboard(); // Closes the keyboard globally
+        await MainSearch(SelectedItemAutoComplete, true);
+    }
+
+    [RelayCommand]
+    async Task InitQuranSearchPage()
+    {
+        try
+        {
+            IsLoading = true;
+            string keyword = _preferences.Get("QuranSearch", string.Empty);
+            SearchText = keyword;
+            await MainSearch(keyword, true);
+        }
+        finally
+        {
+            IsLoading = false;
+        }
+    }
+    async Task SearchQuranByKeyword(string search_text)
+    {
+        QuranSearchList.Clear();
+
+        if (!string.IsNullOrEmpty(search_text))
+        {
+            var search_result = await _quranAyahPersistence.GetAyahByKeyword(search_text);
+            search_result.ForEach(x => QuranSearchList.Add(x));
+        }
+
+        IsLoading = false;
+    }
+
+    [RelayCommand]
+    public async Task SelectSearchContent(string input)
+    {
+        try
+        {
+            if (!string.IsNullOrEmpty(input))
+            {
+                string[] inputSplited = input.Split(".");
+                string QS = inputSplited[0];
+                await MainSearch(QS);
+
+            }
+        }
+        finally
+        {
+            if (!string.IsNullOrEmpty(input))
+            {
+                SearchText = string.Empty;
+            }
+        }
+    }
+    #endregion
 }

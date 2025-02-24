@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    x:Class="MimApp.Views.Quran.QuranAppSetting"
+    x:Class="MimApp.Views.Quran.QuranAppSettingPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:dx="http://schemas.devexpress.com/maui"
@@ -44,10 +44,17 @@
                 Margin="0,0,15,0"
                 FontSize="Medium"
                 Text="Munculkan Arti"
+                TextColor="Black"
                 VerticalOptions="Center" />
             <dx:DXSwitch
                 Grid.Row="0"
                 Grid.Column="1"
+                CheckedThumbColor="#008859"
+                CheckedTrackBorderColor="Grey"
+                CheckedTrackColor="#d4faed"
+                DisabledCheckedThumbColor="Grey"
+                DisabledCheckedTrackBorderColor="Grey"
+                DisabledCheckedTrackColor="LightGray"
                 HeightRequest="40"
                 IsChecked="{Binding AppSetting_ShowTranslate, Mode=TwoWay}"
                 ThumbColor="White"
@@ -66,10 +73,17 @@
                 Margin="0,0,15,0"
                 FontSize="Medium"
                 Text="Munculkan Latin"
+                TextColor="Black"
                 VerticalOptions="Center" />
             <dx:DXSwitch
                 Grid.Row="0"
                 Grid.Column="1"
+                CheckedThumbColor="#008859"
+                CheckedTrackBorderColor="Grey"
+                CheckedTrackColor="#d4faed"
+                DisabledCheckedThumbColor="Grey"
+                DisabledCheckedTrackBorderColor="Grey"
+                DisabledCheckedTrackColor="LightGray"
                 HeightRequest="40"
                 IsChecked="{Binding AppSetting_ShowLatin, Mode=TwoWay}"
                 ThumbColor="White"
@@ -85,22 +99,28 @@
             <Label
                 FontSize="16"
                 HorizontalOptions="Center"
-                Text="Ukuran Font Quran" />
+                Text="Ukuran Font Quran"
+                TextColor="Black" />
             <Label
                 FontSize="16"
                 HorizontalOptions="Center"
-                Text="{Binding AppSetting_ArabFontSize}" />
+                Text="{Binding AppSetting_ArabFontSize}"
+                TextColor="Black" />
             <Slider
                 Maximum="50"
+                MaximumTrackColor="Black"
                 Minimum="0"
+                MinimumTrackColor="#008859"
+                ThumbColor="#008859"
                 Value="{Binding AppSetting_ArabFontSize, Mode=TwoWay}" />
             <Grid BackgroundColor="LightGray">
                 <Label
-                    Margin="0,-15,0,5"
+                    Margin="0,-5,0,10"
                     FontFamily="AmiriQuran"
                     FontSize="{Binding AppSetting_ArabFontSize}"
                     HorizontalOptions="CenterAndExpand"
-                    Text="﻿بِسْمِ اللَّه" />
+                    Text="﻿بِسْمِ اللَّه"
+                    TextColor="Black" />
             </Grid>
         </VerticalStackLayout>
 
@@ -113,21 +133,27 @@
             <Label
                 FontSize="16"
                 HorizontalOptions="Center"
-                Text="Ukuran Font Arti / Latin" />
+                Text="Ukuran Font Arti / Latin"
+                TextColor="Black" />
             <Label
                 FontSize="16"
                 HorizontalOptions="Center"
-                Text="{Binding AppSetting_TranslateFontSize}" />
+                Text="{Binding AppSetting_TranslateFontSize}"
+                TextColor="Black" />
             <Slider
                 Maximum="50"
+                MaximumTrackColor="Black"
                 Minimum="0"
+                MinimumTrackColor="#008859"
+                ThumbColor="#008859"
                 Value="{Binding AppSetting_TranslateFontSize, Mode=TwoWay}" />
             <Grid BackgroundColor="LightGray">
                 <Label
                     Padding="0,10,0,10"
                     FontSize="{Binding AppSetting_TranslateFontSize}"
                     HorizontalOptions="CenterAndExpand"
-                    Text="Dengan Nama Allah" />
+                    Text="Dengan Nama Allah"
+                    TextColor="Black" />
             </Grid>
         </VerticalStackLayout>
     </VerticalStackLayout>

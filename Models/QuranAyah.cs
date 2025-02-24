@@ -10,6 +10,7 @@
         public string surahRevelationId { get; set; } // for surah
         public string surahTranslationId { get; set; } // for surah
         public string surahTafsir { get; set; } // for surah
+        public bool isBismillah { get; set; } // for surah
 
         public int juz { get; set; }
         public int page { get; set; }

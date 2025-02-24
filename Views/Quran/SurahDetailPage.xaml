@@ -11,6 +11,10 @@
     Shell.ForegroundColor="black"
     Shell.TitleColor="#008859">
 
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior Command="{Binding SurahDetailBackButtonCommand}" />
+    </Shell.BackButtonBehavior>
+
     <Shell.TitleView>
         <Grid Padding="10" ColumnDefinitions="*,Auto,Auto,Auto">
             <ImageButton
@@ -24,6 +28,7 @@
             <ImageButton
                 Grid.Column="3"
                 Padding="7"
+                Command="{Binding GoToQuranSearchCommand}"
                 HeightRequest="30"
                 HorizontalOptions="End"
                 Source="search"
@@ -76,6 +81,7 @@
                     FontAttributes="Bold"
                     HorizontalOptions="Center"
                     Text="{Binding SurahTitle}"
+                    TextColor="Black"
                     VerticalOptions="Center" />
                 <ImageButton
                     Padding="12"
@@ -103,7 +109,10 @@
                         <StackLayout>
                             <VerticalStackLayout>
                                 <Grid Padding="10,10,0,0" ColumnDefinitions="*">
-                                    <StackLayout HorizontalOptions="Start" VerticalOptions="Center">
+                                    <StackLayout
+                                        HorizontalOptions="Start"
+                                        IsVisible="{Binding isBismillah, Converter={StaticResource InvertedBoolConverter}}"
+                                        VerticalOptions="Center">
                                         <StackLayout.GestureRecognizers>
                                             <TapGestureRecognizer Tapped="OnAyahNumberTapped" />
                                         </StackLayout.GestureRecognizers>
@@ -141,6 +150,7 @@
                                     <StackLayout
                                         Padding="0,0,60,10"
                                         HorizontalOptions="End"
+                                        IsVisible="{Binding isBismillah, Converter={StaticResource InvertedBoolConverter}}"
                                         VerticalOptions="Center">
                                         <StackLayout>
                                             <StackLayout.GestureRecognizers>
@@ -163,6 +173,7 @@
                                     <StackLayout
                                         Padding="0,0,20,10"
                                         HorizontalOptions="End"
+                                        IsVisible="{Binding isBismillah, Converter={StaticResource InvertedBoolConverter}}"
                                         VerticalOptions="Center">
                                         <StackLayout.GestureRecognizers>
                                             <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.AyahMenuSelectedCommand}" CommandParameter="{Binding .}" />
@@ -172,6 +183,29 @@
                                             HorizontalOptions="End"
                                             Source="burgermenu"
                                             WidthRequest="25" />
+                                    </StackLayout>
+                                    <StackLayout
+                                        Padding="0,0,20,10"
+                                        HorizontalOptions="EndAndExpand"
+                                        IsVisible="{Binding isBismillah}"
+                                        VerticalOptions="Center">
+                                        <StackLayout>
+                                            <StackLayout.GestureRecognizers>
+                                                <TapGestureRecognizer CommandParameter="{Binding ., Mode=OneWay}" Tapped="OnPlayPauseClicked" />
+                                            </StackLayout.GestureRecognizers>
+                                            <toolkit:MediaElement
+                                                x:Name="mediaElementBismillah"
+                                                HeightRequest="0"
+                                                IsEnabled="True"
+                                                IsVisible="False"
+                                                ShouldAutoPlay="False"
+                                                Source="{Binding realAudio}" />
+                                            <Image
+                                                HeightRequest="25"
+                                                HorizontalOptions="End"
+                                                Source="playsound"
+                                                WidthRequest="25" />
+                                        </StackLayout>
                                     </StackLayout>
                                 </Grid>
                                 <HorizontalStackLayout Padding="20,0,20,0" HorizontalOptions="EndAndExpand">

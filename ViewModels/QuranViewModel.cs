@@ -13,6 +13,8 @@ namespace MimApp.ViewModels;
 
 public partial class QuranViewModel : ViewModelBase
 {
+    private bool _disposed = false;
+
     private readonly IPreferences _preferences;
     private readonly IQuranSurahPersistence _quranSurahPersistence;
     private readonly IQuranAyahPersistence _quranAyahPersistence;
@@ -33,6 +35,40 @@ public partial class QuranViewModel : ViewModelBase
         _quranApi = quranApi;
     }
 
+    #region IDisposable Implementation
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!_disposed)
+        {
+            if (disposing)
+            {
+                // Free any managed objects here.
+            }
+
+            // Free any unmanaged objects here.
+            _disposed = true;
+        }
+    }
+    ~QuranViewModel()
+    {
+        Dispose(false);
+    }
+
+    private void CheckDisposed()
+    {
+        if (_disposed)
+        {
+            throw new ObjectDisposedException(nameof(QuranViewModel));
+        }
+    }
+    #endregion
+
     [ObservableProperty]
     bool isLoading;
 
@@ -45,8 +81,16 @@ public partial class QuranViewModel : ViewModelBase
 
     public ObservableCollection<string> CityCodeList { get; } = new ObservableCollection<string>();
 
+    [RelayCommand]
+    async Task SurahDetailBackButton()
+    {
+        CheckDisposed();
+        await Shell.Current.Navigation.PopToRootAsync();
+    }
+
     async Task GetAllCities()
     {
+        CheckDisposed();
         CityCodeList.Clear();
 
         var all_cities = await _cityCodesPersistence.GetAllCityCodes(50);
@@ -58,6 +102,7 @@ public partial class QuranViewModel : ViewModelBase
     {
         try
         {
+            CheckDisposed();
             IsLoading = true;
             await GetAllCities();
         }
@@ -71,6 +116,7 @@ public partial class QuranViewModel : ViewModelBase
     [RelayCommand]
     async Task SearchCity()
     {
+        CheckDisposed();
         await Task.Delay(1000).ContinueWith(async (x) =>
         {
             if (string.IsNullOrEmpty(SearchTextCity))
@@ -90,6 +136,7 @@ public partial class QuranViewModel : ViewModelBase
     [RelayCommand]
     public async Task SelectCity(string input)
     {
+        CheckDisposed();
         if (!string.IsNullOrEmpty(input))
         {
             IsLoading = true;
@@ -133,6 +180,7 @@ public partial class QuranViewModel : ViewModelBase
     [RelayCommand]
     public async Task AyahMenuSelected(QuranAyah SelectedQuranAyah)
     {
+        CheckDisposed();
         QuranSurah theSurah = await _quranSurahPersistence.GetOneSurah(SelectedQuranAyah.numberInSurah);
         string title = string.Format("{0}. {1} : {2}", SelectedQuranAyah.numberOfSurah, theSurah?.nameTransliterationId?.ToUpper(), SelectedQuranAyah.numberInSurah);
 
@@ -224,6 +272,7 @@ public partial class QuranViewModel : ViewModelBase
     [RelayCommand]
     public async Task NextQuranSurah()
     {
+        CheckDisposed();
         try
         {
             IsLoading = true;
@@ -249,6 +298,7 @@ public partial class QuranViewModel : ViewModelBase
     [RelayCommand]
     public async Task PrevQuranSurah()
     {
+        CheckDisposed();
         try
         {
             IsLoading = true;
@@ -272,6 +322,7 @@ public partial class QuranViewModel : ViewModelBase
 
     async Task GetAllAyahBySurah()
     {
+        CheckDisposed();
         AyahList.Clear();
 
         string surahNum = _preferences.Get("QuranSearch", "1");
@@ -304,8 +355,31 @@ public partial class QuranViewModel : ViewModelBase
         QuranSurah theSurah = await _quranSurahPersistence.GetOneSurah(int.Parse(surahNum));
         SurahTitle = string.Format("{0}. {1}", theSurah?.number ,theSurah?.nameTransliterationId?.ToUpper() ?? "1. AL-FATIHAH");
 
+        if (theSurah?.number != 1)
+        {
+            // Bismillah
+            QuranAyah bismillahFirst = new QuranAyah();
+            bismillahFirst.bgColor = "#f2f2f2";
+            bismillahFirst.isBismillah = true;
+            bismillahFirst.realAudio = theSurah?.preBismillahAudioPrimary == null ? theSurah?.preBismillahAudioSecondary : theSurah.preBismillahAudioSecondary; ;
+            bismillahFirst.isMarked = false;
+            bismillahFirst.showTranslate = _preferences.Get("AppSetting_ShowTranslate", "1") == "1" ? true : false;
+            bismillahFirst.showLatin = _preferences.Get("AppSetting_ShowLatin", "1") == "1" ? true : false;
+            bismillahFirst.arabFontSize = int.Parse(_preferences.Get("AppSetting_ArabFontSize", "27"));
+            bismillahFirst.translateFontSize = int.Parse(_preferences.Get("AppSetting_TranslateFontSize", "15"));
+
+            bismillahFirst.textArab = "﻿بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ";
+            bismillahFirst.translationId = "Dengan nama Allah Yang Maha Pengasih, Maha Penyayang.";
+            bismillahFirst.translationEn = "In the name of Allah, the Entirely Merciful, the Especially Merciful.";
+            bismillahFirst.textTransliteration = "Bismillaahir Rahmaanir Raheem";
+            // Bismillah
+
+            AyahList.Add(bismillahFirst);
+        }
+
         var all_ayah = await _quranAyahPersistence.GetAyahBySurahAsync(int.Parse(surahNum));
         all_ayah.ForEach(x => {
+            x.isBismillah = false;
             x.bgColor = x.numberInSurah % 2 == 0 ? "#f2f2f2" : "White";
             x.realAudio = x.audioPrimary == null ? x.audioSecondary : x.audioPrimary;
 
@@ -337,12 +411,21 @@ public partial class QuranViewModel : ViewModelBase
     [RelayCommand]
     public async Task GoToAppSettings()
     {
-        await Shell.Current.GoToAsync(nameof(QuranAppSetting));
+        CheckDisposed();
+        await Shell.Current.GoToAsync(nameof(QuranAppSettingPage));
+    }
+
+    [RelayCommand]
+    public async Task GoToQuranSearch()
+    {
+        CheckDisposed();
+        await Shell.Current.GoToAsync(nameof(QuranSearchPage));
     }
 
     [RelayCommand]
     async Task InitQuranAyahListPage()
     {
+        CheckDisposed();
         try
         {
             IsLoading = true;
@@ -388,6 +471,7 @@ public partial class QuranViewModel : ViewModelBase
     [RelayCommand]
     async Task InitAppSettingPage()
     {
+        CheckDisposed();
         AppSetting_ShowTranslate = _preferences.Get("AppSetting_ShowTranslate", "1") == "1" ? true : false;
         AppSetting_ShowLatin = _preferences.Get("AppSetting_ShowLatin", "1") == "1" ? true : false;
         AppSetting_ArabFontSize = int.Parse(_preferences.Get("AppSetting_ArabFontSize", "27"));
@@ -397,6 +481,7 @@ public partial class QuranViewModel : ViewModelBase
     [RelayCommand]
     async Task SaveAppSettings()
     {
+        CheckDisposed();
         _preferences.Set("AppSetting_ShowTranslate", AppSetting_ShowTranslate ? "1" : "0");
         _preferences.Set("AppSetting_ShowLatin", AppSetting_ShowLatin ? "1" : "0");
         _preferences.Set("AppSetting_ArabFontSize", AppSetting_ArabFontSize.ToString());
@@ -404,4 +489,5 @@ public partial class QuranViewModel : ViewModelBase
         await Shell.Current.GoToAsync("..");
     }
     #endregion
+
 }

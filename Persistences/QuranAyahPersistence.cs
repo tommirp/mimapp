@@ -1,6 +1,7 @@
 ﻿using MimApp.Utils;
 using MimApp.Persistences.Contracts;
 using SQLite;
+using static SQLite.SQLite3;
 
 namespace MimApp.Persistences
 {
@@ -56,6 +57,26 @@ namespace MimApp.Persistences
         {
             await Init();
             return await Database.Table<QuranAyah>().Where(i => i.juz == Juz).ToListAsync();
+        }
+
+        public async Task<List<string>> GetAyahByKeyword(string keyword)
+        {
+            await Init();
+
+            var finalResult = new List<string>();
+            List<QuranAyah> results = await Database.Table<QuranAyah>().ToListAsync();
+            List<QuranAyah> newResults = new List<QuranAyah>();
+
+            //newResults = results.OrderBy(data => StringSimilarity.Levenshtein(data.translationId, keyword)).Take(20).ToList();
+            newResults = results.Where(x => x.translationId.ToLower().Contains(keyword.ToLower())).Take(30).ToList();
+
+            newResults.ForEach(x =>
+            {
+                string ayah = string.Format("{0}:{1}. {2}", x.numberOfSurah, x.numberInSurah, x.translationId);
+                finalResult.Add(ayah);
+            });
+
+            return finalResult;
         }
 
         public async Task<bool> DeleteAllItemsAsync()
