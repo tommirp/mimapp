@@ -79,6 +79,29 @@ namespace MimApp.Persistences
             return finalResult;
         }
 
+
+        public async Task<bool> AyahCheck()
+        {
+            try
+            {
+                await Init();
+                var results = new List<QuranAyah>();
+                results = await Database.Table<QuranAyah>().ToListAsync();
+
+                if (results.Count > 0)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+            catch
+            {
+                return false;
+
+            }
+        }
+
         public async Task<bool> DeleteAllItemsAsync()
         {
             await Init();

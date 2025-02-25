@@ -80,7 +80,10 @@
             </Border>
         </Grid>
         <VerticalStackLayout Margin="0,-60,0,0">
-            <Label HorizontalOptions="CenterAndExpand" Text="Aplikasi Untuk Semua Muslim" />
+            <Label
+                HorizontalOptions="CenterAndExpand"
+                Text="Aplikasi Untuk Semua Muslim"
+                TextColor="Black" />
             <dxe:AutoCompleteEdit
                 x:Name="SearchBar"
                 Margin="30"

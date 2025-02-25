@@ -125,8 +125,9 @@ public partial class MainViewModel : ViewModelBase
             IsLoading = true;
 
             bool SurahChecked = await _quranSurahPersistence.SurahCheck();
+            bool AyahChecked = await _quranAyahPersistence.AyahCheck();
 
-            if (!SurahChecked)
+            if (!SurahChecked || !AyahChecked)
             {
                 List<QuranSurah>? surah = await GetSurah();
 
@@ -147,8 +148,9 @@ public partial class MainViewModel : ViewModelBase
         finally
         {
             bool SurahChecked = await _quranSurahPersistence.SurahCheck();
+            bool AyahChecked = await _quranAyahPersistence.AyahCheck();
 
-            if (!SurahChecked)
+            if (!SurahChecked || !AyahChecked)
             {
                 await _quranApi.OnlineSyncQuran();
             }
