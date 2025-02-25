@@ -16,6 +16,25 @@
         <ResourceDictionary>
             <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter" />
         </ResourceDictionary>
+        <Style x:Key="StyledScheduleCard" TargetType="Border">
+            <Setter Property="Margin" Value="10" />
+            <Setter Property="Padding" Value="40,20,40,20" />
+            <Setter Property="BackgroundColor" Value="#f2f2f2" />
+            <Setter Property="Stroke" Value="Transparent" />
+            <Setter Property="StrokeShape">
+                <Setter.Value>
+                    <RoundRectangle CornerRadius="20" />
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Shadow">
+                <Setter.Value>
+                    <Shadow
+                        Opacity="0.3"
+                        Radius="2"
+                        Offset="0,2" />
+                </Setter.Value>
+            </Setter>
+        </Style>
     </ContentPage.Resources>
 
     <ContentPage.Behaviors>
@@ -34,36 +53,211 @@
             IsVisible="{Binding IsLoading}"
             Text="Searching Content, Please Wait..."
             TextColor="#008859" />
-        <!--<dxe:AutoCompleteEdit
-            x:Name="SearchBar"
-            Margin="10,5,10,20"
-            BackgroundColor="#f1f2f6"
-            BorderColor="#f1f2f6"
-            BorderThickness="1"
-            BoxPadding="15"
-            CornerRadius="10"
-            FocusedBorderThickness="0"
-            HeightRequest="45"
-            HorizontalOptions="FillAndExpand"
-            IconColor="Black"
-            IsVisible="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}"
-            PlaceholderColor="#a4b0be"
-            PlaceholderText="{Binding PlaceholderSearch}"
-            SelectedItem="{Binding SelectedItemAutoComplete, Mode=TwoWay}"
-            SelectionChangedCommand="{Binding SearchBySelect_SearchPageCommand}"
-            SubmitCommand="{Binding SearchQuran_SearchPageCommand}"
-            Text="{Binding SearchText}"
-            TextColor="Black"
-            TextFontSize="14"
-            WaitIndicatorColor="#008859">
-            <dxe:AutoCompleteEdit.ItemsSourceProvider>
-                <dxe:AsyncItemsSourceProvider ItemsRequested="OnAutoCompleteRequested" RequestDelay="500" />
-            </dxe:AutoCompleteEdit.ItemsSourceProvider>
-        </dxe:AutoCompleteEdit>-->
         <Border
             HeightRequest="1"
             IsVisible="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}"
             Stroke="LightGray" />
+
+
+        <Label
+            Margin="0,20,0,0"
+            FontAttributes="Bold"
+            FontSize="Small"
+            HorizontalOptions="Center"
+            IsVisible="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}"
+            Text="UNTUK LOKASI :"
+            TextColor="Black" />
+
+        <Label
+            Margin="0,0,0,15"
+            FontAttributes="Bold"
+            FontSize="17"
+            HorizontalOptions="Center"
+            IsVisible="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}"
+            Text="{Binding Lokasi}"
+            TextColor="Black" />
+
+        <Grid
+            ColumnDefinitions="Auto,Auto"
+            HorizontalOptions="Center"
+            IsVisible="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}"
+            RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto">
+
+            <Border
+                Grid.Row="0"
+                Grid.Column="0"
+                Style="{StaticResource StyledScheduleCard}">
+                <StackLayout>
+                    <Label
+                        Margin="0,2,0,0"
+                        FontAttributes="Bold"
+                        FontSize="Small"
+                        HorizontalOptions="Center"
+                        Text="IMSAK"
+                        TextColor="Black" />
+                    <Label
+                        Margin="0,2,0,0"
+                        FontAttributes="Bold"
+                        FontSize="Large"
+                        HorizontalOptions="Center"
+                        Text="{Binding Imsak}"
+                        TextColor="Black" />
+                </StackLayout>
+            </Border>
+            <Border
+                Grid.Row="0"
+                Grid.Column="1"
+                Style="{StaticResource StyledScheduleCard}">
+                <StackLayout>
+                    <Label
+                        Margin="0,2,0,0"
+                        FontAttributes="Bold"
+                        FontSize="Small"
+                        HorizontalOptions="Center"
+                        Text="TERBIT"
+                        TextColor="Black" />
+                    <Label
+                        Margin="0,2,0,0"
+                        FontAttributes="Bold"
+                        FontSize="Large"
+                        HorizontalOptions="Center"
+                        Text="{Binding Terbit}"
+                        TextColor="Black" />
+                </StackLayout>
+            </Border>
+
+
+            <Border
+                Grid.Row="1"
+                Grid.Column="0"
+                Style="{StaticResource StyledScheduleCard}">
+                <StackLayout>
+                    <Label
+                        Margin="0,2,0,0"
+                        FontAttributes="Bold"
+                        FontSize="Small"
+                        HorizontalOptions="Center"
+                        Text="SUBUH"
+                        TextColor="Black" />
+                    <Label
+                        Margin="0,2,0,0"
+                        FontAttributes="Bold"
+                        FontSize="Large"
+                        HorizontalOptions="Center"
+                        Text="{Binding Subuh}"
+                        TextColor="Black" />
+                </StackLayout>
+            </Border>
+            <Border
+                Grid.Row="1"
+                Grid.Column="1"
+                Style="{StaticResource StyledScheduleCard}">
+                <StackLayout>
+                    <Label
+                        Margin="0,2,0,0"
+                        FontAttributes="Bold"
+                        FontSize="Small"
+                        HorizontalOptions="Center"
+                        Text="DHUHA"
+                        TextColor="Black" />
+                    <Label
+                        Margin="0,2,0,0"
+                        FontAttributes="Bold"
+                        FontSize="Large"
+                        HorizontalOptions="Center"
+                        Text="{Binding Dhuha}"
+                        TextColor="Black" />
+                </StackLayout>
+            </Border>
+
+
+            <Border
+                Grid.Row="2"
+                Grid.Column="0"
+                Style="{StaticResource StyledScheduleCard}">
+                <StackLayout>
+                    <Label
+                        Margin="0,2,0,0"
+                        FontAttributes="Bold"
+                        FontSize="Small"
+                        HorizontalOptions="Center"
+                        Text="ZUHUR"
+                        TextColor="Black" />
+                    <Label
+                        Margin="0,2,0,0"
+                        FontAttributes="Bold"
+                        FontSize="Large"
+                        HorizontalOptions="Center"
+                        Text="{Binding Zuhur}"
+                        TextColor="Black" />
+                </StackLayout>
+            </Border>
+            <Border
+                Grid.Row="2"
+                Grid.Column="1"
+                Style="{StaticResource StyledScheduleCard}">
+                <StackLayout>
+                    <Label
+                        Margin="0,2,0,0"
+                        FontAttributes="Bold"
+                        FontSize="Small"
+                        HorizontalOptions="Center"
+                        Text="ASHAR"
+                        TextColor="Black" />
+                    <Label
+                        Margin="0,2,0,0"
+                        FontAttributes="Bold"
+                        FontSize="Large"
+                        HorizontalOptions="Center"
+                        Text="{Binding Ashar}"
+                        TextColor="Black" />
+                </StackLayout>
+            </Border>
+
+
+            <Border
+                Grid.Row="3"
+                Grid.Column="0"
+                Style="{StaticResource StyledScheduleCard}">
+                <StackLayout>
+                    <Label
+                        Margin="0,2,0,0"
+                        FontAttributes="Bold"
+                        FontSize="Small"
+                        HorizontalOptions="Center"
+                        Text="MAGHRIB"
+                        TextColor="Black" />
+                    <Label
+                        Margin="0,2,0,0"
+                        FontAttributes="Bold"
+                        FontSize="Large"
+                        HorizontalOptions="Center"
+                        Text="{Binding Maghrib}"
+                        TextColor="Black" />
+                </StackLayout>
+            </Border>
+            <Border
+                Grid.Row="3"
+                Grid.Column="1"
+                Style="{StaticResource StyledScheduleCard}">
+                <StackLayout>
+                    <Label
+                        Margin="0,2,0,0"
+                        FontAttributes="Bold"
+                        FontSize="Small"
+                        HorizontalOptions="Center"
+                        Text="ISYA"
+                        TextColor="Black" />
+                    <Label
+                        Margin="0,2,0,0"
+                        FontAttributes="Bold"
+                        FontSize="Large"
+                        HorizontalOptions="Center"
+                        Text="{Binding Isya}"
+                        TextColor="Black" />
+                </StackLayout>
+            </Border>
+        </Grid>
 
     </StackLayout>
 </ContentPage>

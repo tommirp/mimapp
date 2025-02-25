@@ -78,6 +78,9 @@
 	  <Compile Update="Views\Auth\Login.xaml.cs">
 	    <DependentUpon>Login.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Views\AsmaulHusnaPage.xaml.cs">
+	    <DependentUpon>AsmaulHusnaPage.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\QuranAyahPopup.xaml.cs">
 	    <DependentUpon>QuranAyahPopup.xaml</DependentUpon>
 	  </Compile>
@@ -100,6 +103,9 @@
 
 	<ItemGroup>
 	  <MauiXaml Update="Views\Auth\Login.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\AsmaulHusnaPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\QuranAyahPopup.xaml">

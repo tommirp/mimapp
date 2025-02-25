@@ -2,7 +2,9 @@
 
 namespace MimApp.ViewModels;
 
-public partial class SholatTimesViewModel : ViewModelBase
+// AsmaulHusna Persistence Belum Ada
+
+public partial class AsmaulHusnaViewModel : ViewModelBase
 {
     private bool _disposed = false;
 
@@ -11,7 +13,7 @@ public partial class SholatTimesViewModel : ViewModelBase
     private readonly ISholatTimesPersistence _sholatTimesPersistence;
     private readonly ICityCodesPersistence _cityCodesPersistence;
 
-    public SholatTimesViewModel(IPreferences preferences, ISholatTimesPersistence sholatTimesPersistence,
+    public AsmaulHusnaViewModel(IPreferences preferences, ISholatTimesPersistence sholatTimesPersistence,
         ICityCodesPersistence cityCodesPersistence, IConnectivity connectivity)
     {
         _preferences = preferences;
