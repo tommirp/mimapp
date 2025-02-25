@@ -81,6 +81,9 @@
 	  <Compile Update="Views\QuranAyahPopup.xaml.cs">
 	    <DependentUpon>QuranAyahPopup.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Views\SholatTimesPage.xaml.cs">
+	    <DependentUpon>SholatTimesPage.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\Quran\QuranSearchPage.xaml.cs">
 	    <DependentUpon>QuranSearchPage.xaml</DependentUpon>
 	  </Compile>
@@ -100,6 +103,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\QuranAyahPopup.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\SholatTimesPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Quran\QuranSearchPage.xaml">

@@ -54,7 +54,7 @@ namespace MimApp.Persistences
         {
             await Init();
             var results = new List<CityCodes>();
-            results = await Database.Table<CityCodes>().Where(x => x.lokasi.Contains(name.ToUpper())).ToListAsync();
+            results = await Database.Table<CityCodes>().Where(x => x.lokasi.ToUpper().Contains(name.ToUpper())).ToListAsync();
 
             return results;
         }

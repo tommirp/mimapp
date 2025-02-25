@@ -16,19 +16,19 @@
     <ContentPage.Resources>
         <!--  Define the style for the ImageButton  -->
         <Style x:Key="StyledImageButton" TargetType="ImageButton">
-            <Setter Property="WidthRequest" Value="80" />
-            <Setter Property="HeightRequest" Value="80" />
+            <Setter Property="WidthRequest" Value="70" />
+            <Setter Property="HeightRequest" Value="70" />
             <Setter Property="BackgroundColor" Value="#f2f2f2" />
             <Setter Property="BorderColor" Value="Transparent" />
             <Setter Property="BorderWidth" Value="2" />
-            <Setter Property="CornerRadius" Value="20" />
-            <Setter Property="Padding" Value="18" />
-            <Setter Property="Margin" Value="15,15,15,5" />
+            <Setter Property="CornerRadius" Value="50" />
+            <Setter Property="Padding" Value="15" />
+            <Setter Property="Margin" Value="18,18,18,5" />
             <Setter Property="Aspect" Value="AspectFill" />
             <Setter Property="Shadow">
                 <Setter.Value>
                     <Shadow
-                        Opacity="0.4"
+                        Opacity="0.3"
                         Radius="2"
                         Offset="0,2" />
                 </Setter.Value>
@@ -109,34 +109,83 @@
             <Grid
                 ColumnDefinitions="Auto,Auto,Auto"
                 HorizontalOptions="Center"
-                RowDefinitions="Auto">
+                RowDefinitions="Auto,Auto">
 
-                <!--  First Row  -->
                 <VerticalStackLayout Grid.Row="0" Grid.Column="0">
-                    <ImageButton Source="kabbah.png" Style="{StaticResource StyledImageButton}" />
+                    <ImageButton
+                        Command="{Binding GoToTandaBacaCommand}"
+                        Source="quranmark.png"
+                        Style="{StaticResource StyledImageButton}" />
                     <Label
                         Margin="0,2,0,0"
                         FontAttributes="Bold"
+                        FontSize="12"
+                        HorizontalOptions="Center"
+                        Text="Tanda Baca"
+                        TextColor="Black" />
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Row="0" Grid.Column="1">
+                    <ImageButton Source="allah.png" Style="{StaticResource StyledImageButton}" />
+                    <Label
+                        Margin="0,2,0,0"
+                        FontAttributes="Bold"
+                        FontSize="12"
+                        HorizontalOptions="Center"
+                        Text="Asmaul Husna"
+                        TextColor="Black" />
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Row="0" Grid.Column="2">
+                    <ImageButton
+                        Command="{Binding GoToWaktuSholatCommand}"
+                        Source="salah.png"
+                        Style="{StaticResource StyledImageButton}" />
+                    <Label
+                        Margin="0,2,0,0"
+                        FontAttributes="Bold"
+                        FontSize="12"
+                        HorizontalOptions="Center"
+                        Text="Waktu Sholat"
+                        TextColor="Black" />
+                </VerticalStackLayout>
+
+
+                <VerticalStackLayout Grid.Row="1" Grid.Column="0">
+                    <ImageButton
+                        Command="{Binding OpenLinkMekahCommand}"
+                        Source="kabbah.png"
+                        Style="{StaticResource StyledImageButton}" />
+                    <Label
+                        Margin="0,2,0,0"
+                        FontAttributes="Bold"
+                        FontSize="12"
                         HorizontalOptions="Center"
                         Text="Live Mekah"
                         TextColor="Black" />
                 </VerticalStackLayout>
-                <VerticalStackLayout Grid.Row="0" Grid.Column="1">
-                    <ImageButton Source="mosque.png" Style="{StaticResource StyledImageButton}" />
+                <VerticalStackLayout Grid.Row="1" Grid.Column="1">
+                    <ImageButton
+                        Command="{Binding OpenLinkMadinahCommand}"
+                        Source="mosque.png"
+                        Style="{StaticResource StyledImageButton}" />
                     <Label
                         Margin="0,2,0,0"
                         FontAttributes="Bold"
+                        FontSize="12"
                         HorizontalOptions="Center"
                         Text="Live Madinah"
                         TextColor="Black" />
                 </VerticalStackLayout>
-                <VerticalStackLayout Grid.Row="0" Grid.Column="2">
-                    <ImageButton Source="pray.png" Style="{StaticResource StyledImageButton}" />
+                <VerticalStackLayout Grid.Row="1" Grid.Column="2">
+                    <ImageButton
+                        Command="{Binding OpenLinkMasjidNearbyCommand}"
+                        Source="location.png"
+                        Style="{StaticResource StyledImageButton}" />
                     <Label
                         Margin="0,2,0,0"
                         FontAttributes="Bold"
+                        FontSize="12"
                         HorizontalOptions="Center"
-                        Text="Waktu Sholat"
+                        Text="Masjid Terdekat"
                         TextColor="Black" />
                 </VerticalStackLayout>
 

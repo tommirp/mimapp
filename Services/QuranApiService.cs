@@ -12,11 +12,11 @@ namespace MimApp.Services
         private readonly IQuranAyahPersistence _quranAyahPersistence;
         private readonly ISholatTimesPersistence _sholatTimesPersistence;
         private readonly ICityCodesPersistence _cityCodesPersistence;
-        //private UserWithToken? userWithToken;
+        private readonly IGeneralMetaPersistence _generalMetaPersistence;
 
         public QuranApiService(HttpClient httpClient, IConnectivity connectivity, IPreferences preferences,
             IQuranSurahPersistence quranSurahPersistence, IQuranAyahPersistence quranAyahPersistence,            
-            ISholatTimesPersistence sholatTimesPersistence, ICityCodesPersistence cityCodesPersistence)
+            ISholatTimesPersistence sholatTimesPersistence, ICityCodesPersistence cityCodesPersistence, IGeneralMetaPersistence generalMetaPersistence)
         {
             _httpClient = httpClient;
             _httpClient.BaseAddress = new Uri(Helpers.BaseApiUrl);
@@ -30,6 +30,7 @@ namespace MimApp.Services
             _quranAyahPersistence = quranAyahPersistence;
             _sholatTimesPersistence = sholatTimesPersistence;
             _cityCodesPersistence = cityCodesPersistence;
+            _generalMetaPersistence = generalMetaPersistence;
         }
 
         private async Task<bool> GetQuranSurahAsync()
@@ -88,6 +89,38 @@ namespace MimApp.Services
                 return false;
             }
         }
+
+        private async Task<bool> GetMetaDataAsync(string metaLink)
+        {
+            try
+            {
+                if (_connectivity.NetworkAccess == NetworkAccess.Internet)
+                {
+                    var response = await _httpClient.GetAsync($"{_httpClient.BaseAddress}/{metaLink}");
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var content = await response.Content.ReadAsStringAsync();
+
+                        if (metaLink == "getyoutubelink")
+                        {
+                            List<GeneralMetaData>? data = JsonSerializer.Deserialize<List<GeneralMetaData>>(content);
+
+                            await _generalMetaPersistence.DeleteAllItemsByTypeAsync("youtube");
+                            await _generalMetaPersistence.InsertAllItemAsync(data);
+                        }
+
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
 
         public async Task<List<QuranSholatTime>?> GetSholatTimeByMonthAsync(string cityCode, string year, string month)
         {
@@ -159,7 +192,7 @@ namespace MimApp.Services
             }
         }
 
-        public async Task<List<CityCodes>?> SyncCityCodesAsync()
+        public async Task<List<CityCodes>> SyncCityCodesAsync()
         {
             try
             {
@@ -189,6 +222,7 @@ namespace MimApp.Services
         {
             await GetQuranSurahAsync();
             await GetQuranAyahAsync();
+            await GetMetaDataAsync("getyoutubelink");
         }
 
         public async Task<List<QuranAsmaulHusna>?> GetQuranAsmaulHusnaAsync()

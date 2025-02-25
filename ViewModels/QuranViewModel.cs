@@ -103,13 +103,13 @@ public partial class QuranViewModel : ViewModelBase
         try
         {
             CheckDisposed();
-            IsLoading = true;
+            //IsLoading = true;
             await GetAllCities();
         }
         finally
         {
 
-            IsLoading = false;
+            //IsLoading = false;
         }
     }
 

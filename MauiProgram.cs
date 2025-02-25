@@ -49,6 +49,7 @@ public static class MauiProgram
         mauiAppBuilder.Services.AddScoped<IQuranAyahPersistence, QuranAyahPersistence>();
         mauiAppBuilder.Services.AddScoped<ICityCodesPersistence, CityCodesPersistence>();
         mauiAppBuilder.Services.AddScoped<ISholatTimesPersistence, SholatTimesPersistence>();
+        mauiAppBuilder.Services.AddScoped<IGeneralMetaPersistence, GeneralMetaPersistence>();
 
         return mauiAppBuilder;
     }
@@ -57,6 +58,7 @@ public static class MauiProgram
     {
         mauiAppBuilder.Services.AddTransient<MainViewModel>();
         mauiAppBuilder.Services.AddScoped<QuranViewModel>();
+        mauiAppBuilder.Services.AddScoped<SholatTimesViewModel>();
         return mauiAppBuilder;
     }
 
@@ -65,6 +67,7 @@ public static class MauiProgram
         mauiAppBuilder.Services.AddScoped<MainPage>();
         mauiAppBuilder.Services.AddScoped<QuranAppSettingPage>();
         mauiAppBuilder.Services.AddScoped<QuranSearchPage>();
+        mauiAppBuilder.Services.AddScoped<SholatTimesPage>();
 
         // Quran
         mauiAppBuilder.Services.AddScoped<CitySelectionPage>();

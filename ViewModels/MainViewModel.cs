@@ -13,11 +13,12 @@ public partial class MainViewModel : ViewModelBase
     private readonly IQuranAyahPersistence _quranAyahPersistence;
     private readonly ISholatTimesPersistence _sholatTimesPersistence;
     private readonly ICityCodesPersistence _cityCodesPersistence;
+    private readonly IGeneralMetaPersistence _generalMetaPersistence;
     private readonly IQuranApi _quranApi;
 
     public MainViewModel(IPreferences preferences, IQuranSurahPersistence quranSurahPersistence,
         IQuranAyahPersistence quranAyahPersistence, ISholatTimesPersistence sholatTimesPersistence,
-        ICityCodesPersistence cityCodesPersistence, IQuranApi quranApi, IConnectivity connectivity)
+        ICityCodesPersistence cityCodesPersistence, IQuranApi quranApi, IConnectivity connectivity, IGeneralMetaPersistence generalMetaPersistence)
     {
         SearchText = String.Empty;
         IsLoading = false;
@@ -27,6 +28,7 @@ public partial class MainViewModel : ViewModelBase
         _quranAyahPersistence = quranAyahPersistence;
         _sholatTimesPersistence = sholatTimesPersistence;
         _cityCodesPersistence = cityCodesPersistence;
+        _generalMetaPersistence = generalMetaPersistence;
         _quranApi = quranApi;
 
         SelectedItemAutoComplete = null;
@@ -56,6 +58,12 @@ public partial class MainViewModel : ViewModelBase
     {
         await Shell.Current.GoToAsync(nameof(CitySelectionPage));
     }
+
+    [RelayCommand]
+    async Task GoToWaktuSholat()
+    {
+        await Shell.Current.GoToAsync(nameof(SholatTimesPage));
+    }
     async Task<List<QuranSurah>?> GetSurah()
     {
         using var stream = await FileSystem.OpenAppPackageFileAsync("quran_surah.json");
@@ -70,6 +78,14 @@ public partial class MainViewModel : ViewModelBase
         using var reader = new StreamReader(stream);
         var json = await reader.ReadToEndAsync();
         return JsonSerializer.Deserialize<List<QuranAyah>>(json);
+    }
+
+    async Task<List<GeneralMetaData>?> GetYoutube()
+    {
+        using var stream = await FileSystem.OpenAppPackageFileAsync("youtube.json");
+        using var reader = new StreamReader(stream);
+        var json = await reader.ReadToEndAsync();
+        return JsonSerializer.Deserialize<List<GeneralMetaData>>(json);
     }
 
     #region Timer Search Placeholder
@@ -283,4 +299,38 @@ public partial class MainViewModel : ViewModelBase
         }
     }
     #endregion
+
+    [RelayCommand]
+    public async Task GoToTandaBaca()
+    {
+        string tandaBaca = _preferences.Get("AppSetting_TandaBaca", string.Empty);
+        if (!string.IsNullOrEmpty(tandaBaca))
+        {
+            _preferences.Set("QuranSearch", tandaBaca);
+            SearchText = "";
+            await Shell.Current.GoToAsync(nameof(SurahDetailPage));
+        }
+        else
+        {
+            await Shell.Current.DisplayAlert("Error", "Belum Ada Tanda Baca, Yuk Baca Al-Quran Sekarang!", "OK");
+        }
+    }
+
+    [RelayCommand]
+    public async Task OpenLinkMekah()
+    {
+        await Launcher.OpenAsync("https://www.youtube.com/results?search_query=Mekah+Live");
+    }
+
+    [RelayCommand]
+    public async Task OpenLinkMadinah()
+    {
+        await Launcher.OpenAsync("https://www.youtube.com/results?search_query=Madinah+Live");
+    }
+
+    [RelayCommand]
+    public async Task OpenLinkMasjidNearby()
+    {
+        await Launcher.OpenAsync("https://www.google.com/maps/search/Masjid+Nearby");
+    }
 }

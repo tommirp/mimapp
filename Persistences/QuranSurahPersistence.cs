@@ -56,7 +56,7 @@ namespace MimApp.Persistences
 
                 return false;
             }
-            catch(Exception ex)
+            catch
             {
                 return false;
 
