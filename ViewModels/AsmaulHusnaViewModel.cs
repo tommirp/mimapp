@@ -76,7 +76,7 @@ public partial class AsmaulHusnaViewModel : ViewModelBase
             _disposed = true;
         }
     }
-    ~SholatTimesViewModel()
+    ~AsmaulHusnaViewModel()
     {
         Dispose(false);
     }

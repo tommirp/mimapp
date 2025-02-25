@@ -41,7 +41,6 @@
         <CollectionView
             IsVisible="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}"
             ItemsSource="{Binding AsmaulHusnaList}"
-            SelectionChanged="SelectCityTapped"
             SelectionMode="Single"
             VerticalOptions="FillAndExpand">
             <CollectionView.ItemTemplate>

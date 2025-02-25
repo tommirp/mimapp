@@ -101,7 +101,7 @@ public partial class SholatTimesViewModel : ViewModelBase
             IsLoading = true;
 
             var city = _preferences.Get("MyCity", string.Empty);
-            if (city == null)
+            if (string.IsNullOrEmpty(city))
             {
                 await Shell.Current.DisplayAlert("Error", "No City Selected, Please select a city", "OK");
 
