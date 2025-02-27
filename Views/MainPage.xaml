@@ -197,15 +197,15 @@
                 </VerticalStackLayout>
                 <VerticalStackLayout Grid.Row="1" Grid.Column="2">
                     <ImageButton
-                        Command="{Binding OpenLinkMasjidNearbyCommand}"
-                        Source="location"
+                        Command="{Binding OpenLinkMekahCommand}"
+                        Source="kabbah"
                         Style="{StaticResource StyledImageButton}" />
                     <Label
                         Margin="0,2,0,0"
                         FontAttributes="Bold"
                         FontSize="12"
                         HorizontalOptions="Center"
-                        Text="Masjid Terdekat"
+                        Text="Live Mekkah"
                         TextColor="Black" />
                 </VerticalStackLayout>
 

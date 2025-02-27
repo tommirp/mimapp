@@ -59,7 +59,7 @@ public partial class MainViewModel : ViewModelBase
     [RelayCommand]
     async Task FindQibla()
     {
-        await Shell.Current.GoToAsync(nameof(FindQiblaPage));
+        await Launcher.OpenAsync("https://qiblafinder.withgoogle.com/");
     }
 
     [RelayCommand]

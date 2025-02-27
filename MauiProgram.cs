@@ -73,7 +73,6 @@ public static class MauiProgram
         mauiAppBuilder.Services.AddScoped<QuranAppSettingPage>();
         mauiAppBuilder.Services.AddScoped<QuranSearchPage>();
         mauiAppBuilder.Services.AddScoped<SholatTimesPage>();
-        mauiAppBuilder.Services.AddScoped<FindQiblaPage>();
         mauiAppBuilder.Services.AddScoped<CitySelectionPage>();
         mauiAppBuilder.Services.AddScoped<AsmaulHusnaPage>();
 

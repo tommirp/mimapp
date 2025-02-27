@@ -15,7 +15,6 @@ public partial class AppShell : Shell
         Routing.RegisterRoute(nameof(QuranSearchPage), typeof(QuranSearchPage));
         Routing.RegisterRoute(nameof(SholatTimesPage), typeof(SholatTimesPage));
         Routing.RegisterRoute(nameof(AsmaulHusnaPage), typeof(AsmaulHusnaPage));
-        Routing.RegisterRoute(nameof(FindQiblaPage), typeof(FindQiblaPage));
 
         //CrossFirebaseCloudMessaging.Current.NotificationReceived += (sender, e) =>
         //{

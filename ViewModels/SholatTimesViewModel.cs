@@ -93,9 +93,6 @@ public partial class SholatTimesViewModel : ViewModelBase
     {
         CheckDisposed();
 
-        //if (_hasLoaded)
-        //    return;
-
         try
         {
             IsLoading = true;
@@ -129,24 +126,6 @@ public partial class SholatTimesViewModel : ViewModelBase
                 Maghrib = sholatTimes?.maghrib ?? string.Empty;
                 Isya = sholatTimes?.isya ?? string.Empty;
             }
-        }
-        finally
-        {
-            //_hasLoaded = true;
-
-            IsLoading = false;
-        }
-    }
-
-    [RelayCommand]
-    public async Task InitQiblaPage()
-    {
-        CheckDisposed();
-
-        try
-        {
-            IsLoading = true;
-
         }
         finally
         {
