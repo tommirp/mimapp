@@ -54,5 +54,26 @@ namespace MimApp.Persistences
             if (result > 0) return true;
             return false;
         }
+
+        public async Task<bool> SholatTimesCheck()
+        {
+            try
+            {
+                await Init();
+                var count = await Database.Table<QuranSholatTime>().CountAsync();
+
+                if (count > 0)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+            catch
+            {
+                return false;
+
+            }
+        }
     }
 }

@@ -85,10 +85,9 @@ namespace MimApp.Persistences
             try
             {
                 await Init();
-                var results = new List<QuranAyah>();
-                results = await Database.Table<QuranAyah>().ToListAsync();
+                var count = await Database.Table<QuranAyah>().CountAsync();
 
-                if (results.Count > 0)
+                if (count > 0)
                 {
                     return true;
                 }

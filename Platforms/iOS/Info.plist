@@ -36,5 +36,14 @@
 	</array>
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/appicon.appiconset</string>
+  
+  <key>NSLocationWhenInUseUsageDescription</key>
+  <string>We need your location to find the Qibla direction.</string>
+
+  <key>NSLocationAlwaysUsageDescription</key>
+  <string>We need your location for background Qibla updates.</string>
+
+  <key>NSMotionUsageDescription</key>
+  <string>We need motion data to get the compass direction.</string>
 </dict>
 </plist>

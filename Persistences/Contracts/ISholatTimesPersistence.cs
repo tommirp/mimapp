@@ -5,5 +5,6 @@
         Task<bool> InsertAllItemAsync(List<QuranSholatTime>? list);
         Task<QuranSholatTime> GetSholatTimeByDate(string Date);
         Task<bool> DeleteAllItemsAsync();
+        Task<bool> SholatTimesCheck();
     }
 }

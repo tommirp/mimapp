@@ -42,6 +42,9 @@ public partial class MainViewModel : ViewModelBase
     bool isLoading;
 
     [ObservableProperty]
+    bool isSync;
+
+    [ObservableProperty]
     string searchText;
 
     [ObservableProperty]
@@ -54,6 +57,12 @@ public partial class MainViewModel : ViewModelBase
     string selectedItemAutoComplete;
 
     [RelayCommand]
+    async Task FindQibla()
+    {
+        await Shell.Current.GoToAsync(nameof(FindQiblaPage));
+    }
+
+    [RelayCommand]
     async Task GoToCitySelection()
     {
         await Shell.Current.GoToAsync(nameof(CitySelectionPage));
@@ -64,28 +73,11 @@ public partial class MainViewModel : ViewModelBase
     {
         await Shell.Current.GoToAsync(nameof(SholatTimesPage));
     }
-    async Task<List<QuranSurah>?> GetSurah()
-    {
-        using var stream = await FileSystem.OpenAppPackageFileAsync("quran_surah.json");
-        using var reader = new StreamReader(stream);
-        var json = await reader.ReadToEndAsync();
-        return JsonSerializer.Deserialize<List<QuranSurah>>(json);
-    }
 
-    async Task<List<QuranAyah>?> GetAyah()
+    [RelayCommand]
+    async Task GoToAsmaulHusna()
     {
-        using var stream = await FileSystem.OpenAppPackageFileAsync("quran_ayat.json");
-        using var reader = new StreamReader(stream);
-        var json = await reader.ReadToEndAsync();
-        return JsonSerializer.Deserialize<List<QuranAyah>>(json);
-    }
-
-    async Task<List<GeneralMetaData>?> GetYoutube()
-    {
-        using var stream = await FileSystem.OpenAppPackageFileAsync("youtube.json");
-        using var reader = new StreamReader(stream);
-        var json = await reader.ReadToEndAsync();
-        return JsonSerializer.Deserialize<List<GeneralMetaData>>(json);
+        await Shell.Current.GoToAsync(nameof(AsmaulHusnaPage));
     }
 
     #region Timer Search Placeholder
@@ -122,58 +114,55 @@ public partial class MainViewModel : ViewModelBase
     {
         try
         {
-            IsLoading = true;
+            IsLoading = false;
+            IsSync = false;
 
             bool SurahChecked = await _quranSurahPersistence.SurahCheck();
             bool AyahChecked = await _quranAyahPersistence.AyahCheck();
 
             if (!SurahChecked || !AyahChecked)
             {
-                List<QuranSurah>? surah = await GetSurah();
-
-                if (surah is not null)
+                IsLoading = true;
+                IsSync = true;
+                if (_connectivity.NetworkAccess == NetworkAccess.Internet)
                 {
-                    await _quranSurahPersistence.DeleteAllItemsAsync();
-                    await _quranSurahPersistence.InsertAllItemAsync(surah);
-                }
-
-                List<QuranAyah>? ayah = await GetAyah();
-                if (ayah is not null)
-                {
-                    await _quranAyahPersistence.DeleteAllItemsAsync();
-                    await _quranAyahPersistence.InsertAllItemAsync(ayah);
+                    await _quranApi.OnlineSyncQuran();
                 }
             }
         }
         finally
         {
-            bool SurahChecked = await _quranSurahPersistence.SurahCheck();
-            bool AyahChecked = await _quranAyahPersistence.AyahCheck();
-
-            if (!SurahChecked || !AyahChecked)
-            {
-                await _quranApi.OnlineSyncQuran();
-            }
-
-            if (_connectivity.NetworkAccess == NetworkAccess.Internet)
-            {
-                await _quranApi.SyncCityCodesAsync();
-
-                TodaySholatTime = await _sholatTimesPersistence.GetSholatTimeByDate(DateTime.Now.ToString("yyyy-MM-dd"));
-            }
+            MyCity = "Select City";
 
             string city = _preferences.Get("MyCity", "Select City");
             if (!string.IsNullOrEmpty(city) && city != "Select City")
             {
                 string[] citySplited = city.Split(" - ");
                 MyCity = citySplited[1];
+
+                bool SholatTimesChecked = await _sholatTimesPersistence.SholatTimesCheck();
+                if (!SholatTimesChecked)
+                {
+                    IsLoading = true;
+                    IsSync = true;
+                    if (_connectivity.NetworkAccess == NetworkAccess.Internet)
+                    {
+                        await _quranApi.SyncCityCodesAsync();
+
+                        TodaySholatTime = await _sholatTimesPersistence.GetSholatTimeByDate(DateTime.Now.ToString("yyyy-MM-dd"));
+                    }
+                }
             }
 
-            IsLoading = false;
+            await Task.Delay(3000).ContinueWith((x) =>
+            {
+                IsLoading = false;
+                IsSync = false;
 
-            InitTimer();
+                InitTimer();
 
-            _preferences.Set("QuranSearch", string.Empty);
+                _preferences.Set("QuranSearch", string.Empty);
+            });
         }
     }
 

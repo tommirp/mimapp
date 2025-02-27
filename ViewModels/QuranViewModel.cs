@@ -175,7 +175,7 @@ public partial class QuranViewModel : ViewModelBase
     [ObservableProperty]
     int surahNumber;
 
-    public ObservableCollection<QuranAyah> AyahList { get; set; } = new ObservableCollection<QuranAyah>();   
+    public ObservableCollection<QuranAyah> AyahList { get; set; } = new ObservableCollection<QuranAyah>();
 
     [RelayCommand]
     public async Task AyahMenuSelected(QuranAyah SelectedQuranAyah)

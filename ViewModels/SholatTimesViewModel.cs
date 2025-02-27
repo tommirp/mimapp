@@ -137,4 +137,20 @@ public partial class SholatTimesViewModel : ViewModelBase
             IsLoading = false;
         }
     }
+
+    [RelayCommand]
+    public async Task InitQiblaPage()
+    {
+        CheckDisposed();
+
+        try
+        {
+            IsLoading = true;
+
+        }
+        finally
+        {
+            IsLoading = false;
+        }
+    }
 }

@@ -13,10 +13,12 @@ namespace MimApp.Services
         private readonly ISholatTimesPersistence _sholatTimesPersistence;
         private readonly ICityCodesPersistence _cityCodesPersistence;
         private readonly IGeneralMetaPersistence _generalMetaPersistence;
+        private readonly IAsmaulHusnaPersistence _asmaulHusnaPersistence;
 
         public QuranApiService(HttpClient httpClient, IConnectivity connectivity, IPreferences preferences,
             IQuranSurahPersistence quranSurahPersistence, IQuranAyahPersistence quranAyahPersistence,            
-            ISholatTimesPersistence sholatTimesPersistence, ICityCodesPersistence cityCodesPersistence, IGeneralMetaPersistence generalMetaPersistence)
+            ISholatTimesPersistence sholatTimesPersistence, ICityCodesPersistence cityCodesPersistence,
+            IGeneralMetaPersistence generalMetaPersistence, IAsmaulHusnaPersistence asmaulHusnaPersistence)
         {
             _httpClient = httpClient;
             _httpClient.BaseAddress = new Uri(Helpers.BaseApiUrl);
@@ -31,6 +33,7 @@ namespace MimApp.Services
             _sholatTimesPersistence = sholatTimesPersistence;
             _cityCodesPersistence = cityCodesPersistence;
             _generalMetaPersistence = generalMetaPersistence;
+            _asmaulHusnaPersistence = asmaulHusnaPersistence;
         }
 
         private async Task<bool> GetQuranSurahAsync()
@@ -90,37 +93,36 @@ namespace MimApp.Services
             }
         }
 
-        private async Task<bool> GetMetaDataAsync(string metaLink)
-        {
-            try
-            {
-                if (_connectivity.NetworkAccess == NetworkAccess.Internet)
-                {
-                    var response = await _httpClient.GetAsync($"{_httpClient.BaseAddress}/{metaLink}");
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var content = await response.Content.ReadAsStringAsync();
+        //private async Task<bool> GetMetaDataAsync(string metaLink)
+        //{
+        //    try
+        //    {
+        //        if (_connectivity.NetworkAccess == NetworkAccess.Internet)
+        //        {
+        //            var response = await _httpClient.GetAsync($"{_httpClient.BaseAddress}/{metaLink}");
+        //            if (response.IsSuccessStatusCode)
+        //            {
+        //                var content = await response.Content.ReadAsStringAsync();
 
-                        if (metaLink == "getyoutubelink")
-                        {
-                            List<GeneralMetaData>? data = JsonSerializer.Deserialize<List<GeneralMetaData>>(content);
+        //                if (metaLink == "getyoutubelink")
+        //                {
+        //                    List<GeneralMetaData>? data = JsonSerializer.Deserialize<List<GeneralMetaData>>(content);
 
-                            await _generalMetaPersistence.DeleteAllItemsByTypeAsync("youtube");
-                            await _generalMetaPersistence.InsertAllItemAsync(data);
-                        }
+        //                    await _generalMetaPersistence.DeleteAllItemsByTypeAsync("youtube");
+        //                    await _generalMetaPersistence.InsertAllItemAsync(data);
+        //                }
 
-                        return true;
-                    }
-                }
+        //                return true;
+        //            }
+        //        }
 
-                return false;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
+        //        return false;
+        //    }
+        //    catch
+        //    {
+        //        return false;
+        //    }
+        //}
 
         public async Task<List<QuranSholatTime>?> GetSholatTimeByMonthAsync(string cityCode, string year, string month)
         {
@@ -218,14 +220,7 @@ namespace MimApp.Services
             }
         }
 
-        public async Task OnlineSyncQuran()
-        {
-            await GetQuranSurahAsync();
-            await GetQuranAyahAsync();
-            await GetMetaDataAsync("getyoutubelink");
-        }
-
-        public async Task<List<QuranAsmaulHusna>?> GetQuranAsmaulHusnaAsync()
+        public async Task<bool> GetQuranAsmaulHusnaAsync()
         {
             try
             {
@@ -236,16 +231,26 @@ namespace MimApp.Services
                     {
                         var content = await response.Content.ReadAsStringAsync();
 
-                        return JsonSerializer.Deserialize<List<QuranAsmaulHusna>>(content);
+                        List<QuranAsmaulHusna>? data = JsonSerializer.Deserialize<List<QuranAsmaulHusna>>(content);
+                        await _asmaulHusnaPersistence.DeleteAllItemsAsync();
+                        await _asmaulHusnaPersistence.InsertAllItemAsync(data);
+
+                        return true;
                     }
                 }
 
-                return null;
+                return false;
             }
             catch
             {
-                return null;
+                return false;
             }
+        }
+        public async Task OnlineSyncQuran()
+        {
+            await GetQuranSurahAsync();
+            await GetQuranAyahAsync();
+            await GetQuranAsmaulHusnaAsync();
         }
     }
 }

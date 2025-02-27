@@ -44,7 +44,8 @@
                     FontAttributes="Bold"
                     FontSize="Small"
                     HorizontalOptions="Center"
-                    Text="INFO AYAT" />
+                    Text="INFO AYAT"
+                    TextColor="Black" />
 
                 <Label
                     Grid.Row="2"
@@ -53,97 +54,113 @@
                     FontAttributes="Bold"
                     FontSize="Small"
                     HorizontalOptions="Center"
-                    Text="{Binding surahName}" />
+                    Text="{Binding surahName}"
+                    TextColor="Black" />
 
                 <Label
                     Grid.Row="3"
                     Grid.Column="0"
                     Padding="0,0,0,5"
                     Text="Jumlah Ayat"
+                    TextColor="Black"
                     WidthRequest="120" />
                 <Label
                     Grid.Row="3"
                     Grid.Column="1"
                     Padding="0,0,0,5"
                     Text=" : "
+                    TextColor="Black"
                     WidthRequest="30" />
                 <Label
                     Grid.Row="3"
                     Grid.Column="2"
                     Padding="0,0,0,5"
-                    Text="{Binding numberOfVerses}" />
+                    Text="{Binding numberOfVerses}"
+                    TextColor="Black" />
 
                 <Label
                     Grid.Row="4"
                     Grid.Column="0"
                     Padding="0,0,0,5"
                     Text="Juz"
+                    TextColor="Black"
                     WidthRequest="120" />
                 <Label
                     Grid.Row="4"
                     Grid.Column="1"
                     Padding="0,0,0,5"
                     Text=" : "
+                    TextColor="Black"
                     WidthRequest="30" />
                 <Label
                     Grid.Row="4"
                     Grid.Column="2"
                     Padding="0,0,0,5"
-                    Text="{Binding juz}" />
+                    Text="{Binding juz}"
+                    TextColor="Black" />
 
                 <Label
                     Grid.Row="5"
                     Grid.Column="0"
                     Padding="0,0,0,5"
                     Text="Halaman"
+                    TextColor="Black"
                     WidthRequest="120" />
                 <Label
                     Grid.Row="5"
                     Grid.Column="1"
                     Padding="0,0,0,5"
                     Text=" : "
+                    TextColor="Black"
                     WidthRequest="30" />
                 <Label
                     Grid.Row="5"
                     Grid.Column="2"
                     Padding="0,0,0,5"
-                    Text="{Binding page}" />
+                    Text="{Binding page}"
+                    TextColor="Black" />
 
                 <Label
                     Grid.Row="6"
                     Grid.Column="0"
                     Padding="0,0,0,5"
                     Text="Golongan Surat"
+                    TextColor="Black"
                     WidthRequest="120" />
                 <Label
                     Grid.Row="6"
                     Grid.Column="1"
                     Padding="0,0,0,5"
                     Text=" : "
+                    TextColor="Black"
                     WidthRequest="30" />
                 <Label
                     Grid.Row="6"
                     Grid.Column="2"
                     Padding="0,0,0,5"
-                    Text="{Binding surahRevelationId}" />
+                    Text="{Binding surahRevelationId}"
+                    TextColor="Black" />
 
                 <Label
                     Grid.Row="7"
                     Grid.Column="0"
                     Padding="0,0,0,5"
                     Text="Arti Nama Surat"
+                    TextColor="Black"
                     WidthRequest="120" />
                 <Label
                     Grid.Row="7"
                     Grid.Column="1"
                     Padding="0,0,0,5"
                     Text=" : "
+                    TextColor="Black"
                     WidthRequest="30" />
                 <Label
                     Grid.Row="7"
                     Grid.Column="2"
                     Padding="0,0,0,5"
-                    Text="{Binding surahTranslationId}" />
+                    Text="{Binding surahTranslationId}"
+                    TextColor="Black" />
             </Grid>
 
             <Border
@@ -156,14 +173,16 @@
                 FontAttributes="Bold"
                 FontSize="Small"
                 HorizontalOptions="Center"
-                Text="TAFSIR SURAT" />
+                Text="TAFSIR SURAT"
+                TextColor="Black" />
 
             <Label
                 Padding="10,0,10,10"
                 FontAttributes="Italic"
                 FontSize="Small"
                 HorizontalTextAlignment="Justify"
-                Text="{Binding surahTafsir}" />
+                Text="{Binding surahTafsir}"
+                TextColor="Black" />
 
             <Border
                 Margin="0,0,0,20"
@@ -175,20 +194,23 @@
                 FontAttributes="Bold"
                 FontSize="Small"
                 HorizontalOptions="Center"
-                Text="TAFSIR AYAT" />
+                Text="TAFSIR AYAT"
+                TextColor="Black" />
 
             <Label
                 Padding="10,0,10,10"
                 FontAttributes="Italic"
                 FontSize="Small"
                 HorizontalTextAlignment="Justify"
-                Text="{Binding tafsirLong}" />
+                Text="{Binding tafsirLong}"
+                TextColor="Black" />
 
             <Button
                 Margin="0,10,0,20"
                 BackgroundColor="Black"
                 Clicked="OnCloseClicked"
-                Text="Tutup" />
+                Text="Tutup"
+                TextColor="White" />
         </VerticalStackLayout>
     </ScrollView>
 

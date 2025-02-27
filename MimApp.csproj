@@ -78,13 +78,16 @@
 	  <Compile Update="Views\Auth\Login.xaml.cs">
 	    <DependentUpon>Login.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Views\AsmaulHusnaPage.xaml.cs">
+	  <Compile Update="Views\Quran\FindQiblaPage.xaml.cs">
+	    <DependentUpon>FindQiblaPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\Quran\AsmaulHusnaPage.xaml.cs">
 	    <DependentUpon>AsmaulHusnaPage.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="Views\QuranAyahPopup.xaml.cs">
 	    <DependentUpon>QuranAyahPopup.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Views\SholatTimesPage.xaml.cs">
+	  <Compile Update="Views\Quran\SholatTimesPage.xaml.cs">
 	    <DependentUpon>SholatTimesPage.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="Views\Quran\QuranSearchPage.xaml.cs">
@@ -102,25 +105,19 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiAsset Update="Resources\Raw\quran_ayat.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </MauiAsset>
-	  <MauiAsset Update="Resources\Raw\quran_surah.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </MauiAsset>
-	</ItemGroup>
-
-	<ItemGroup>
 	  <MauiXaml Update="Views\Auth\Login.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\AsmaulHusnaPage.xaml">
+	  <MauiXaml Update="Views\Quran\FindQiblaPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Quran\AsmaulHusnaPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\QuranAyahPopup.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\SholatTimesPage.xaml">
+	  <MauiXaml Update="Views\Quran\SholatTimesPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Quran\QuranSearchPage.xaml">

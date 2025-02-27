@@ -3,7 +3,7 @@
     public interface IQuranApi
     {
         Task OnlineSyncQuran();
-        Task<List<QuranAsmaulHusna>?> GetQuranAsmaulHusnaAsync();
+        Task<bool> GetQuranAsmaulHusnaAsync();
         Task<bool> SyncSholatTimeByMonthAsync(string cityCode);
         Task<List<CityCodes>> SyncCityCodesAsync();
     }
