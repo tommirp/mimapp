@@ -177,11 +177,36 @@ public partial class QuranViewModel : ViewModelBase
 
     public ObservableCollection<QuranAyah> AyahList { get; set; } = new ObservableCollection<QuranAyah>();
 
+
+    [ObservableProperty]
+    string info_surahName;
+
+    [ObservableProperty]
+    int info_numberOfVerses;
+
+    [ObservableProperty]
+    string info_juz;
+
+    [ObservableProperty]
+    int info_page;
+
+    [ObservableProperty]
+    string info_surahRevelationId;
+
+    [ObservableProperty]
+    string info_surahTranslationId;
+
+    [ObservableProperty]
+    string info_surahTafsir;
+
+    [ObservableProperty]
+    string info_tafsirLong;
+
     [RelayCommand]
     public async Task AyahMenuSelected(QuranAyah SelectedQuranAyah)
     {
         CheckDisposed();
-        QuranSurah theSurah = await _quranSurahPersistence.GetOneSurah(SelectedQuranAyah.numberInSurah);
+        QuranSurah theSurah = await _quranSurahPersistence.GetOneSurah(SelectedQuranAyah.numberOfSurah);
         string title = string.Format("{0}. {1} : {2}", SelectedQuranAyah.numberOfSurah, theSurah?.nameTransliterationId?.ToUpper(), SelectedQuranAyah.numberInSurah);
 
         string[] btns = ["Info Detail", "Salin Ayat", "Tandai Batas Baca", "Bagikan", "Lapor Kesalahan"];
@@ -192,7 +217,19 @@ public partial class QuranViewModel : ViewModelBase
         {
             if (action == "Info Detail")
             {
-                Shell.Current.CurrentPage.ShowPopup(new QuranAyahPopup(theSurah, SelectedQuranAyah));
+                //Shell.Current.CurrentPage.ShowPopup(new QuranAyahPopup(theSurah, SelectedQuranAyah));
+                CheckDisposed();
+
+                Info_page = SelectedQuranAyah.page;
+                Info_surahName = $"{SelectedQuranAyah.numberOfSurah}.{theSurah?.nameTransliterationId} Ayat {SelectedQuranAyah.numberInSurah}"; // Set the SurahName
+                Info_numberOfVerses = theSurah.numberOfVerses;
+                Info_surahRevelationId = theSurah.revelationId ?? "-";
+                Info_surahTafsir = theSurah.tafsir ?? "-";
+                Info_surahTranslationId = theSurah.nameTranslationId ?? "-";
+                Info_tafsirLong = SelectedQuranAyah.tafsirLong ?? "-";
+
+                await Shell.Current.GoToAsync(nameof(AyahDetailPage));
+
                 // Go To Ayah Detail Page
             }
             else if (action == "Salin Ayat")
@@ -489,5 +526,4 @@ public partial class QuranViewModel : ViewModelBase
         await Shell.Current.GoToAsync("..");
     }
     #endregion
-
 }

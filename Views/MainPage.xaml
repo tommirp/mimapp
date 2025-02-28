@@ -123,6 +123,55 @@
                     <dxe:AsyncItemsSourceProvider ItemsRequested="OnAutoCompleteRequested" RequestDelay="500" />
                 </dxe:AutoCompleteEdit.ItemsSourceProvider>
             </dxe:AutoCompleteEdit>
+
+            <Grid
+                ColumnDefinitions="Auto,Auto"
+                HorizontalOptions="Center"
+                RowDefinitions="Auto">
+                <VerticalStackLayout Grid.Row="0" Grid.Column="0">
+                    <Picker x:Name="pickersurah" Title="Select a Surah">
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>Baboon</x:String>
+                                <x:String>Capuchin Monkey</x:String>
+                                <x:String>Blue Monkey</x:String>
+                                <x:String>Squirrel Monkey</x:String>
+                                <x:String>Golden Lion Tamarin</x:String>
+                                <x:String>Howler Monkey</x:String>
+                                <x:String>Japanese Macaque</x:String>
+                                <x:String>Squirrel Monkey</x:String>
+                                <x:String>Golden Lion Tamarin</x:String>
+                                <x:String>Howler Monkey</x:String>
+                                <x:String>Japanese Macaque</x:String>
+                                <x:String>Squirrel Monkey</x:String>
+                                <x:String>Golden Lion Tamarin</x:String>
+                                <x:String>Howler Monkey</x:String>
+                                <x:String>Japanese Macaque</x:String>
+                                <x:String>Squirrel Monkey</x:String>
+                                <x:String>Golden Lion Tamarin</x:String>
+                                <x:String>Howler Monkey</x:String>
+                                <x:String>Japanese Macaque</x:String>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Row="0" Grid.Column="1">
+                    <Picker x:Name="pickerayah" Title="Select a Ayah">
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>Baboon</x:String>
+                                <x:String>Capuchin Monkey</x:String>
+                                <x:String>Blue Monkey</x:String>
+                                <x:String>Squirrel Monkey</x:String>
+                                <x:String>Golden Lion Tamarin</x:String>
+                                <x:String>Howler Monkey</x:String>
+                                <x:String>Japanese Macaque</x:String>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
+                </VerticalStackLayout>
+            </Grid>
+
             <Grid
                 ColumnDefinitions="Auto,Auto,Auto"
                 HorizontalOptions="Center"
@@ -184,19 +233,6 @@
                 </VerticalStackLayout>
                 <VerticalStackLayout Grid.Row="1" Grid.Column="1">
                     <ImageButton
-                        Command="{Binding OpenLinkMadinahCommand}"
-                        Source="mosque"
-                        Style="{StaticResource StyledImageButton}" />
-                    <Label
-                        Margin="0,2,0,0"
-                        FontAttributes="Bold"
-                        FontSize="12"
-                        HorizontalOptions="Center"
-                        Text="Live Madinah"
-                        TextColor="Black" />
-                </VerticalStackLayout>
-                <VerticalStackLayout Grid.Row="1" Grid.Column="2">
-                    <ImageButton
                         Command="{Binding OpenLinkMekahCommand}"
                         Source="kabbah"
                         Style="{StaticResource StyledImageButton}" />
@@ -206,6 +242,19 @@
                         FontSize="12"
                         HorizontalOptions="Center"
                         Text="Live Mekkah"
+                        TextColor="Black" />
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Row="1" Grid.Column="2">
+                    <ImageButton
+                        Command="{Binding OpenLinkMadinahCommand}"
+                        Source="mosque"
+                        Style="{StaticResource StyledImageButton}" />
+                    <Label
+                        Margin="0,2,0,0"
+                        FontAttributes="Bold"
+                        FontSize="12"
+                        HorizontalOptions="Center"
+                        Text="Live Madinah"
                         TextColor="Black" />
                 </VerticalStackLayout>
 

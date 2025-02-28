@@ -12,6 +12,7 @@ public partial class AppShell : Shell
         Routing.RegisterRoute(nameof(CitySelectionPage), typeof(CitySelectionPage));
         Routing.RegisterRoute(nameof(SurahDetailPage), typeof(SurahDetailPage));
         Routing.RegisterRoute(nameof(QuranAppSettingPage), typeof(QuranAppSettingPage));
+        Routing.RegisterRoute(nameof(AyahDetailPage), typeof(AyahDetailPage));
         Routing.RegisterRoute(nameof(QuranSearchPage), typeof(QuranSearchPage));
         Routing.RegisterRoute(nameof(SholatTimesPage), typeof(SholatTimesPage));
         Routing.RegisterRoute(nameof(AsmaulHusnaPage), typeof(AsmaulHusnaPage));

@@ -68,7 +68,6 @@
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.0" />
 		<PackageReference Include="Plugin.InAppBilling" Version="7.1.0" />
 		<PackageReference Include="sqlite-net-pcl" Version="1.9.172" />
-		<PackageReference Include="Xamarin.Essentials" Version="1.8.1" />
 	</ItemGroup>
 
 	<ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
@@ -79,11 +78,11 @@
 	  <Compile Update="Views\Auth\Login.xaml.cs">
 	    <DependentUpon>Login.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Views\Quran\AyahDetailPage.xaml.cs">
+	    <DependentUpon>AyahDetailPage.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\Quran\AsmaulHusnaPage.xaml.cs">
 	    <DependentUpon>AsmaulHusnaPage.xaml</DependentUpon>
-	  </Compile>
-	  <Compile Update="Views\QuranAyahPopup.xaml.cs">
-	    <DependentUpon>QuranAyahPopup.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="Views\Quran\SholatTimesPage.xaml.cs">
 	    <DependentUpon>SholatTimesPage.xaml</DependentUpon>
@@ -106,10 +105,10 @@
 	  <MauiXaml Update="Views\Auth\Login.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\Quran\AsmaulHusnaPage.xaml">
+	  <MauiXaml Update="Views\Quran\AyahDetailPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\QuranAyahPopup.xaml">
+	  <MauiXaml Update="Views\Quran\AsmaulHusnaPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Quran\SholatTimesPage.xaml">

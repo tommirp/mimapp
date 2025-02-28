@@ -1,13 +1,22 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<toolkit:Popup
-    x:Class="MimApp.Views.QuranAyahPopup"
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MimApp.Views.Quran.AyahDetailPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:dxe="clr-namespace:DevExpress.Maui.Editors;assembly=DevExpress.Maui.Editors"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-    Size="330,700">
+    Title="Info Ayat"
+    BackgroundColor="White"
+    Shell.BackgroundColor="White"
+    Shell.ForegroundColor="#008859"
+    Shell.TitleColor="#008859">
+
+    <ContentPage.Behaviors>
+        <toolkit:StatusBarBehavior StatusBarColor="#008859" StatusBarStyle="LightContent" />
+    </ContentPage.Behaviors>
 
     <ScrollView>
-        <VerticalStackLayout Padding="10" BackgroundColor="White">
+        <VerticalStackLayout Padding="15" BackgroundColor="White">
             <Grid Padding="10">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -26,35 +35,14 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <ImageButton
-                    Grid.Row="0"
-                    Grid.ColumnSpan="3"
-                    Margin="0,-10,-10,0"
-                    Padding="13"
-                    Clicked="OnCloseClicked"
-                    HeightRequest="5"
-                    HorizontalOptions="End"
-                    Source="close"
-                    WidthRequest="5" />
-
-                <Label
-                    Grid.Row="1"
-                    Grid.ColumnSpan="3"
-                    Padding="10,0,10,10"
-                    FontAttributes="Bold"
-                    FontSize="Small"
-                    HorizontalOptions="Center"
-                    Text="INFO AYAT"
-                    TextColor="Black" />
-
                 <Label
                     Grid.Row="2"
                     Grid.ColumnSpan="3"
                     Padding="10,0,10,20"
                     FontAttributes="Bold"
-                    FontSize="Small"
+                    FontSize="Medium"
                     HorizontalOptions="Center"
-                    Text="{Binding surahName}"
+                    Text="{Binding Info_surahName}"
                     TextColor="Black" />
 
                 <Label
@@ -75,7 +63,7 @@
                     Grid.Row="3"
                     Grid.Column="2"
                     Padding="0,0,0,5"
-                    Text="{Binding numberOfVerses}"
+                    Text="{Binding Info_numberOfVerses}"
                     TextColor="Black" />
 
                 <Label
@@ -96,7 +84,7 @@
                     Grid.Row="4"
                     Grid.Column="2"
                     Padding="0,0,0,5"
-                    Text="{Binding juz}"
+                    Text="{Binding Info_juz}"
                     TextColor="Black" />
 
                 <Label
@@ -117,7 +105,7 @@
                     Grid.Row="5"
                     Grid.Column="2"
                     Padding="0,0,0,5"
-                    Text="{Binding page}"
+                    Text="{Binding Info_page}"
                     TextColor="Black" />
 
                 <Label
@@ -138,7 +126,7 @@
                     Grid.Row="6"
                     Grid.Column="2"
                     Padding="0,0,0,5"
-                    Text="{Binding surahRevelationId}"
+                    Text="{Binding Info_surahRevelationId}"
                     TextColor="Black" />
 
                 <Label
@@ -159,7 +147,7 @@
                     Grid.Row="7"
                     Grid.Column="2"
                     Padding="0,0,0,5"
-                    Text="{Binding surahTranslationId}"
+                    Text="{Binding Info_surahTranslationId}"
                     TextColor="Black" />
             </Grid>
 
@@ -181,7 +169,7 @@
                 FontAttributes="Italic"
                 FontSize="Small"
                 HorizontalTextAlignment="Justify"
-                Text="{Binding surahTafsir}"
+                Text="{Binding Info_surahTafsir}"
                 TextColor="Black" />
 
             <Border
@@ -190,7 +178,7 @@
                 Stroke="Gray" />
 
             <Label
-                Padding="10,0,10,10"
+                Padding="10,0,10,30"
                 FontAttributes="Bold"
                 FontSize="Small"
                 HorizontalOptions="Center"
@@ -198,20 +186,12 @@
                 TextColor="Black" />
 
             <Label
-                Padding="10,0,10,10"
+                Padding="10,0,10,30"
                 FontAttributes="Italic"
                 FontSize="Small"
                 HorizontalTextAlignment="Justify"
-                Text="{Binding tafsirLong}"
+                Text="{Binding Info_tafsirLong}"
                 TextColor="Black" />
-
-            <Button
-                Margin="0,10,0,20"
-                BackgroundColor="Black"
-                Clicked="OnCloseClicked"
-                Text="Tutup"
-                TextColor="White" />
         </VerticalStackLayout>
     </ScrollView>
-
-</toolkit:Popup>
+</ContentPage>
