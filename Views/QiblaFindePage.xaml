@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MimApp.Views.QiblaFinderPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Qibla Finder by Google"
+    BackgroundColor="#f7faff"
+    NavigationPage.HasNavigationBar="False"
+    Shell.BackgroundColor="#f7faff"
+    Shell.TabBarIsVisible="False"
+    Shell.TitleColor="black">
+    <Grid>
+        <WebView Source="https://qiblafinder.withgoogle.com" />
+    </Grid>
+</ContentPage>

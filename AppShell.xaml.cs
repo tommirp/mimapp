@@ -17,6 +17,10 @@ public partial class AppShell : Shell
         Routing.RegisterRoute(nameof(SholatTimesPage), typeof(SholatTimesPage));
         Routing.RegisterRoute(nameof(AsmaulHusnaPage), typeof(AsmaulHusnaPage));
 
+        Routing.RegisterRoute(nameof(LiveMekahPage), typeof(LiveMekahPage));
+        Routing.RegisterRoute(nameof(LiveMadinahPage), typeof(LiveMadinahPage));
+        Routing.RegisterRoute(nameof(QiblaFinderPage), typeof(QiblaFinderPage));
+
         //CrossFirebaseCloudMessaging.Current.NotificationReceived += (sender, e) =>
         //{
         //    Debug.WriteLine($"-------------------------> Notification received: {e.Notification.Title}");

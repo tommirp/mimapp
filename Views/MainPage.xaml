@@ -6,6 +6,7 @@
     xmlns:dxe="clr-namespace:DevExpress.Maui.Editors;assembly=DevExpress.Maui.Editors"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:vm="clr-namespace:MimApp.ViewModels"
+    xmlns:wp="https://vapolia.eu/WheelPicker"
     x:DataType="vm:MainViewModel"
     BackgroundColor="White">
 
@@ -48,7 +49,7 @@
                 Color="Black" />
             <Label
                 HorizontalOptions="CenterAndExpand"
-                Text="Sync Data From Server, Please Wait..."
+                Text="Loading, Please Wait..."
                 TextColor="Black" />
         </VerticalStackLayout>
         <Grid Margin="0" IsVisible="{Binding IsSync, Converter={StaticResource InvertedBoolConverter}}">
@@ -96,11 +97,11 @@
         <VerticalStackLayout Margin="0,-60,0,0" IsVisible="{Binding IsSync, Converter={StaticResource InvertedBoolConverter}}">
             <Label
                 HorizontalOptions="CenterAndExpand"
-                Text="Aplikasi Untuk Semua Muslim"
+                Text="Baca Quran Dimanapun Kapanpun"
                 TextColor="Black" />
             <dxe:AutoCompleteEdit
                 x:Name="SearchBar"
-                Margin="30"
+                Margin="30,30,30,20"
                 BackgroundColor="#f1f2f6"
                 BorderColor="#f1f2f6"
                 BorderThickness="1"
@@ -124,53 +125,41 @@
                 </dxe:AutoCompleteEdit.ItemsSourceProvider>
             </dxe:AutoCompleteEdit>
 
-            <Grid
-                ColumnDefinitions="Auto,Auto"
-                HorizontalOptions="Center"
-                RowDefinitions="Auto">
-                <VerticalStackLayout Grid.Row="0" Grid.Column="0">
-                    <Picker x:Name="pickersurah" Title="Select a Surah">
-                        <Picker.ItemsSource>
-                            <x:Array Type="{x:Type x:String}">
-                                <x:String>Baboon</x:String>
-                                <x:String>Capuchin Monkey</x:String>
-                                <x:String>Blue Monkey</x:String>
-                                <x:String>Squirrel Monkey</x:String>
-                                <x:String>Golden Lion Tamarin</x:String>
-                                <x:String>Howler Monkey</x:String>
-                                <x:String>Japanese Macaque</x:String>
-                                <x:String>Squirrel Monkey</x:String>
-                                <x:String>Golden Lion Tamarin</x:String>
-                                <x:String>Howler Monkey</x:String>
-                                <x:String>Japanese Macaque</x:String>
-                                <x:String>Squirrel Monkey</x:String>
-                                <x:String>Golden Lion Tamarin</x:String>
-                                <x:String>Howler Monkey</x:String>
-                                <x:String>Japanese Macaque</x:String>
-                                <x:String>Squirrel Monkey</x:String>
-                                <x:String>Golden Lion Tamarin</x:String>
-                                <x:String>Howler Monkey</x:String>
-                                <x:String>Japanese Macaque</x:String>
-                            </x:Array>
-                        </Picker.ItemsSource>
-                    </Picker>
-                </VerticalStackLayout>
-                <VerticalStackLayout Grid.Row="0" Grid.Column="1">
-                    <Picker x:Name="pickerayah" Title="Select a Ayah">
-                        <Picker.ItemsSource>
-                            <x:Array Type="{x:Type x:String}">
-                                <x:String>Baboon</x:String>
-                                <x:String>Capuchin Monkey</x:String>
-                                <x:String>Blue Monkey</x:String>
-                                <x:String>Squirrel Monkey</x:String>
-                                <x:String>Golden Lion Tamarin</x:String>
-                                <x:String>Howler Monkey</x:String>
-                                <x:String>Japanese Macaque</x:String>
-                            </x:Array>
-                        </Picker.ItemsSource>
-                    </Picker>
-                </VerticalStackLayout>
-            </Grid>
+            <Border
+                Margin="30,0,30,10"
+                Padding="10,0,10,5"
+                BackgroundColor="#f1f2f6"
+                Stroke="LightGray"
+                StrokeThickness="0">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="10" />
+                </Border.StrokeShape>
+                <Grid
+                    Padding="0"
+                    ColumnDefinitions="*,Auto"
+                    HorizontalOptions="Fill"
+                    RowDefinitions="Auto">
+                    <VerticalStackLayout Grid.Row="0" Grid.Column="0">
+                        <Picker
+                            Title="Surat"
+                            ItemsSource="{Binding SurahWheelList}"
+                            SelectedItem="{Binding SelectedSurahWheel, Mode=TwoWay}"
+                            TextColor="Black" />
+                    </VerticalStackLayout>
+                    <VerticalStackLayout
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        WidthRequest="80">
+                        <Picker
+                            Title="Ayat"
+                            HorizontalTextAlignment="Center"
+                            IsEnabled="{Binding IsLoadingContent, Converter={StaticResource InvertedBoolConverter}}"
+                            ItemsSource="{Binding AyahWheelList}"
+                            SelectedItem="{Binding SelectedAyahWheel, Mode=TwoWay}"
+                            TextColor="Black" />
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
 
             <Grid
                 ColumnDefinitions="Auto,Auto,Auto"

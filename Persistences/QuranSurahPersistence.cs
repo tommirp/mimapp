@@ -77,6 +77,21 @@ namespace MimApp.Persistences
             return results;
         }
 
+        public async Task<List<string>> GetAllSurahNameList()
+        {
+            await Init();
+            var finalResult = new List<string>();
+            List<QuranSurah> results = await Database.Table<QuranSurah>().ToListAsync();
+
+            results.ForEach(x =>
+            {
+                string surah = string.Format("{0} - {1}", x.number, x.nameTransliterationId);
+                finalResult.Add(surah);
+            });
+
+            return finalResult;
+        }
+
         public async Task<List<string>> GetSurahNameByKeyword(string keyword = null)
         {
             await Init();

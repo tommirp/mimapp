@@ -56,10 +56,23 @@ public partial class MainViewModel : ViewModelBase
     [ObservableProperty]
     string selectedItemAutoComplete;
 
+
+    [ObservableProperty]
+    bool isLoadingContent;
+
+    [ObservableProperty]
+    string selectedSurahWheel;
+
+    [ObservableProperty]
+    string selectedAyahWheel;
+    public ObservableCollection<string> SurahWheelList { get; } = new ObservableCollection<string>();
+    public ObservableCollection<string> AyahWheelList { get; } = new ObservableCollection<string>();
+
     [RelayCommand]
     async Task FindQibla()
     {
-        await Launcher.OpenAsync("https://qiblafinder.withgoogle.com/");
+        //await Launcher.OpenAsync("https://qiblafinder.withgoogle.com/");
+        await Shell.Current.GoToAsync(nameof(QiblaFinderPage));
     }
 
     [RelayCommand]
@@ -109,6 +122,57 @@ public partial class MainViewModel : ViewModelBase
     }
     #endregion
 
+
+    public async Task RenderSurahWheel()
+    {
+        SurahWheelList.Clear();
+        List<string> SurahWheelList_temp = await _quranSurahPersistence.GetAllSurahNameList();
+        foreach (var item in SurahWheelList_temp)
+        {
+            SurahWheelList.Add(item);
+        }
+    }
+
+
+
+    public async Task RenderAyahWheel()
+    {
+        try
+        {
+            IsLoadingContent = true;
+            AyahWheelList.Clear();
+            string surah = "1";
+            if (!string.IsNullOrEmpty(SelectedSurahWheel))
+            {
+                string[] splited = SelectedSurahWheel.Split(" - ");
+                surah = splited[0];
+            }
+
+            List<string> AyahWheelList_temp = await _quranAyahPersistence.GetAllAyahNumberListBySurah(surah);
+            foreach (var item in AyahWheelList_temp)
+            {
+                AyahWheelList.Add(item);
+            }
+        }
+        finally
+        {
+            IsLoadingContent = false;
+        }
+    }
+
+
+    partial void OnSelectedSurahWheelChanged(string value)
+    {
+        _ = RenderAyahWheel();
+    }
+
+    partial void OnSelectedAyahWheelChanged(string value)
+    {
+        string[] splited = SelectedSurahWheel.Split(" - ");
+        string surah = splited[0];
+        _ = MainSearch(string.Format("{0}:{1}", surah, value));
+    }
+
     [RelayCommand]
     public async Task InitPage()
     {
@@ -133,6 +197,9 @@ public partial class MainViewModel : ViewModelBase
         finally
         {
             MyCity = "Select City";
+
+            await RenderSurahWheel();
+            await RenderAyahWheel();
 
             string city = _preferences.Get("MyCity", "Select City");
             if (!string.IsNullOrEmpty(city) && city != "Select City")
@@ -310,13 +377,15 @@ public partial class MainViewModel : ViewModelBase
     [RelayCommand]
     public async Task OpenLinkMekah()
     {
-        await Launcher.OpenAsync("https://www.youtube.com/results?search_query=Mekah+Live");
+        //await Launcher.OpenAsync("https://www.youtube.com/results?search_query=Mekah+Live");
+        await Shell.Current.GoToAsync(nameof(LiveMekahPage));
     }
 
     [RelayCommand]
     public async Task OpenLinkMadinah()
     {
-        await Launcher.OpenAsync("https://www.youtube.com/results?search_query=Madinah+Live");
+        //await Launcher.OpenAsync("https://www.youtube.com/results?search_query=Madinah+Live");
+        await Shell.Current.GoToAsync(nameof(LiveMadinahPage));
     }
 
     [RelayCommand]

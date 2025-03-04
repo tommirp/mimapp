@@ -79,6 +79,21 @@ namespace MimApp.Persistences
             return finalResult;
         }
 
+        public async Task<List<string>> GetAllAyahNumberListBySurah(string surah)
+        {
+            await Init();
+            var finalResult = new List<string>();
+            List<QuranAyah> results = await Database.Table<QuranAyah>().ToListAsync();
+
+            List<QuranAyah> new_result = results.Where(x => x.numberOfSurah.ToString() == surah).ToList();
+
+            new_result.ForEach(x =>
+            {
+                finalResult.Add(x.numberInSurah.ToString());
+            });
+
+            return finalResult;
+        }
 
         public async Task<bool> AyahCheck()
         {

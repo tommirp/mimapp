@@ -68,6 +68,7 @@
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.0" />
 		<PackageReference Include="Plugin.InAppBilling" Version="7.1.0" />
 		<PackageReference Include="sqlite-net-pcl" Version="1.9.172" />
+		<PackageReference Include="Vapolia.WheelPicker" Version="5.0.2" />
 	</ItemGroup>
 
 	<ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
@@ -77,6 +78,15 @@
 	<ItemGroup>
 	  <Compile Update="Views\Auth\Login.xaml.cs">
 	    <DependentUpon>Login.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\LiveMadinahPage.xaml.cs">
+	    <DependentUpon>LiveMadinahPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\QiblaFindePage.xaml.cs">
+	    <DependentUpon>QiblaFindePage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\LiveMekahPage.xaml.cs">
+	    <DependentUpon>LiveMekahPage.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="Views\Quran\AyahDetailPage.xaml.cs">
 	    <DependentUpon>AyahDetailPage.xaml</DependentUpon>
@@ -103,6 +113,15 @@
 
 	<ItemGroup>
 	  <MauiXaml Update="Views\Auth\Login.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\LiveMadinahPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\QiblaFindePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\LiveMekahPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Quran\AyahDetailPage.xaml">

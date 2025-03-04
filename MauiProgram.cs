@@ -3,6 +3,7 @@ using MimApp.Persistences.Contracts;
 using MimApp.Services.Contracts;
 using MimApp.Views.Auth;
 using DevExpress.Maui;
+using Vapolia.WheelPickers;
 using MimApp.Views.Quran;
 
 namespace MimApp;
@@ -13,6 +14,7 @@ public static class MauiProgram
 		var builder = MauiApp.CreateBuilder();
 		builder
 			.UseMauiApp<App>()
+            .UseWheelPicker()
             .UseDevExpress(useLocalization: true)
             .UseDevExpressCollectionView()
             .UseDevExpressControls()
@@ -67,6 +69,10 @@ public static class MauiProgram
     public static MauiAppBuilder RegisterViews(this MauiAppBuilder mauiAppBuilder)
     {
         mauiAppBuilder.Services.AddScoped<MainPage>();
+
+        mauiAppBuilder.Services.AddScoped<LiveMekahPage>();
+        mauiAppBuilder.Services.AddScoped<LiveMadinahPage>();
+        mauiAppBuilder.Services.AddScoped<QiblaFinderPage>();
 
         // Quran
         mauiAppBuilder.Services.AddScoped<SurahDetailPage>();
