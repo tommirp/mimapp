@@ -123,36 +123,47 @@ public partial class MainViewModel : ViewModelBase
     #endregion
 
 
-    public async Task RenderSurahWheel()
+    public void RenderSurahWheel()
     {
+        //if (string.IsNullOrEmpty(SelectedSurahWheel))
+        //{
+        //    SelectedSurahWheel = "1 - Al-Fatihah";
+        //}
+
         SurahWheelList.Clear();
-        List<string> SurahWheelList_temp = await _quranSurahPersistence.GetAllSurahNameList();
-        foreach (var item in SurahWheelList_temp)
+        //List<string> SurahWheelList_temp = await _quranSurahPersistence.GetAllSurahNameList();
+        foreach (var item in Helpers.surahList)
         {
             SurahWheelList.Add(item);
         }
     }
 
-
-
-    public async Task RenderAyahWheel()
+    public void RenderAyahWheel()
     {
         try
         {
             IsLoadingContent = true;
             AyahWheelList.Clear();
             string surah = "1";
+            string totalVerses = "7";
             if (!string.IsNullOrEmpty(SelectedSurahWheel))
             {
                 string[] splited = SelectedSurahWheel.Split(" - ");
                 surah = splited[0];
+
+                totalVerses = Helpers.surahVerses[int.Parse(surah) - 1];
             }
 
-            List<string> AyahWheelList_temp = await _quranAyahPersistence.GetAllAyahNumberListBySurah(surah);
-            foreach (var item in AyahWheelList_temp)
+            for (int i = 1; i <= int.Parse(totalVerses); i++)
             {
-                AyahWheelList.Add(item);
+                AyahWheelList.Add(i.ToString());
             }
+
+            //List<string> AyahWheelList_temp = await _quranAyahPersistence.GetAllAyahNumberListBySurah(surah);
+            //foreach (var item in AyahWheelList_temp)
+            //{
+            //    AyahWheelList.Add(item);
+            //}
         }
         finally
         {
@@ -163,14 +174,17 @@ public partial class MainViewModel : ViewModelBase
 
     partial void OnSelectedSurahWheelChanged(string value)
     {
-        _ = RenderAyahWheel();
+        RenderAyahWheel();
     }
 
     partial void OnSelectedAyahWheelChanged(string value)
     {
-        string[] splited = SelectedSurahWheel.Split(" - ");
-        string surah = splited[0];
-        _ = MainSearch(string.Format("{0}:{1}", surah, value));
+        if (!string.IsNullOrEmpty(SelectedSurahWheel))
+        {
+            string[] splited = SelectedSurahWheel.Split(" - ");
+            string surah = splited[0];
+            _ = MainSearch(string.Format("{0}:{1}", surah, value));
+        }
     }
 
     [RelayCommand]
@@ -198,8 +212,8 @@ public partial class MainViewModel : ViewModelBase
         {
             MyCity = "Select City";
 
-            await RenderSurahWheel();
-            await RenderAyahWheel();
+            RenderSurahWheel();
+            RenderAyahWheel();
 
             string city = _preferences.Get("MyCity", "Select City");
             if (!string.IsNullOrEmpty(city) && city != "Select City")
